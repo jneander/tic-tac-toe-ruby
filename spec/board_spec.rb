@@ -3,6 +3,10 @@ require 'board'
 
 describe Board do
   before :each do
-    @board = Board.new
+    @board = Board.new(3)
+  end
+
+  it "returns the size of the board" do
+    @board.size.should eql 3
   end
 end
