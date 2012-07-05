@@ -17,4 +17,9 @@ describe Board do
       space.should eql :blank
     end
   end
+
+  it "accepts a mark" do
+    @board.add_mark(0, :player)
+    @board.spaces[0].should eql :player
+  end
 end
