@@ -3,10 +3,18 @@ require 'board'
 
 describe Board do
   before :each do
-    @board = Board.new(3)
+    @board_size = 3
+    @board = Board.new(@board_size)
   end
 
   it "returns the size of the board" do
-    @board.size.should eql 3
+    @board.size.should eql @board_size
+  end
+
+  it "initializes with 9 'blank' spaces" do
+    @board.spaces.length.should eql 9
+    @board.spaces.each do |space|
+      space.should eql :blank
+    end
   end
 end
