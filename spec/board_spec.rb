@@ -43,6 +43,13 @@ describe Board do
     end
   end
 
+  it "returns true when checking multiple marks" do
+    make_marks(@board.solutions.first, :player1)
+    @board.winning_solution?(*[:player1,:player2]).should eql true
+    @board.winning_solution?(:player1).should eql true
+    @board.winning_solution?(:player2).should eql false
+  end
+
   def make_marks(indices, mark)
     indices.each do |num|
       @board.make_mark(num, mark)
