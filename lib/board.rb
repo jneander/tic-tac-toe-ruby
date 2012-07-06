@@ -11,6 +11,6 @@ class Board
   end
 
   def spaces_with_mark(mark)
-    @spaces.collect.with_index { |m, index| index if m == mark }.compact
+    (0...@spaces.length).select { |index| @spaces[index] == mark}
   end
 end
