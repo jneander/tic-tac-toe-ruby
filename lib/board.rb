@@ -15,10 +15,12 @@ class Board
     (0...@spaces.length).select {|index| @spaces[index] == mark}
   end
 
-  def winning_solution?(mark)
+  def winning_solution?(*marks)
     has_solution = false
-    marked_spaces = spaces_with_mark(mark)
-    @solutions.each {|solution| has_solution |= (solution - marked_spaces).empty?}
+    marks.each do |mark|
+      marked_spaces = spaces_with_mark(mark)
+      @solutions.each {|solution| has_solution |= (solution - marked_spaces).empty?}
+    end
     has_solution
   end
 
