@@ -25,10 +25,27 @@ describe Board do
 
   it "returns an array of spaces with the specified mark" do
     target_spaces = [3,5,7,8]
-    target_spaces.each do |num|
-      @board.make_mark(num, :player)
-    end
+    make_marks(target_spaces, :player)
     @board.spaces_with_mark(:player).should eql target_spaces
     @board.spaces_with_mark(:blank).should eql (0..8).sort - target_spaces
+  end
+
+  it "returns false when no winning solution exists" do
+    @board.winning_solution?(:player).should eql false
+  end
+
+  it "return true when a winning solution exists" do
+    @board.solutions.each do |solution|
+      make_marks(solution, :player)
+      @board.winning_solution?(:player).should eql true
+      make_marks(solution, :blank)
+      @board.winning_solution?(:player).should eql false
+    end
+  end
+
+  def make_marks(indices, mark)
+    indices.each do |num|
+      @board.make_mark(num, mark)
+    end
   end
 end

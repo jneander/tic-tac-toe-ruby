@@ -1,9 +1,10 @@
 class Board
-  attr_reader :size, :spaces
+  attr_reader :size, :spaces, :solutions
 
   def initialize(size)
     @size = size
     @spaces= [:blank]*size.to_i**2
+    generate_solutions
   end
 
   def make_mark(index, mark)
@@ -11,6 +12,22 @@ class Board
   end
 
   def spaces_with_mark(mark)
-    (0...@spaces.length).select { |index| @spaces[index] == mark}
+    (0...@spaces.length).select {|index| @spaces[index] == mark}
+  end
+
+  def winning_solution?(mark)
+    has_solution = false
+    marked_spaces = spaces_with_mark(mark)
+    @solutions.each {|solution| has_solution |= (solution - marked_spaces).empty?}
+    has_solution
+  end
+
+  private
+  def generate_solutions
+    @solutions = [
+      [0,1,2],[3,4,5],[6,7,8],
+      [0,3,6],[1,4,7],[2,5,8],
+      [0,4,8],[6,4,2]
+    ]
   end
 end
