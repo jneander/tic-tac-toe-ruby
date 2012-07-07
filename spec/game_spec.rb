@@ -1,4 +1,4 @@
-$: << File.join(File.expand_path(File.dirname(__FILE__), "/lib"))
+require 'mock_player'
 require 'game'
 
 describe Game do
@@ -6,7 +6,7 @@ describe Game do
     @board = Board.new(3)
     @game = Game.new
     @game.board = @board
-    @game.players = [:player1,:player2]
+    @player1 = MockPlayer.new
   end
 
   it "should not be over after creation" do
@@ -14,9 +14,16 @@ describe Game do
   end
 
   it "should end when the board has a winning solution" do
+    @game.players << @player1
     [0,1,2].each do |index|
-      @board.make_mark(index, @game.players[0])
+      @board.make_mark(index, @player1)
     end
     @game.over?.should eql true
+  end
+
+  it "should request a mark from the player" do
+    @game.players << @player1
+    @game.run
+    @player1.mark_requested.should eql true
   end
 end
