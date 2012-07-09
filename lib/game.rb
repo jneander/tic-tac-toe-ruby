@@ -7,8 +7,10 @@ class Game
   end
 
   def run
-    @console.display_board(@board)
-    @players.first.make_mark(@board)
+    while not over?
+      @console.display_board(@board)
+      @players.first.make_mark(@board)
+    end
   end
 
   def over?
