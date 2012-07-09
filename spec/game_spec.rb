@@ -2,9 +2,9 @@ require 'game'
 
 describe Game do
   before :each do
-    @console = stub("console")
+    @console = mock("console").as_null_object
     @game = Game.new(@console)
-    @player1 = mock("player")
+    @player1 = mock("player").as_null_object
   end
 
   context "with new board" do
@@ -20,9 +20,17 @@ describe Game do
   end
 
   context "while not over" do
-    it "requests a mark from the player" do
+    before :each do
       @game.players << @player1
+    end
+
+    it "requests a mark from the player" do
       @player1.should_receive(:make_mark)
+      @game.run
+    end
+
+    it "requests the console to display the board" do
+      @console.should_receive(:display_board)
       @game.run
     end
   end
