@@ -1,7 +1,8 @@
 class Game
   attr_accessor :board, :players
 
-  def initialize
+  def initialize(console)
+    @console = console
     @players = []
   end
 

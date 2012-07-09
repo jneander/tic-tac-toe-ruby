@@ -4,7 +4,8 @@ require 'game'
 describe Game do
   before :each do
     @board = Board.new(3)
-    @game = Game.new
+    @console = stub("console")
+    @game = Game.new(@console)
     @game.board = @board
     @player1 = MockPlayer.new
   end
