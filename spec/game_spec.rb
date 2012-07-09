@@ -53,9 +53,16 @@ describe Game do
     end
   end
 
-  context "with winning board" do
+  context "when over" do
     it "ends when the board has a winning solution" do
       set_winning_board
+      @game.over?.should eql true
+    end
+
+    it "ends when the board is full" do
+      @game.board = mock("board").as_null_object
+      @game.board.should_receive(:winning_solution?).and_return(false)
+      @game.board.should_receive(:spaces_with_mark).and_return([])
       @game.over?.should eql true
     end
   end
