@@ -10,6 +10,7 @@ class Game
     while not over?
       @console.display_board(@board)
       @players.first.make_mark(@board)
+      @players.rotate!
     end
   end
 

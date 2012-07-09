@@ -42,6 +42,15 @@ describe Game do
       @console.should_receive(:display_board)
       @game.run
     end
+
+    it "alternates between players" do
+      @player2 = mock("player").as_null_object
+      @game.players << @player2
+      set_board_marks_until_solution(1)
+      @game.players.first.should eql @player1
+      @game.run
+      @game.players.first.should eql @player2
+    end
   end
 
   context "with winning board" do
