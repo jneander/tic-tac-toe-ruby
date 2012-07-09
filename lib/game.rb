@@ -12,6 +12,7 @@ class Game
       @players.first.make_mark(@board)
       @players.rotate!
     end
+    @console.display_game_results(@board)
   end
 
   def over?

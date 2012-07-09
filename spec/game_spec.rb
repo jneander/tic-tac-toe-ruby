@@ -68,6 +68,12 @@ describe Game do
       @game.board.should_receive(:spaces_with_mark).and_return([])
       @game.over?.should eql true
     end
+
+    it "requests the console to display game results" do
+      set_board_marks_until_solution(0)
+      @console.should_receive(:display_game_results).once
+      @game.run
+    end
   end
 
   private
