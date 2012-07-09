@@ -5,6 +5,7 @@ describe Game do
     @console = mock("console").as_null_object
     @game = Game.new(@console)
     @player1 = mock("player").as_null_object
+    @player2 = mock("player").as_null_object
   end
 
   context "at creation" do
@@ -17,12 +18,22 @@ describe Game do
     it "is not over" do
       @game.over?.should eql false
     end
+
+    it "will not start without a player" do
+      lambda {@game.run}.should raise_error
+    end
+
+    it "will get two Player objects via factory at initialization" do
+      @game.players.length.should eql 2
+      @game.players.first.should be_instance_of(Player)
+      @game.players.last.should be_instance_of(Player)
+    end
   end
 
   context "while not over" do
     before :each do
       @game.board = mock("board").as_null_object
-      @game.players << @player1
+      set_one_player_game
     end
 
     it "requests a mark from the player" do
@@ -44,8 +55,7 @@ describe Game do
     end
 
     it "alternates between players" do
-      @player2 = mock("player").as_null_object
-      @game.players << @player2
+      set_two_player_game
       set_board_marks_until_solution(1)
       @game.players.first.should eql @player1
       @game.run
@@ -71,12 +81,21 @@ describe Game do
 
     it "requests the console to display game results" do
       set_board_marks_until_solution(0)
+      set_one_player_game
       @console.should_receive(:display_game_results).once
       @game.run
     end
   end
 
   private
+  def set_one_player_game
+    @game.players = [@player1]
+  end
+
+  def set_two_player_game
+    @game.players = [@player1,@player2]
+  end
+
   def set_board_marks_until_solution(mark_count = 0)
     values = [false]*mark_count + [true]
     @game.board.should_receive(:winning_solution?).and_return(*values)
