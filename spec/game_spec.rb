@@ -7,14 +7,14 @@ describe Game do
     @player1 = mock("player").as_null_object
   end
 
-  context "with new board" do
+  context "at creation" do
     before :each do
       @game.board = stub("board").as_null_object
       @game.board.stub(:winning_solution?).and_return(false)
       @game.board.stub(:spaces_with_mark).and_return([nil]*9)
     end
 
-    it "is not over after creation" do
+    it "is not over" do
       @game.over?.should eql false
     end
   end
