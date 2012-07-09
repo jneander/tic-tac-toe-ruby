@@ -54,13 +54,16 @@ describe Game do
   end
 
   context "when over" do
+    before :each do
+      @game.board = mock("board")
+    end
+
     it "ends when the board has a winning solution" do
-      set_winning_board
+      set_board_marks_until_solution(0)
       @game.over?.should eql true
     end
 
     it "ends when the board is full" do
-      @game.board = mock("board").as_null_object
       @game.board.should_receive(:winning_solution?).and_return(false)
       @game.board.should_receive(:spaces_with_mark).and_return([])
       @game.over?.should eql true
@@ -68,11 +71,6 @@ describe Game do
   end
 
   private
-  def set_winning_board(mark = :player)
-    @game.board = stub("board").as_null_object
-    @game.board.stub!(:winning_solution?).and_return(true)
-  end
-
   def set_board_marks_until_solution(mark_count = 0)
     values = [false]*mark_count + [true]
     @game.board.should_receive(:winning_solution?).and_return(*values)
