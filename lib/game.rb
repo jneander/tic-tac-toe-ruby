@@ -7,7 +7,6 @@ class Game
   end
 
   def run
-    @players.first.make_mark(@board)
   end
 
   def over?
