@@ -1,9 +1,11 @@
+BOARD_SIZE = 3
+
 class Board
   attr_reader :size, :spaces, :solutions
 
-  def initialize(size)
-    @size = size
-    @spaces= [:blank]*size.to_i**2
+  def initialize(board_size = BOARD_SIZE)
+    @size = board_size
+    @spaces= [:blank]*@size.to_i**2
     generate_solutions
   end
 
