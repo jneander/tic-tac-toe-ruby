@@ -1,9 +1,11 @@
 require 'player_factory'
+require 'board_factory'
 
 class Game
   attr_accessor :board, :players
 
   def initialize(console)
+    @board = BoardFactory.create
     @console = console
     @players = [nil,nil].collect {PlayerFactory.create}
     @players.each {|player| player.console = @console}

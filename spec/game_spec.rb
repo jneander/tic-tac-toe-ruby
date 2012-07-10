@@ -25,11 +25,15 @@ describe Game do
       @game.players.last.should be_instance_of(Player)
     end
 
-     it "will assign the console to each Player object" do
-       @game.players.each do |player|
-         player.console.should eql @console
-       end
-     end
+    it "will assign the console to each Player object" do
+      @game.players.each do |player|
+        player.console.should eql @console
+      end
+    end
+
+    it "will have a Board object" do
+      @game.board.should_not be_nil
+    end
   end
 
   context "while not over" do
