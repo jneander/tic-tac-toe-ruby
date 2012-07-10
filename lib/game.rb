@@ -5,11 +5,11 @@ class Game
 
   def initialize(console)
     @console = console
-    @players = [PlayerFactory.create, PlayerFactory.create]
+    @players = [nil,nil].collect {PlayerFactory.create}
+    @players.each {|player| player.console = @console}
   end
 
   def run
-    verify_players
     while not over?
       @console.display_board(@board)
       @players.first.make_mark(@board)
@@ -20,10 +20,5 @@ class Game
 
   def over?
     @board.winning_solution?(*@players) || @board.spaces_with_mark(:blank).empty?
-  end
-
-  private
-  def verify_players
-    raise "No players have been added to the game" if @players.empty?
   end
 end

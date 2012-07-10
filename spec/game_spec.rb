@@ -19,15 +19,17 @@ describe Game do
       @game.over?.should eql false
     end
 
-    it "will not start without a player" do
-      lambda {@game.run}.should raise_error
-    end
-
     it "will get two Player objects via factory at initialization" do
       @game.players.length.should eql 2
       @game.players.first.should be_instance_of(Player)
       @game.players.last.should be_instance_of(Player)
     end
+
+     it "will assign the console to initialized players" do
+       @game.players.each do |player|
+         player.console.should_not be_nil
+       end
+     end
   end
 
   context "while not over" do
