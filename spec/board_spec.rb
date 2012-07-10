@@ -50,6 +50,10 @@ describe Board do
     @board.winning_solution?(:player2).should eql false
   end
 
+  it "returns a multidimensional array of spaces" do
+    @board.marks_by_row.should eql [[:blank]*3]*3
+  end
+
   def make_marks(indices, mark)
     indices.each do |num|
       @board.make_mark(num, mark)

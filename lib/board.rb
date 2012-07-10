@@ -17,6 +17,10 @@ class Board
     (0...@spaces.length).select {|index| @spaces[index] == mark}
   end
 
+  def marks_by_row
+    @spaces.each_slice(@size).to_a
+  end
+
   def winning_solution?(*marks)
     has_solution = false
     marks.each do |mark|
