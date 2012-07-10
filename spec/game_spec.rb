@@ -8,7 +8,7 @@ describe Game do
     @player2 = mock("player").as_null_object
   end
 
-  context "at creation" do
+  context "at initialization" do
     before :each do
       @game.board = stub("board").as_null_object
       @game.board.stub(:winning_solution?).and_return(false)
@@ -19,15 +19,15 @@ describe Game do
       @game.over?.should eql false
     end
 
-    it "will get two Player objects via factory at initialization" do
+    it "will have two Player objects" do
       @game.players.length.should eql 2
       @game.players.first.should be_instance_of(Player)
       @game.players.last.should be_instance_of(Player)
     end
 
-     it "will assign the console to initialized players" do
+     it "will assign the console to each Player object" do
        @game.players.each do |player|
-         player.console.should_not be_nil
+         player.console.should eql @console
        end
      end
   end
