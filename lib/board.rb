@@ -17,10 +17,6 @@ class Board
     (0...@spaces.length).select {|index| @spaces[index] == mark}
   end
 
-  def marks_by_row
-    @spaces.each_slice(@size).to_a
-  end
-
   def space_available?(index)
     index < @size and index >= 0 and @spaces[index] == nil
   end

@@ -50,10 +50,6 @@ describe Board do
     @board.winning_solution?(:player2).should eql false
   end
 
-  it "returns a multidimensional array of spaces" do
-    @board.marks_by_row.should eql [[nil]*3]*3
-  end
-
   it "returns true if a queried space is valid and unmarked" do
     @board.make_mark(1,:player)
     @board.space_available?(0).should eql true
