@@ -15,4 +15,9 @@ class CommandLineConsole
     board.marks_by_row.collect {|row| row.collect {
       |mark| @characters[mark]}.join("|")}
   end
+
+  def available_spaces_to_ascii(board)
+    board.spaces.collect.with_index {|space, index| space == nil ? index + 1 : " "}
+      .each_slice(board.size).to_a.collect {|row| row.join(" ")}
+  end
 end

@@ -17,4 +17,11 @@ describe "CommandLineConsole" do
     @board.should_receive(:marks_by_row).and_return([[nil]*3]*3)
     @console.convert_board_to_ascii(@board).should eql ["_|_|_"]*3
   end
+
+  it "creates an array of strings representing available board spaces" do
+    @board = mock("board")
+    @board.should_receive(:spaces).and_return([nil]*9)
+    @board.should_receive(:size).and_return(3)
+    @console.available_spaces_to_ascii(@board).should eql ["1 2 3","4 5 6","7 8 9"]
+  end
 end
