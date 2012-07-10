@@ -12,7 +12,7 @@ describe "CommandLineConsole" do
     @console.characters[:player2].should eql 'X'
   end
 
-  it "places the representation of a board into arrays" do
+  it "creates an array of strings representing the board" do
     @board = mock("board")
     @board.should_receive(:marks_by_row).and_return([[nil]*3]*3)
     @console.convert_board_to_ascii(@board).should eql ["_|_|_"]*3
