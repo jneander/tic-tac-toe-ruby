@@ -14,7 +14,7 @@ describe Board do
   it "initializes with 9 'blank' spaces" do
     @board.spaces.length.should eql 9
     @board.spaces.each do |space|
-      space.should eql :blank
+      space.should eql nil
     end
   end
 
@@ -27,7 +27,7 @@ describe Board do
     target_spaces = [3,5,7,8]
     make_marks(target_spaces, :player)
     @board.spaces_with_mark(:player).should eql target_spaces
-    @board.spaces_with_mark(:blank).should eql (0..8).sort - target_spaces
+    @board.spaces_with_mark(nil).should eql (0..8).sort - target_spaces
   end
 
   it "returns false when no winning solution exists" do
@@ -38,7 +38,7 @@ describe Board do
     @board.solutions.each do |solution|
       make_marks(solution, :player)
       @board.winning_solution?(:player).should eql true
-      make_marks(solution, :blank)
+      make_marks(solution, nil)
       @board.winning_solution?(:player).should eql false
     end
   end
@@ -51,7 +51,7 @@ describe Board do
   end
 
   it "returns a multidimensional array of spaces" do
-    @board.marks_by_row.should eql [[:blank]*3]*3
+    @board.marks_by_row.should eql [[nil]*3]*3
   end
 
   def make_marks(indices, mark)

@@ -5,7 +5,7 @@ class Board
 
   def initialize(board_size = BOARD_SIZE)
     @size = board_size
-    @spaces= [:blank]*@size.to_i**2
+    @spaces= [nil]*@size.to_i**2
     generate_solutions
   end
 
