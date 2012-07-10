@@ -54,6 +54,13 @@ describe Board do
     @board.marks_by_row.should eql [[nil]*3]*3
   end
 
+  it "returns true if a queried space is valid and unmarked" do
+    @board.make_mark(1,:player)
+    @board.space_available?(0).should eql true
+    @board.space_available?(1).should eql false
+    @board.space_available?(-1).should eql false
+  end
+
   def make_marks(indices, mark)
     indices.each do |num|
       @board.make_mark(num, mark)

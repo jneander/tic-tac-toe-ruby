@@ -21,6 +21,10 @@ class Board
     @spaces.each_slice(@size).to_a
   end
 
+  def space_available?(index)
+    index < @size and index >= 0 and @spaces[index] == nil
+  end
+
   def winning_solution?(*marks)
     has_solution = false
     marks.each do |mark|
