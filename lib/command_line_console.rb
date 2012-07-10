@@ -12,7 +12,7 @@ class CommandLineConsole
   end
 
   def convert_board_to_ascii(board)
-    board.marks_by_row.collect {|row| row.collect {
+    board.spaces.each_slice(board.size).collect {|row| row.collect {
       |mark| @characters[mark]}.join("|")}
   end
 
