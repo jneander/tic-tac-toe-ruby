@@ -18,7 +18,7 @@ class Board
   end
 
   def space_available?(index)
-    index < @size and index >= 0 and @spaces[index] == nil
+    index < @spaces.length and index >= 0 and @spaces[index] == nil
   end
 
   def winning_solution?(*marks)
