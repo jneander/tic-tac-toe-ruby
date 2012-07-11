@@ -20,6 +20,11 @@ class CommandLineConsole
     }
   end
 
+  def prompt_player_mark
+    print( "Please choose the number of the space where you'd like to make your mark: " )
+    STDIN.gets.chomp.to_i - 1
+  end
+
   def display_game_results(board)
     convert_board_to_ascii(board).each {|row| printf("%10s\n", row)}
     if board.winning_solution?(*@players)
