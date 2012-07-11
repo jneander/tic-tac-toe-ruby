@@ -15,29 +15,25 @@ class CommandLineConsole
   def display_board(board)
     print_board = convert_board_to_ascii(board)
     print_available = available_spaces_to_ascii(board)
-    (0...board.size).each {|index| 
-      printf("%10s%10s\n", print_board[index], print_available[index])
-    }
+    output = (0...board.size).collect {|index| "%10s%10s" % [print_board[index],print_available[index]]}
+    puts("",*output)
   end
 
   def prompt_player_mark
-    print( "Please choose the number of the space where you'd like to make your mark: " )
+    print("\n","Please choose the number of the space where you'd like to make your mark: ")
     $stdin.gets.chomp.to_i - 1
   end
 
   def alert_space_unavailable(index)
-    puts("The space you've selected is unavailable")
+    puts("","The space you've selected is unavailable")
   end
 
   def display_game_results(board)
-    convert_board_to_ascii(board).each {|row| printf("%10s\n", row)}
-    if board.winning_solution?(*@players)
-      winner = board.winning_solution?(@players.first) ? 1 : 2
-      message = "Player #{winner} is the winner!"
-    else
-      message = "The game has ended in a tie!"
-    end
-    puts message
+    output = convert_board_to_ascii(board).collect {|row| "%10s" % row}
+    message = board.winning_solution?(*@players) ?
+      "Player #{board.winning_solution?(@players.first) ? 1 : 2} is the winner!" :
+      "The game has ended with a draw!"
+    puts("",*output,"",message)
   end
 
   def convert_board_to_ascii(board)
