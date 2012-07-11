@@ -9,6 +9,7 @@ class Game
     @console = console
     @players = [nil,nil].collect {PlayerFactory.create}
     @players.each {|player| player.console = @console}
+    @console.set_players(@players)
   end
 
   def run
