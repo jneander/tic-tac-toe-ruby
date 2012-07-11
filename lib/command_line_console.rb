@@ -22,7 +22,7 @@ class CommandLineConsole
 
   def prompt_player_mark
     print( "Please choose the number of the space where you'd like to make your mark: " )
-    STDIN.gets.chomp.to_i - 1
+    $stdin.gets.chomp.to_i - 1
   end
 
   def alert_space_unavailable(index)
