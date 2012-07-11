@@ -19,10 +19,11 @@ describe Game do
       @game.over?.should eql false
     end
 
-    it "will have two Player objects" do
+    it "will have two unique Player objects" do
       @game.players.length.should eql 2
       @game.players.first.should be_instance_of(Player)
       @game.players.last.should be_instance_of(Player)
+      @game.players.first.should_not eql @game.players.last
     end
 
     it "will assign the console to each Player object" do
