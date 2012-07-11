@@ -1,12 +1,13 @@
 require 'command_line_console'
+require 'mark'
 
 describe "CommandLineConsole" do
   before :each do
     @console = CommandLineConsole.new
     @players = [:player1,:player2]
     @console.set_players(@players)
-    @spaces_blank = [nil]*9
-    @spaces_with_marks = [nil,@players.first,@players.last]*3
+    @spaces_blank = [Mark::BLANK]*9
+    @spaces_with_marks = [Mark::BLANK,@players.first,@players.last]*3
   end
 
   it "assigns ASCII characters to players in 'Game'" do

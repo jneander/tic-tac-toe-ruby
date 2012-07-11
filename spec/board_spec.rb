@@ -1,3 +1,4 @@
+require 'mark'
 require 'board'
 
 describe Board do
@@ -13,7 +14,7 @@ describe Board do
   it "initializes with 9 'blank' spaces" do
     @board.spaces.length.should eql 9
     @board.spaces.each do |space|
-      space.should eql nil
+      space.should eql Mark::BLANK
     end
   end
 
@@ -26,7 +27,7 @@ describe Board do
     target_spaces = [3,5,7,8]
     make_marks(target_spaces, :player)
     @board.spaces_with_mark(:player).should eql target_spaces
-    @board.spaces_with_mark(nil).should eql (0..8).sort - target_spaces
+    @board.spaces_with_mark(Mark::BLANK).should eql (0..8).sort - target_spaces
   end
 
   it "returns false when no winning solution exists" do
@@ -37,7 +38,7 @@ describe Board do
     @board.solutions.each do |solution|
       make_marks(solution, :player)
       @board.winning_solution?(:player).should eql true
-      make_marks(solution, nil)
+      make_marks(solution, Mark::BLANK)
       @board.winning_solution?(:player).should eql false
     end
   end

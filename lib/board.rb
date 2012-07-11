@@ -1,3 +1,5 @@
+require 'mark'
+
 BOARD_SIZE = 3
 
 class Board
@@ -5,7 +7,7 @@ class Board
 
   def initialize(board_size = BOARD_SIZE)
     @size = board_size
-    @spaces= [nil]*@size.to_i**2
+    @spaces= [Mark::BLANK]*@size.to_i**2
     generate_solutions
   end
 
@@ -18,7 +20,7 @@ class Board
   end
 
   def space_available?(index)
-    index < @spaces.length and index >= 0 and @spaces[index] == nil
+    index < @spaces.length and index >= 0 and @spaces[index] == Mark::BLANK
   end
 
   def winning_solution?(*marks)
