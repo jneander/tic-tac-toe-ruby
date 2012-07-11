@@ -7,6 +7,7 @@ class CommandLineConsole
   end
 
   def set_players(players)
+    @players = players.clone
     @characters[players.first] = "O"
     @characters[players.last] = "X"
   end
@@ -17,6 +18,17 @@ class CommandLineConsole
     (0...board.size).each {|index| 
       printf("%10s%10s\n", print_board[index], print_available[index])
     }
+  end
+
+  def display_game_results(board)
+    convert_board_to_ascii(board).each {|row| printf("%10s\n", row)}
+    if board.winning_solution?(*@players)
+      winner = board.winning_solution?(@players.first) ? 1 : 2
+      message = "Player #{winner} is the winner!"
+    else
+      message = "The game has ended in a tie!"
+    end
+    puts message
   end
 
   def convert_board_to_ascii(board)
