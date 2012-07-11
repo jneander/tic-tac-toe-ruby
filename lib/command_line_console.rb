@@ -25,6 +25,10 @@ class CommandLineConsole
     STDIN.gets.chomp.to_i - 1
   end
 
+  def alert_space_unavailable(index)
+    puts("The space you've selected is unavailable")
+  end
+
   def display_game_results(board)
     convert_board_to_ascii(board).each {|row| printf("%10s\n", row)}
     if board.winning_solution?(*@players)
