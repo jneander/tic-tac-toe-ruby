@@ -12,10 +12,7 @@ describe Board do
   end
 
   it "initializes with 9 'blank' spaces" do
-    @board.spaces.length.should eql 9
-    @board.spaces.each do |space|
-      space.should eql Mark::BLANK
-    end
+    @board.spaces.should eql [Mark::BLANK]*9
   end
 
   it "accepts a mark" do
