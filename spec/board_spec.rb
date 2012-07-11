@@ -40,7 +40,7 @@ describe Board do
     end
   end
 
-  it "returns true when checking multiple marks" do
+  it "can check for winning solutions on multiple marks at once" do
     make_marks(@board.solutions.first, :player1)
     @board.winning_solution?(*[:player1,:player2]).should eql true
     @board.winning_solution?(:player1).should eql true
