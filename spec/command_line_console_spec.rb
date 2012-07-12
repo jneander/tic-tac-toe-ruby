@@ -22,6 +22,11 @@ describe "CommandLineConsole" do
     @console.prompt_player_mark.should eql 1
   end
 
+  it "prompts the user to specify the opponent type" do
+    $stdin = StringIO.new('1','r')
+    @console.prompt_opponent_type.should eql 1
+  end
+
   it "creates an array of strings representing the board" do
     @board = mock("board")
     @board.should_receive(:size).any_number_of_times.and_return(3)
