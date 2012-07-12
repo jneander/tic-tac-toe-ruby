@@ -7,7 +7,7 @@ class Game
   def initialize(console)
     @board = BoardFactory.create
     @console = console
-    @players = [nil,nil].collect {PlayerFactory.create}
+    @players = [nil,nil].collect {PlayerFactory.create(0)}
     @players.each {|player| player.console = @console}
     @console.set_players(@players)
   end
