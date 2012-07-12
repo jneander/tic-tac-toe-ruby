@@ -1,4 +1,4 @@
-class Player
+class Human
   attr_accessor :console
 
   def make_mark(board)

@@ -1,10 +1,10 @@
-require 'player'
+require 'human'
 
-describe Player do
+describe Human do
   before :each do
     @console = mock("console").as_null_object
     @board = mock("board").as_null_object
-    @player = Player.new
+    @player = Human.new
     @player.console = @console
   end
 

@@ -1,7 +1,7 @@
-require 'player'
+require 'human'
 
 class PlayerFactory
   def self.create
-    Player.new
+    Human.new
   end
 end

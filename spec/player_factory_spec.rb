@@ -1,8 +1,8 @@
 require 'player_factory'
-require 'player'
+require 'human'
 
 describe PlayerFactory do
-  it "creates a Player instance" do
-    PlayerFactory.create.should be_instance_of(Player)
+  it "creates a Human instance" do
+    PlayerFactory.create.should be_instance_of(Human)
   end
 end
