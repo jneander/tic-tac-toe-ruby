@@ -4,4 +4,8 @@ class DumbComputer
     board.make_mark(mark_index,self)
     mark_index
   end
+
+  def self.to_s
+    "Dumb Computer"
+  end
 end

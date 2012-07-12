@@ -9,4 +9,8 @@ class Human
     end
     board.make_mark(index,self)
   end
+
+  def self.to_s
+    "Human"
+  end
 end

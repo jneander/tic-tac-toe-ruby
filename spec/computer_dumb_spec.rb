@@ -33,4 +33,8 @@ describe DumbComputer do
       @marks.uniq.sort.should eql SOME_SPACES
     end
   end
+
+  it "converts the class to a string" do
+    DumbComputer.to_s.should eql "Dumb Computer"
+  end
 end

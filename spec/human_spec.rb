@@ -19,4 +19,8 @@ describe Human do
     @board.should_receive(:space_available?).and_return(false,true)
     @player.make_mark(@board)
   end
+
+  it "converts the class to a string" do
+    Human.to_s.should eql "Human"
+  end
 end
