@@ -37,10 +37,16 @@ describe Game do
     end
   end
 
-  context "while not over" do
+  context "while in 'run' loop" do
     before :each do
       @game.board = mock("board").as_null_object
       set_one_player_game
+    end
+
+    it "requests the console to display the board" do
+      set_board_marks_until_solution(1)
+      @console.should_receive(:display_board)
+      @game.run
     end
 
     it "requests a mark from the player" do
@@ -52,12 +58,6 @@ describe Game do
     it "requests marks from players until board has winning solution" do
       set_board_marks_until_solution(3)
       @player1.should_receive(:make_mark).exactly(3).times
-      @game.run
-    end
-
-    it "requests the console to display the board" do
-      set_board_marks_until_solution(1)
-      @console.should_receive(:display_board)
       @game.run
     end
 
