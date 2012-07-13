@@ -40,6 +40,12 @@ describe Game do
       set_players(@player1,@player1)
     end
 
+    it "prompts the user to choose an opponent" do
+      @console.should_receive(:prompt_opponent_type).and_return(1)
+      set_board_marks_until_solution(0)
+      @game.run
+    end
+
     it "requests the console to display the board" do
       set_board_marks_until_solution(1)
       @console.should_receive(:display_board)

@@ -14,6 +14,7 @@ class Game
   end
 
   def run
+    @console.prompt_opponent_type
     while not over?
       @console.display_board(@board)
       @players.first.make_mark(@board)
