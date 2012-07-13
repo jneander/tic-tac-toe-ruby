@@ -37,7 +37,7 @@ describe Game do
   context "while in 'run' loop" do
     before :each do
       @game.board = mock("board").as_null_object
-      set_players(@player1)
+      set_players(@player1,@player1)
     end
 
     it "requests the console to display the board" do
@@ -59,10 +59,11 @@ describe Game do
     end
 
     it "alternates between players" do
-      set_players(@player1,@player2)
+      players = [@player1,@player2]
+      set_players(*players)
       set_board_marks_until_solution(4)
       @tracker = []
-      @game.players.each {|each| 
+      players.each {|each| 
         each.should_receive(:make_mark).twice {@tracker << @game.players.first}
       }
 
@@ -103,6 +104,7 @@ describe Game do
   end
 
   def set_players(*players)
-    @game.players = players
+    @players = players
+    @game.players = @players
   end
 end
