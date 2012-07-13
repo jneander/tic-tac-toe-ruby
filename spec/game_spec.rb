@@ -9,9 +9,6 @@ describe Game do
   end
 
   context "at initialization" do
-    before :each do
-    end
-
     it "is not over" do
       @game.board = mock("board").as_null_object
       @game.board.should_receive(:winning_solution?).and_return(false)
@@ -63,10 +60,14 @@ describe Game do
 
     it "alternates between players" do
       set_two_player_game
-      set_board_marks_until_solution(1)
-      @game.players.first.should eql @player1
+      set_board_marks_until_solution(4)
+      @tracker = []
+      @game.players.each {|each| 
+        each.should_receive(:make_mark).twice {@tracker << @game.players.first}
+      }
+
       @game.run
-      @game.players.first.should eql @player2
+      @tracker.should eql @game.players*2
     end
   end
 
