@@ -90,7 +90,6 @@ describe Game do
 
     it "requests the console to display game results" do
       set_board_marks_until_solution(0)
-      set_players(@player1)
       @console.should_receive(:display_game_results).once
       @game.run
     end
