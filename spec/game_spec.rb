@@ -10,12 +10,12 @@ describe Game do
 
   context "at initialization" do
     before :each do
-      @game.board = stub("board").as_null_object
-      @game.board.stub(:winning_solution?).and_return(false)
-      @game.board.stub(:spaces_with_mark).and_return([nil]*9)
     end
 
     it "is not over" do
+      @game.board = mock("board").as_null_object
+      @game.board.should_receive(:winning_solution?).and_return(false)
+      @game.board.should_receive(:spaces_with_mark).and_return([nil]*9)
       @game.over?.should eql false
     end
 
