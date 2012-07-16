@@ -11,4 +11,8 @@ describe PlayerFactory do
     PlayerFactory.create(DumbComputer).should be_instance_of(DumbComputer)
     PlayerFactory.create(:not_in_list).should be_nil
   end
+
+  it "contains a reference to the 'default' Human class" do
+    PlayerFactory::HUMAN.should eql Human
+  end
 end
