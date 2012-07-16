@@ -22,9 +22,15 @@ describe "CommandLineConsole" do
     @console.prompt_player_mark.should eql 1
   end
 
-  it "prompts the user to specify the opponent type" do
-    $stdin = StringIO.new('1','r')
-    @console.prompt_opponent_type.should eql 1
+  context "when prompting the user to specify an opponent" do
+    before :each do
+      @opponent_options = [:human,:computer]
+    end
+
+    it "accepts an input within a valid range" do
+      $stdin = StringIO.new('1','r')
+      @console.prompt_opponent_type(@opponent_options).should eql :human
+    end
   end
 
   it "creates a human-readable list of available opponents" do

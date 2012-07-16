@@ -24,9 +24,9 @@ class CommandLineConsole
     $stdin.gets.chomp.to_i - 1
   end
 
-  def prompt_opponent_type
-    $stdout.print("\n","Choose your opponent [1: Human, 2: Computer] : ")
-    $stdin.gets.chomp.to_i
+  def prompt_opponent_type(opponents)
+    $stdout.print("\n","Choose your opponent #{players_as_options(opponents)} : ")
+    opponents[$stdin.gets.chomp.to_i - 1]
   end
 
   def alert_space_unavailable(index)
