@@ -31,6 +31,14 @@ describe "CommandLineConsole" do
       @console.in = StringIO.new('1','r')
       @console.prompt_opponent_type(@opponent_options).should eql :human
     end
+
+    it "continues prompting until receiving a valid input" do
+      @console.out = mock("$stdout")
+      @console.in = mock("$stdin")
+      @console.out.should_receive(:print).exactly(3).times
+      @console.in.should_receive(:gets).and_return("0","3","1")
+      @console.prompt_opponent_type(@opponent_options).should eql :human
+    end
   end
 
   it "creates a human-readable list of available opponents" do

@@ -28,8 +28,12 @@ class CommandLineConsole
   end
 
   def prompt_opponent_type(opponents)
-    @out.print("\n","Choose your opponent #{players_as_options(opponents)} : ")
-    opponents[@in.gets.chomp.to_i - 1]
+    value = 0
+    while value < 1 or value > opponents.length
+      @out.print("\n","Choose your opponent #{players_as_options(opponents)} : ")
+      value = @in.gets.chomp.to_i
+    end
+    opponents[value - 1]
   end
 
   def alert_space_unavailable(index)
