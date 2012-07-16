@@ -8,7 +8,7 @@ class Game
     @player_factory = PlayerFactory
     @board = BoardFactory.create
     @console = console
-    @players = [nil,nil].collect {@player_factory.create(Human)}
+    @players = [nil,nil].collect {@player_factory.create(@player_factory::HUMAN)}
     @players.each {|player| player.console = @console}
     @console.set_players(@players)
   end
