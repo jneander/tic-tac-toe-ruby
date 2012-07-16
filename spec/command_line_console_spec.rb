@@ -8,7 +8,7 @@ describe "CommandLineConsole" do
     @console.set_players(@players)
     @spaces_blank = [Mark::BLANK]*9
     @spaces_with_marks = [Mark::BLANK,@players.first,@players.last]*3
-    $stdout = StringIO.new('','w')
+    @console.out = StringIO.new('','w')
   end
 
   it "assigns ASCII characters to players and marks in 'Game'" do
@@ -18,7 +18,7 @@ describe "CommandLineConsole" do
   end
 
   it "receives command-line input when prompted" do
-    $stdin = StringIO.new('2','r')
+    @console.in = StringIO.new('2','r')
     @console.prompt_player_mark.should eql 1
   end
 
@@ -28,7 +28,7 @@ describe "CommandLineConsole" do
     end
 
     it "accepts an input within a valid range" do
-      $stdin = StringIO.new('1','r')
+      @console.in = StringIO.new('1','r')
       @console.prompt_opponent_type(@opponent_options).should eql :human
     end
   end
