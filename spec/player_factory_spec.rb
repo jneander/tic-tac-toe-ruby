@@ -6,9 +6,9 @@ describe PlayerFactory do
     PlayerFactory::TYPES.should eql [Human,DumbComputer]
   end
 
-  it "creates instances of Players based on the index of TYPES" do
-    PlayerFactory.create(0).should be_instance_of(Human)
-    PlayerFactory.create(1).should be_instance_of(DumbComputer)
-    PlayerFactory.create(2).should be_nil
+  it "creates instances of Players according to input" do
+    PlayerFactory.create(Human).should be_instance_of(Human)
+    PlayerFactory.create(DumbComputer).should be_instance_of(DumbComputer)
+    PlayerFactory.create(:not_in_list).should be_nil
   end
 end
