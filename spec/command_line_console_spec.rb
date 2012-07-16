@@ -27,6 +27,11 @@ describe "CommandLineConsole" do
     @console.prompt_opponent_type.should eql 1
   end
 
+  it "creates a human-readable list of available opponents" do
+    expected = "[1: Human, 2: Dumb Computer]"
+    @console.players_as_options(["Human","Dumb Computer"]).should eql expected
+  end
+
   it "creates an array of strings representing the board" do
     @board = mock("board")
     @board.should_receive(:size).any_number_of_times.and_return(3)

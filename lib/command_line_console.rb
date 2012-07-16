@@ -50,4 +50,9 @@ class CommandLineConsole
     board.spaces.collect.with_index {|space, index| space == Mark::BLANK ? index + 1 : " "}
       .each_slice(board.size).to_a.collect {|row| row.join(" ")}
   end
+
+  def players_as_options(players)
+    "[%s]" % players.collect.with_index {|player,index|
+      "%d: %s" % [index+1, player]}.join(", ")
+  end
 end
