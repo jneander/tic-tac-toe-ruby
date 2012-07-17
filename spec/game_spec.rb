@@ -22,7 +22,7 @@ describe Game do
   end
 
   context "at player instantiation" do
-    it "will have two unique Human objects" do
+    it "will have two unique player objects" do
       @console.should_receive(:prompt_opponent_type).and_return(Human)
       @game.run
       @game.players.length.should eql 2
@@ -30,7 +30,7 @@ describe Game do
       @game.players.each {|player| player.should be_instance_of(Human)}
     end
 
-    it "will assign the console to each Human object" do
+    it "will assign the console to each player object" do
       @game.run
       @game.players.each do |player|
         player.console.should eql @console
