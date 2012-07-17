@@ -23,13 +23,15 @@ describe Game do
 
   context "at player instantiation" do
     it "will have two unique Human objects" do
+      @console.should_receive(:prompt_opponent_type).and_return(Human)
+      @game.run
       @game.players.length.should eql 2
-      @game.players.first.should be_instance_of(Human)
-      @game.players.last.should be_instance_of(Human)
       @game.players.first.should_not eql @game.players.last
+      @game.players.each {|player| player.should be_instance_of(Human)}
     end
 
     it "will assign the console to each Human object" do
+      @game.run
       @game.players.each do |player|
         player.console.should eql @console
       end
