@@ -16,6 +16,12 @@ describe Game do
       @game.over?.should eql false
     end
 
+    it "will have a Board object" do
+      @game.board.should_not be_nil
+    end
+  end
+
+  context "at player instantiation" do
     it "will have two unique Human objects" do
       @game.players.length.should eql 2
       @game.players.first.should be_instance_of(Human)
@@ -29,20 +35,16 @@ describe Game do
       end
     end
 
-    it "will have a Board object" do
-      @game.board.should_not be_nil
-    end
-  end
-
-  context "while in 'run' loop" do
-    before :each do
-      set_players(@player1,@player1)
-    end
-
     it "prompts the user to choose an opponent" do
       @console.should_receive(:prompt_opponent_type)
       set_board_marks_until_solution(0)
       @game.run
+    end
+  end
+
+  context "while in 'until over?' loop" do
+    before :each do
+      set_players(@player1,@player1)
     end
 
     it "requests the console to display the board" do
