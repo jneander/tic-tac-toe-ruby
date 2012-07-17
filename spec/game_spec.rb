@@ -40,8 +40,6 @@ describe Game do
     end
 
     it "prompts the user to choose an opponent" do
-      @game.player_factory = mock("PlayerFactory")
-      @game.player_factory.should_receive(:TYPES)
       @console.should_receive(:prompt_opponent_type)
       set_board_marks_until_solution(0)
       @game.run

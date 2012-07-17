@@ -1,18 +1,20 @@
-require 'player_factory'
 require 'board_factory'
+require 'human'
+require 'computer_dumb'
 
 class Game
-  attr_accessor :board, :players, :player_factory, :console
+  attr_accessor :board, :players, :console
+
+  PLAYER_TYPES = [Human,DumbComputer]
 
   def initialize(console)
-    @player_factory = PlayerFactory
     @board = BoardFactory.create
     @console = console
     set_players
   end
 
   def run
-    @console.prompt_opponent_type(@player_factory.TYPES)
+    @console.prompt_opponent_type(PLAYER_TYPES)
     while not over?
       @console.display_board(@board)
       @players.first.make_mark(@board)
@@ -28,10 +30,7 @@ class Game
 
   private
   def set_players
-    @players = [
-      @player_factory.create(@player_factory.HUMAN),
-      @player_factory.create(@player_factory.HUMAN)
-    ]
+    @players = [Human.new,Human.new]
     @players.each {|player| player.console = @console}
     @console.set_players(@players)
   end
