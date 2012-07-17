@@ -2,16 +2,13 @@ require 'player_factory'
 require 'board_factory'
 
 class Game
-  attr_accessor :board, :players, :player_factory
+  attr_accessor :board, :players, :player_factory, :console
 
   def initialize(console)
     @player_factory = PlayerFactory
     @board = BoardFactory.create
     @console = console
-    @players = [@player_factory.create(@player_factory.HUMAN),
-      @player_factory.create(@player_factory.HUMAN)]
-    @players.each {|player| player.console = @console}
-    @console.set_players(@players)
+    set_players
   end
 
   def run
@@ -27,5 +24,15 @@ class Game
   def over?
     @board.winning_solution?(*@players) ||
       @board.spaces_with_mark(Mark::BLANK).empty?
+  end
+
+  private
+  def set_players
+    @players = [
+      @player_factory.create(@player_factory.HUMAN),
+      @player_factory.create(@player_factory.HUMAN)
+    ]
+    @players.each {|player| player.console = @console}
+    @console.set_players(@players)
   end
 end
