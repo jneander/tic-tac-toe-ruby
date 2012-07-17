@@ -24,7 +24,8 @@ describe Board do
     target_spaces = [3,5,7,8]
     make_marks(target_spaces, :player)
     @board.spaces_with_mark(:player).should eql target_spaces
-    @board.spaces_with_mark(Mark::BLANK).should eql (0..8).sort - target_spaces
+    expected_spaces = (0..8).sort - target_spaces
+    @board.spaces_with_mark(Mark::BLANK).should eql expected_spaces
   end
 
   it "returns false when no winning solution exists" do

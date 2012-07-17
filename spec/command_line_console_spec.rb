@@ -43,7 +43,8 @@ describe "CommandLineConsole" do
 
   it "creates a human-readable list of available opponents" do
     expected = "[1: Human, 2: Dumb Computer]"
-    @console.players_as_options(["Human","Dumb Computer"]).should eql expected
+    @console.players_as_options(["Human","Dumb Computer"])
+      .should eql expected
   end
 
   it "creates an array of strings representing the board" do

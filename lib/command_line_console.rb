@@ -18,19 +18,22 @@ class CommandLineConsole
   def display_board(board)
     print_board = convert_board_to_ascii(board)
     print_available = available_spaces_to_ascii(board)
-    output = (0...board.size).collect {|index| "%10s%10s" % [print_board[index],print_available[index]]}
+    output = (0...board.size).collect {|index| 
+      "%10s%10s" % [print_board[index],print_available[index]]
+    }
     @out.puts("",*output)
   end
 
   def prompt_player_mark
-    @out.print("\n","Please choose the number of the space where you'd like to make your mark: ")
+    @out.print("\n","Please choose the number of the space for your mark: ")
     @in.gets.chomp.to_i - 1
   end
 
   def prompt_opponent_type(opponents)
     value = 0
     while value < 1 or value > opponents.length
-      @out.print("\n","Choose your opponent #{players_as_options(opponents)} : ")
+      @out.print("\n","Choose your opponent ",
+                 "#{players_as_options(opponents)} : ")
       value = @in.gets.chomp.to_i
     end
     opponents[value - 1]
@@ -42,20 +45,24 @@ class CommandLineConsole
 
   def display_game_results(board)
     output = convert_board_to_ascii(board).collect {|row| "%10s" % row}
-    message = board.winning_solution?(*@players) ?
-      "Player #{board.winning_solution?(@players.first) ? 1 : 2} is the winner!" :
+    message = if board.winning_solution?(*@players)
+      player_number = board.winning_solution?(@players.first) ? 1 : 2
+      "Player #{player_number} is the winner!"
+    else
       "The game has ended with a draw!"
+    end
     @out.puts("",*output,"",message)
   end
 
   def convert_board_to_ascii(board)
-    board.spaces.each_slice(board.size).collect {|row| row.collect {
-      |mark| @characters[mark]}.join("|")}
+    board.spaces.each_slice(board.size).collect {|row|
+      row.collect {|mark| @characters[mark]}.join("|")}
   end
 
   def available_spaces_to_ascii(board)
-    board.spaces.collect.with_index {|space, index| space == Mark::BLANK ? index + 1 : " "}
-      .each_slice(board.size).to_a.collect {|row| row.join(" ")}
+    board.spaces.collect.with_index {|space, index|
+      space == Mark::BLANK ? index + 1 : " "
+    }.each_slice(board.size).to_a.collect {|row| row.join(" ")}
   end
 
   def players_as_options(players)

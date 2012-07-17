@@ -70,9 +70,9 @@ describe Game do
       set_players(*players)
       set_board_marks_until_solution(4)
       @tracker = []
-      players.each {|each| 
-        each.should_receive(:make_mark).twice {@tracker << @game.players.first}
-      }
+      players.each {|each| each.should_receive(:make_mark).twice {
+        @tracker << @game.players.first
+      }}
 
       @game.run
       @tracker.should eql @game.players*2
@@ -102,7 +102,8 @@ describe Game do
   def set_board_marks_until_solution(mark_count = 0)
     values = [false]*mark_count + [true]
     @board.should_receive(:winning_solution?).and_return(*values)
-    @board.should_receive(:spaces_with_mark).any_number_of_times.and_return([nil]*9)
+    @board.should_receive(:spaces_with_mark).any_number_of_times
+      .and_return([nil]*9)
   end
 
   def set_players(*players)

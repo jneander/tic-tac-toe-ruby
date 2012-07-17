@@ -8,7 +8,9 @@ class Game
     @player_factory = PlayerFactory
     @board = BoardFactory.create
     @console = console
-    @players = [nil,nil].collect {@player_factory.create(@player_factory.HUMAN)}
+    @players = [nil,nil].collect {
+      @player_factory.create(@player_factory.HUMAN)
+    }
     @players.each {|player| player.console = @console}
     @console.set_players(@players)
   end
@@ -24,6 +26,7 @@ class Game
   end
 
   def over?
-    @board.winning_solution?(*@players) || @board.spaces_with_mark(Mark::BLANK).empty?
+    @board.winning_solution?(*@players) ||
+      @board.spaces_with_mark(Mark::BLANK).empty?
   end
 end
