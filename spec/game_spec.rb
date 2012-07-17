@@ -4,13 +4,13 @@ describe Game do
   before :each do
     @console = mock("console").as_null_object
     @game = Game.new(@console)
+    @board = @game.board = mock("Board").as_null_object
     @player1 = mock("player").as_null_object
     @player2 = mock("player").as_null_object
   end
 
   context "at initialization" do
     it "is not over" do
-      @game.board = mock("board").as_null_object
       @game.board.should_receive(:winning_solution?).and_return(false)
       @game.board.should_receive(:spaces_with_mark).and_return([nil]*9)
       @game.over?.should eql false
@@ -36,7 +36,6 @@ describe Game do
 
   context "while in 'run' loop" do
     before :each do
-      @game.board = mock("board").as_null_object
       set_players(@player1,@player1)
     end
 
@@ -81,18 +80,14 @@ describe Game do
   end
 
   context "when over" do
-    before :each do
-      @game.board = mock("board")
-    end
-
     it "ends when the board has a winning solution" do
       set_board_marks_until_solution(0)
       @game.over?.should eql true
     end
 
     it "ends when the board is full" do
-      @game.board.should_receive(:winning_solution?).and_return(false)
-      @game.board.should_receive(:spaces_with_mark).and_return([])
+      @board.should_receive(:winning_solution?).and_return(false)
+      @board.should_receive(:spaces_with_mark).and_return([])
       @game.over?.should eql true
     end
 
@@ -106,8 +101,8 @@ describe Game do
   private
   def set_board_marks_until_solution(mark_count = 0)
     values = [false]*mark_count + [true]
-    @game.board.should_receive(:winning_solution?).and_return(*values)
-    @game.board.should_receive(:spaces_with_mark).any_number_of_times.and_return([nil]*9)
+    @board.should_receive(:winning_solution?).and_return(*values)
+    @board.should_receive(:spaces_with_mark).any_number_of_times.and_return([nil]*9)
   end
 
   def set_players(*players)
