@@ -3,18 +3,17 @@ require 'human'
 require 'computer_dumb'
 
 class Game
-  attr_accessor :board, :players, :console
-
-  PLAYER_TYPES = [Human,DumbComputer]
+  attr_accessor :board, :players, :console, :player_types
 
   def initialize(console)
     @board = BoardFactory.create
     @console = console
+    @player_types = [Human,DumbComputer]
     set_players
   end
 
   def run
-    @console.prompt_opponent_type(PLAYER_TYPES)
+    @console.prompt_opponent_type(@player_types)
     until over?
       @console.display_board(@board)
       @players.first.make_mark(@board)
