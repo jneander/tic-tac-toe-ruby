@@ -8,4 +8,12 @@ module PlayerFactory
   def self.create(type)
     type.new if TYPES.include? type
   end
+
+  def self.TYPES
+    TYPES
+  end
+
+  def self.HUMAN
+    HUMAN
+  end
 end

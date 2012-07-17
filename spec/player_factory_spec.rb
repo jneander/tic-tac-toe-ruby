@@ -3,7 +3,7 @@ require 'human'
 
 describe PlayerFactory do
   it "contains a list of available player types" do
-    PlayerFactory::TYPES.should eql [Human,DumbComputer]
+    PlayerFactory.TYPES.should eql [Human,DumbComputer]
   end
 
   it "creates instances of Players according to input" do
@@ -13,6 +13,6 @@ describe PlayerFactory do
   end
 
   it "contains a reference to the 'default' Human class" do
-    PlayerFactory::HUMAN.should eql Human
+    PlayerFactory.HUMAN.should eql Human
   end
 end
