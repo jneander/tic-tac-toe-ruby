@@ -22,6 +22,13 @@ describe Game do
   end
 
   context "at player instantiation" do
+    it "will create a new player based on user input" do
+      @player2.should_receive(:new).and_return(@player2)
+      @console.should_receive(:prompt_opponent_type).and_return(@player2)
+      @game.run
+      @game.players.last.should == @player2
+    end
+
     it "will have two unique player objects" do
       @console.should_receive(:prompt_opponent_type).and_return(Human)
       @game.run
@@ -35,12 +42,6 @@ describe Game do
       @game.players.each do |player|
         player.console.should eql @console
       end
-    end
-
-    it "prompts the user to choose an opponent" do
-      @console.should_receive(:prompt_opponent_type)
-      set_board_marks_until_solution(0)
-      @game.run
     end
   end
 
@@ -63,14 +64,15 @@ describe Game do
 
     it "requests marks from players until board has winning solution" do
       set_board_marks_until_solution(3)
+      set_opponent(@player1)
       @player1.should_receive(:make_mark).exactly(3).times
       @game.run
     end
 
     it "alternates between players" do
       players = [@player1,@player2]
-      set_players(*players)
       set_board_marks_until_solution(4)
+      set_opponent(@player2)
       @tracker = []
       players.each {|each| each.should_receive(:make_mark).twice {
         @tracker << @game.players.first
@@ -111,5 +113,10 @@ describe Game do
   def set_players(*players)
     @players = players
     @game.players = @players
+  end
+
+  def set_opponent(player)
+    @console.stub!(:prompt_opponent_type).and_return(player)
+    player.stub!(:new).and_return(player)
   end
 end

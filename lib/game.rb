@@ -13,7 +13,8 @@ class Game
   end
 
   def run
-    @console.prompt_opponent_type(@player_types)
+    opponent_type = @console.prompt_opponent_type(@player_types)
+    @players[1] = opponent_type.new
     until over?
       @console.display_board(@board)
       @players.first.make_mark(@board)
