@@ -5,9 +5,12 @@ ALL_SPACES = (0..8).sort
 SOME_SPACES = (3..6).sort
 
 describe DumbComputer do
+  before :all do
+    @computer = DumbComputer.new
+  end
+
   context "when making marks" do
     before :each do
-      @computer = DumbComputer.new
       @board = mock("board")
       @board.should_receive(:make_mark).exactly(TIMES).times
       @marks = []
@@ -36,5 +39,9 @@ describe DumbComputer do
 
   it "converts the class to a string" do
     DumbComputer.to_s.should eql "Dumb Computer"
+  end
+
+  it "can receive and store a reference to the console" do
+    @computer.console = mock("console")
   end
 end
