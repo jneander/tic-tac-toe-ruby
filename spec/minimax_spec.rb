@@ -14,7 +14,8 @@ describe Minimax do
   end
 
   it "scores high on winning mark" do
-    @board.should_receive(:winning_solution?).with(@max_player).and_return(true)
+    @board.should_receive(:winning_solution?).with(@max_player)
+      .and_return(true)
     @solver.score(@board,@max_player).should == 1
   end
 
@@ -25,7 +26,8 @@ describe Minimax do
   end
 
   it "scores low on opponent's winning mark" do
-    @board.should_receive(:winning_solution?).with(@min_player).and_return(true)
+    @board.should_receive(:winning_solution?).with(@min_player)
+      .and_return(true)
     @solver.score(@board,@min_player).should == -1
   end
 
@@ -38,7 +40,15 @@ describe Minimax do
 
   it "calls 'score' recursively until no spaces available" do
     @board.stub!(:winning_solution?).and_return(false)
-    @board.should_receive(:spaces_with_mark).and_return([1,2,3],[2,3],[3],[])
+    @board.should_receive(:spaces_with_mark)
+      .and_return([1,2,3],[2,3],[3],[])
+    @solver.score(@board,@min_player)
+  end
+
+  it "calls 'score' recursively until a winning solution exists" do
+    @board.should_receive(:winning_solution?)
+      .and_return(false,false,false,false,false,true)
+    @board.stub!(:spaces_with_mark).and_return([1,2,3],[2,3],[3],[])
     @solver.score(@board,@min_player)
   end
 end
