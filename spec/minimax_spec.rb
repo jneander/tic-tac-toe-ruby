@@ -51,4 +51,11 @@ describe Minimax do
     @board.stub!(:spaces_with_mark).and_return([1,2,3],[2,3],[3],[])
     @solver.score(@board,@min_player)
   end
+
+  it "returns the score from lower recursion levels" do
+    @board.stub!(:winning_solution?).with(@max_player).and_return(false,false)
+    @board.stub!(:winning_solution?).with(@min_player).and_return(false,true)
+    @board.stub!(:spaces_with_mark).and_return([1,2,3])
+    @solver.score(@board,@min_player).should == -1
+  end
 end
