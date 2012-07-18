@@ -17,8 +17,7 @@ describe DumbComputer do
     end
 
     it "makes a mark at random" do
-      @board.should_receive(:spaces_with_mark).exactly(TIMES).times
-        .and_return(ALL_SPACES)
+      @board.stub!(:spaces_with_mark).and_return(ALL_SPACES)
 
       TIMES.times do
         @marks << @computer.make_mark(@board)
@@ -27,8 +26,7 @@ describe DumbComputer do
     end
 
     it "marks only on unmarked spaces" do
-      @board.should_receive(:spaces_with_mark).exactly(TIMES).times
-        .and_return(SOME_SPACES)
+      @board.stub!(:spaces_with_mark).and_return(SOME_SPACES)
 
       TIMES.times do
         @marks << @computer.make_mark(@board)
