@@ -13,18 +13,25 @@ describe Minimax do
     @solver.max_player = @max_player
   end
 
-  it "scores high on winning move" do
+  it "scores high on winning mark" do
     @board.should_receive(:winning_solution?).with(@max_player).and_return(true)
     @solver.score(@board,@max_player).should == 1
   end
 
-  it "scores zero on non-winning move" do
+  it "scores zero on non-winning mark" do
     @board.stub!(:winning_solution?).and_return(false)
     @solver.score(@board,@max_player).should == 0
   end
 
-  it "scores low on opponent's winning move" do
+  it "scores low on opponent's winning mark" do
     @board.should_receive(:winning_solution?).with(@min_player).and_return(true)
     @solver.score(@board,@min_player).should == -1
+  end
+
+  it "makes mark if no solution but spaces available" do
+    @board.stub!(:winning_solution?).and_return(false)
+    @board.stub!(:spaces_with_mark).and_return([1,2,3])
+    @board.should_receive(:make_mark) {|space| space.should == 1}
+    @solver.score(@board,@min_player)
   end
 end
