@@ -9,12 +9,11 @@ class Game
     @board = BoardFactory.create
     @console = console
     @player_types = [Human,DumbComputer]
-    set_players
+    @players = []
   end
 
   def run
-    opponent_type = @console.prompt_opponent_type(@player_types)
-    @players[1] = opponent_type.new
+    set_players
     until over?
       @console.display_board(@board)
       @players.first.make_mark(@board)
@@ -30,7 +29,9 @@ class Game
 
   private
   def set_players
-    @players = [Human.new,Human.new]
+    @players << @player_types.first.new
+    opponent_type = @console.prompt_opponent_type(@player_types)
+    @players << opponent_type.new
     @players.each {|player| player.console = @console}
     @console.set_players(@players)
   end

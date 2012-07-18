@@ -16,6 +16,10 @@ describe Game do
       @game.over?.should eql false
     end
 
+    it "will not have players" do
+      @game.players.should == []
+    end
+
     it "will have a Board object" do
       @game.board.should_not be_nil
     end
@@ -47,7 +51,7 @@ describe Game do
 
   context "while in 'until over?' loop" do
     before :each do
-      set_players(@player1,@player1)
+      set_human(@player1)
     end
 
     it "requests the console to display the board" do
@@ -71,8 +75,8 @@ describe Game do
 
     it "alternates between players" do
       players = [@player1,@player2]
-      set_board_marks_until_solution(4)
       set_opponent(@player2)
+      set_board_marks_until_solution(4)
       @tracker = []
       players.each {|each| each.should_receive(:make_mark).twice {
         @tracker << @game.players.first
@@ -110,9 +114,9 @@ describe Game do
       .and_return([nil]*9)
   end
 
-  def set_players(*players)
-    @players = players
-    @game.players = @players
+  def set_human(player)
+    @game.player_types[0] = player
+    player.stub!(:new).and_return(player)
   end
 
   def set_opponent(player)
