@@ -1,4 +1,4 @@
-require 'board_factory'
+require 'board'
 require 'human'
 require 'computer_dumb'
 
@@ -6,7 +6,7 @@ class Game
   attr_accessor :board, :players, :console, :player_types
 
   def initialize(console)
-    @board = BoardFactory.create
+    @board = Board.new
     @console = console
     @player_types = [Human,DumbComputer]
     @players = []
