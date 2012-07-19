@@ -11,7 +11,7 @@ class Minimax
       next_mark = @max_mark == mark ? @min_mark : @max_mark
       available_spaces = board.spaces_with_mark(Mark::BLANK)
       available_spaces.each do |space|
-        board.make_mark(space,mark)
+        board.make_mark(space,next_mark)
         next_score = score(board,next_mark)
         board.make_mark(space,Mark::BLANK)
 

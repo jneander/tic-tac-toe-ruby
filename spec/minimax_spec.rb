@@ -64,7 +64,7 @@ describe Minimax do
       mark_order << mark if mark != Mark::BLANK
     }
     @solver.score(@board,@min_mark)
-    mark_order.should == [@min_mark,@max_mark,@min_mark]
+    mark_order.should == [@max_mark,@min_mark,@max_mark]
   end
 
   it "completes with board in original state" do
@@ -104,6 +104,12 @@ describe Minimax do
     @solver.score(@board,@min_mark).should == -1
   end
 
+  it "returns low score when opponent can win" do
+    make_marks([1,4,5,6],@min_mark)
+    make_marks([0,2,3,8],@max_mark)
+    @solver.score(@board,@max_mark).should == -1
+  end
+
   private
   def set_no_winning_solution
     @board.stub!(:winning_solution?).and_return(false)
@@ -111,6 +117,10 @@ describe Minimax do
 
   def set_recursion_limit_before_solution(limit)
     @board.stub!(:winning_solution?)
-      .and_return(*([false]*(limit*2+1) + [true]))
+    .and_return(*([false]*(limit*2+1) + [true]))
+  end
+
+  def make_marks(spaces,mark)
+    spaces.each {|space| @board.make_mark(space,mark)}
   end
 end
