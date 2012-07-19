@@ -11,7 +11,7 @@ class Minimax
       next_player = @max_player == player ? @min_player : @max_player
       available_spaces = board.spaces_with_mark(Mark::BLANK)
       available_spaces.each do |space|
-        board.make_mark(space,next_player)
+        board.make_mark(space,player)
         score = score(board,next_player)
         board.make_mark(space,Mark::BLANK)
       end

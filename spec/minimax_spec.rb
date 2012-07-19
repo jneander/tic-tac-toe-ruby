@@ -73,7 +73,7 @@ describe Minimax do
       player_order << player if player != Mark::BLANK
     }
     @solver.score(@board,@min_player)
-    player_order.should == [@max_player,@min_player,@max_player]
+    player_order.should == [@min_player,@max_player,@min_player]
   end
 
   it "completes with board in original state" do
