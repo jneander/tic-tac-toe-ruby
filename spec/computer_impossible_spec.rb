@@ -1,12 +1,10 @@
 require 'computer_impossible'
 
 describe ImpossibleComputer do
-  before :all do
-    @computer = ImpossibleComputer.new
-  end
-
   before :each do
+    @opponent = mock("Player")
     @board = mock("Board")
+    @computer = ImpossibleComputer.new(@opponent)
   end
 
   it "converts the class to a string" do
@@ -20,5 +18,9 @@ describe ImpossibleComputer do
   it "returns the last available space to mark" do
     @board.stub!(:spaces_with_mark).and_return([8])
     @computer.get_best_space(@board).should == 8
+  end
+
+  it "is initialized with an opponent" do
+    @computer.opponent.should == @opponent
   end
 end
