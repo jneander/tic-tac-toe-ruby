@@ -39,7 +39,7 @@ describe Minimax do
   it "makes mark if no solution but spaces available" do
     use_no_winning_solution
     @board.stub!(:spaces_with_mark).and_return([1,2,3],[])
-    @board.should_receive(:make_mark) {|space| space.should == 1}
+    @board.should_receive(:make_mark).any_number_of_times
     @solver.score(@board,@min_player)
   end
 
@@ -69,9 +69,19 @@ describe Minimax do
     set_recursion_limit_before_solution(3)
     player_order = []
     @board.stub!(:spaces_with_mark).and_return([1],[2],[3],[])
-    @board.stub!(:make_mark) {|space,player| player_order << player}
+    @board.stub!(:make_mark) {|space,player|
+      player_order << player if player != Mark::BLANK
+    }
     @solver.score(@board,@min_player)
     player_order.should == [@max_player,@min_player,@max_player]
+  end
+
+  it "completes with board in original state" do
+    original_spaces = @board.spaces_with_mark(Mark::BLANK)
+    set_recursion_limit_before_solution(1)
+    @solver.score(@board,@min_player)
+    current_spaces = @board.spaces_with_mark(Mark::BLANK)
+    current_spaces.should == original_spaces
   end
 
   private
