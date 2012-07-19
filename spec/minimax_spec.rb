@@ -51,21 +51,36 @@ describe Minimax do
   end
 
   it "calls 'score' recursively until a winning solution exists" do
-    @board.should_receive(:winning_solution?)
-      .and_return(false,false,false,false,false,true)
+    set_recursion_limit_before_solution(2)
     @board.stub!(:spaces_with_mark).and_return([1,2,3],[2,3],[3],[])
     @solver.score(@board,@min_player)
   end
 
   it "returns the score from lower recursion levels" do
-    @board.stub!(:winning_solution?).with(@max_player).and_return(false,false)
-    @board.stub!(:winning_solution?).with(@min_player).and_return(false,true)
+    @board.stub!(:winning_solution?).with(@max_player)
+      .and_return(false,false)
+    @board.stub!(:winning_solution?).with(@min_player)
+      .and_return(false,true)
     @board.stub!(:spaces_with_mark).and_return([1,2,3])
     @solver.score(@board,@min_player).should == -1
+  end
+
+  it "rotates players between levels of recursion" do
+    set_recursion_limit_before_solution(3)
+    player_order = []
+    @board.stub!(:spaces_with_mark).and_return([1],[2],[3],[])
+    @board.stub!(:make_mark) {|space,player| player_order << player}
+    @solver.score(@board,@min_player)
+    player_order.should == [@max_player,@min_player,@max_player]
   end
 
   private
   def use_no_winning_solution
     @board.stub!(:winning_solution?).and_return(false)
+  end
+
+  def set_recursion_limit_before_solution(limit)
+    @board.stub!(:winning_solution?)
+      .and_return(*([false]*(limit*2+1) + [true]))
   end
 end
