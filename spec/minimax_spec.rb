@@ -46,7 +46,7 @@ describe Minimax do
   it "calls 'score' recursively until no spaces available" do
     set_no_winning_solution
     @board.should_receive(:spaces_with_mark)
-      .and_return([1,2,3],[2,3],[3],[])
+      .and_return([1,2],[2],[],[1],[])
     @solver.score(@board,@min_player)
   end
 
@@ -82,6 +82,17 @@ describe Minimax do
     @solver.score(@board,@min_player)
     current_spaces = @board.spaces_with_mark(Mark::BLANK)
     current_spaces.should == original_spaces
+  end
+
+  it "tries all available spaces at each level of recursion" do
+    space_order = []
+    set_no_winning_solution
+    @board.stub!(:spaces_with_mark).and_return([1,2,3],[],[],[])
+    @board.stub!(:make_mark) {|space,player|
+      space_order << space if player != Mark::BLANK
+    }
+    @solver.score(@board,@min_player)
+    space_order.should == [1,2,3]
   end
 
   private

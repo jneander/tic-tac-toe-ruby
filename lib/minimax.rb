@@ -10,10 +10,10 @@ class Minimax
     if score == 0
       next_player = @max_player == player ? @min_player : @max_player
       available_spaces = board.spaces_with_mark(Mark::BLANK)
-      if available_spaces.length > 0
-        board.make_mark(available_spaces[0],next_player)
+      available_spaces.each do |space|
+        board.make_mark(space,next_player)
         score = score(board,next_player)
-        board.make_mark(available_spaces[0],Mark::BLANK)
+        board.make_mark(space,Mark::BLANK)
       end
     end
     score
