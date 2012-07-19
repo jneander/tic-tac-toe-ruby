@@ -1,21 +1,21 @@
 require 'mark'
 
 class Minimax
-  attr_accessor :max_player, :min_player
+  attr_accessor :max_mark, :min_mark
 
-  def score(board,player)
+  def score(board,mark)
     score = 0
-    score = 1 if board.winning_solution?(@max_player)
-    score = -1 if board.winning_solution?(@min_player)
+    score = 1 if board.winning_solution?(@max_mark)
+    score = -1 if board.winning_solution?(@min_mark)
     if score == 0
-      next_player = @max_player == player ? @min_player : @max_player
+      next_mark = @max_mark == mark ? @min_mark : @max_mark
       available_spaces = board.spaces_with_mark(Mark::BLANK)
       available_spaces.each do |space|
-        board.make_mark(space,player)
-        next_score = score(board,next_player)
+        board.make_mark(space,mark)
+        next_score = score(board,next_mark)
         board.make_mark(space,Mark::BLANK)
 
-        score = next_score if next_score > score and player == @max_player
+        score = next_score if next_score > score and mark == @max_mark
       end
     end
     score
