@@ -95,6 +95,15 @@ describe Minimax do
     @solver.score(@board,@max_mark).should == 1
   end
 
+  it "returns the lowest score for min_mark" do
+    @board.stub!(:winning_solution?).with(@min_mark)
+      .and_return(false,false,true,false)
+    @board.stub!(:winning_solution?).with(@max_mark)
+      .and_return(false,false,false,true)
+    @board.stub!(:spaces_with_mark).and_return([1,2,3],[])
+    @solver.score(@board,@min_mark).should == -1
+  end
+
   private
   def set_no_winning_solution
     @board.stub!(:winning_solution?).and_return(false)
