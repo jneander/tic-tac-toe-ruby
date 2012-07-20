@@ -35,4 +35,13 @@ describe Minimax do
     @board.should_receive(:spaces_with_mark).and_return([0],[])
     @minimax.score(@board,:max_mark)
   end
+
+  it "calls 'score' recursively until winning solution" do
+    @board.should_receive(:winning_solution?).with(:max_mark)
+    .and_return(false,false,true)
+    @board.should_receive(:winning_solution?).with(:min_mark)
+    .and_return(false,false,false)
+    @board.stub!(:spaces_with_mark).and_return([0])
+    @minimax.score(@board,:max_mark)
+  end
 end
