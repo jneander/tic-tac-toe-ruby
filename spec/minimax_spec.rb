@@ -57,6 +57,14 @@ describe Minimax do
     @minimax.score(@board,:max_mark)
   end
 
+  it "returns highest score if opponent is max_mark" do
+    set_winning_solutions_with(:max_mark,[false]*3 + [true])
+    set_winning_solutions_with(:min_mark,[false]*2 + [true] + [false])
+    @board.should_receive(:spaces_with_mark)
+    .and_return([1,2,3],[])
+    @minimax.score(@board,:min_mark).should == 1
+  end
+
   private
   def limit_recursion_using_winning_solution(limit)
     returns = [false]*(limit * 2 + 1) + [true]
@@ -68,5 +76,10 @@ describe Minimax do
       @board.should_receive(:make_mark).with(space,mark)
       @board.should_receive(:make_mark).with(space,Mark::BLANK)
     }
+  end
+
+  def set_winning_solutions_with(mark,solutions)
+    @board.should_receive(:winning_solution?).with(mark)
+    .and_return(*solutions)
   end
 end
