@@ -20,4 +20,10 @@ describe Minimax do
     @board.stub!(:winning_solution?).with(:max_mark).and_return(false)
     @minimax.score(@board,:max_mark).should == -1
   end
+
+  it "returns 0 for no win and board full" do
+    @board.stub!(:winning_solution?).and_return(false)
+    @board.stub!(:spaces_with_mark).with(Mark::BLANK).and_return([])
+    @minimax.score(@board,:max_mark).should == 0
+  end
 end
