@@ -12,6 +12,7 @@ class Minimax
     if score == 0 and not available_spaces.empty?
       board.make_mark(available_spaces.first,next_mark)
       score(board,current_mark)
+      board.make_mark(available_spaces.first,Mark::BLANK)
     end
 
     score

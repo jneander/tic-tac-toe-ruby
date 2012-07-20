@@ -42,9 +42,10 @@ describe Minimax do
     @minimax.score(@board,:max_mark)
   end
 
-  it "marks the board with opposing mark" do
+  it "marks the board with opposing mark, then restores mark" do
     @board.stub!(:spaces_with_mark).and_return([3])
     @board.should_receive(:make_mark).with(3,:min_mark).once
+    @board.should_receive(:make_mark).with(3,Mark::BLANK).once
     limit_recursion_using_winning_solution(1)
     @minimax.score(@board,:max_mark)
   end
