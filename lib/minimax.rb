@@ -10,9 +10,11 @@ class Minimax
     next_mark = current_mark == @min_mark ? @max_mark : @min_mark
 
     if score == 0 and not available_spaces.empty?
-      board.make_mark(available_spaces.first,next_mark)
-      score(board,current_mark)
-      board.make_mark(available_spaces.first,Mark::BLANK)
+      available_spaces.each {|space|
+        board.make_mark(space,next_mark)
+        score(board,current_mark)
+        board.make_mark(space,Mark::BLANK)
+      }
     end
 
     score

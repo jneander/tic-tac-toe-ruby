@@ -50,9 +50,23 @@ describe Minimax do
     @minimax.score(@board,:max_mark)
   end
 
+  it "calls 'score' for each available space on board" do
+    set_should_receive_marks([[2,:min_mark],[3,:min_mark]])
+    @board.stub!(:winning_solution?).and_return(false)
+    @board.stub!(:spaces_with_mark).and_return([2,3],[],[])
+    @minimax.score(@board,:max_mark)
+  end
+
   private
   def limit_recursion_using_winning_solution(limit)
     returns = [false]*(limit * 2 + 1) + [true]
     @board.stub!(:winning_solution?).and_return(*returns)
+  end
+
+  def set_should_receive_marks(calls)
+    calls.each {|space,mark|
+      @board.should_receive(:make_mark).with(space,mark)
+      @board.should_receive(:make_mark).with(space,Mark::BLANK)
+    }
   end
 end
