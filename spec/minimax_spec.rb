@@ -37,11 +37,21 @@ describe Minimax do
   end
 
   it "calls 'score' recursively until winning solution" do
-    @board.should_receive(:winning_solution?).with(:max_mark)
-    .and_return(false,false,true)
-    @board.should_receive(:winning_solution?).with(:min_mark)
-    .and_return(false,false,false)
+    limit_recursion_using_winning_solution(2)
     @board.stub!(:spaces_with_mark).and_return([0])
     @minimax.score(@board,:max_mark)
+  end
+
+  it "marks the board with opposing mark" do
+    @board.stub!(:spaces_with_mark).and_return([3])
+    @board.should_receive(:make_mark).with(3,:min_mark).once
+    limit_recursion_using_winning_solution(1)
+    @minimax.score(@board,:max_mark)
+  end
+
+  private
+  def limit_recursion_using_winning_solution(limit)
+    returns = [false]*(limit * 2 + 1) + [true]
+    @board.stub!(:winning_solution?).and_return(*returns)
   end
 end
