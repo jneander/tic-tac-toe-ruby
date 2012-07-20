@@ -6,6 +6,9 @@ describe Minimax do
     @minimax = Minimax.new
     @minimax.max_mark = :max_mark
     @minimax.min_mark = :min_mark
+  end
+  
+  before :each do
     @board = Board.new
   end
 
@@ -25,5 +28,11 @@ describe Minimax do
     @board.stub!(:winning_solution?).and_return(false)
     @board.stub!(:spaces_with_mark).with(Mark::BLANK).and_return([])
     @minimax.score(@board,:max_mark).should == 0
+  end
+
+  it "calls 'score' recursively until board full" do
+    @board.stub!(:winning_solution?).and_return(false)
+    @board.should_receive(:spaces_with_mark).and_return([0],[])
+    @minimax.score(@board,:max_mark)
   end
 end
