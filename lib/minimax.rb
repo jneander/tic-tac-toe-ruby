@@ -17,7 +17,8 @@ class Minimax
         board.make_mark(space,Mark::BLANK)
 
         if (next_score > score and next_mark == @max_mark) or
-          (next_score < score and next_mark == @min_mark)
+          (next_score < score and next_mark == @min_mark) or
+          (space == available_spaces.first)
           score = next_score
         end
       }

@@ -57,21 +57,28 @@ describe Minimax do
     @minimax.score(@board,:max_mark)
   end
 
-  context "when comparing recursive scores" do
-    before :each do
-      set_winning_solutions_with(:max_mark,[false]*3 + [true])
-      set_winning_solutions_with(:min_mark,[false]*2 + [true] + [false])
-      @board.should_receive(:spaces_with_mark)
-      .and_return([1,2,3],[])
-    end
+  it "returns highest score if opponent is max_mark and won" do
+    set_winning_solutions_with(:max_mark,[false]*3 + [true])
+    set_winning_solutions_with(:min_mark,[false]*2 + [true] + [false])
+    @board.should_receive(:spaces_with_mark)
+    .and_return([1,2,3],[])
+    @minimax.score(@board,:min_mark).should == 1
+  end
 
-    it "returns highest score if opponent is max_mark" do
-      @minimax.score(@board,:min_mark).should == 1
-    end
+  it "returns lowest score if opponent is min_mark and won" do
+    set_winning_solutions_with(:max_mark,[false]*3 + [true])
+    set_winning_solutions_with(:min_mark,[false]*2 + [true] + [false])
+    @board.should_receive(:spaces_with_mark)
+    .and_return([1,2,3],[])
+    @minimax.score(@board,:max_mark).should == -1
+  end
 
-    it "returns lowest score if opponent is min_mark" do
-      @minimax.score(@board,:max_mark).should == -1
-    end
+  it "discards initialized value when comparing recursive scores" do
+    set_winning_solutions_with(:max_mark,[false]*4)
+    set_winning_solutions_with(:min_mark,[false] + [true]*3)
+    @board.should_receive(:spaces_with_mark)
+    .and_return([1,2,3])
+    @minimax.score(@board,:min_mark).should == -1
   end
 
   private
