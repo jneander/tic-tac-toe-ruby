@@ -82,13 +82,19 @@ describe Minimax do
 
   context "without mocks" do
     it "returns 1 for max_mark win" do
-      [0,1,2].each do |space| @board.make_mark(space,:max_mark) end
+      make_marks([0,1,2],:max_mark)
       @minimax.score(@board,:max_mark).should == 1
     end
 
     it "returns -1 for min_mark win" do
-      [0,1,2].each do |space| @board.make_mark(space,:min_mark) end
+      make_marks([0,1,2],:min_mark)
       @minimax.score(@board,:min_mark).should == -1
+    end
+
+    it "returns 0 for no win and board full" do
+      make_marks([0,2,3,5,7],:min_mark)
+      make_marks([1,4,6,8],:max_mark)
+      @minimax.score(@board,:max_mark).should == 0
     end
   end
 
@@ -108,5 +114,9 @@ describe Minimax do
   def set_winning_solutions_with(mark,solutions)
     @board.should_receive(:winning_solution?).with(mark)
     .and_return(*solutions)
+  end
+
+  def make_marks(spaces,mark)
+    spaces.each do |space| @board.make_mark(space,mark) end
   end
 end
