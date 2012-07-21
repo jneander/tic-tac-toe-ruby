@@ -85,6 +85,11 @@ describe Minimax do
       [0,1,2].each do |space| @board.make_mark(space,:max_mark) end
       @minimax.score(@board,:max_mark).should == 1
     end
+
+    it "returns -1 for min_mark win" do
+      [0,1,2].each do |space| @board.make_mark(space,:min_mark) end
+      @minimax.score(@board,:min_mark).should == -1
+    end
   end
 
   private
