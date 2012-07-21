@@ -81,6 +81,10 @@ describe Minimax do
   end
 
   context "without mocks" do
+    before :each do
+      @board = Board.new
+    end
+
     it "returns 1 for max_mark win" do
       make_marks([0,1,2],:max_mark)
       @minimax.score(@board,:max_mark).should == 1
@@ -95,6 +99,18 @@ describe Minimax do
       make_marks([0,2,3,5,7],:min_mark)
       make_marks([1,4,6,8],:max_mark)
       @minimax.score(@board,:max_mark).should == 0
+    end
+
+    it "calls 'score' recursively until board full" do
+      each_space = (0..8).collect {|i| [i]}
+      @board.stub!(:winning_solution?).and_return(false)
+      @board.should_receive(:spaces_with_mark).and_return(*each_space,[])
+
+      marking_order = []
+      @board.stub!(:make_mark) {|space| marking_order << space}
+
+      @minimax.score(@board, :min_mark)
+      marking_order.should == (each_space + each_space.reverse).flatten
     end
   end
 
