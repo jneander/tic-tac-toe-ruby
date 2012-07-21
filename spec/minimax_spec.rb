@@ -12,70 +12,79 @@ describe Minimax do
     @board = Board.new
   end
 
-  it "returns 1 for max_mark win" do
-    @board.stub!(:winning_solution?).with(:min_mark).and_return(false)
-    @board.stub!(:winning_solution?).with(:max_mark).and_return(true)
-    @minimax.score(@board,:max_mark).should == 1
+  context "with mocks" do
+    it "returns 1 for max_mark win" do
+      @board.stub!(:winning_solution?).with(:min_mark).and_return(false)
+      @board.stub!(:winning_solution?).with(:max_mark).and_return(true)
+      @minimax.score(@board,:max_mark).should == 1
+    end
+
+    it "returns -1 for min_mark win" do
+      @board.stub!(:winning_solution?).with(:min_mark).and_return(true)
+      @board.stub!(:winning_solution?).with(:max_mark).and_return(false)
+      @minimax.score(@board,:max_mark).should == -1
+    end
+
+    it "returns 0 for no win and board full" do
+      @board.stub!(:winning_solution?).and_return(false)
+      @board.stub!(:spaces_with_mark).with(Mark::BLANK).and_return([])
+      @minimax.score(@board,:max_mark).should == 0
+    end
+
+    it "calls 'score' recursively until board full" do
+      @board.stub!(:winning_solution?).and_return(false)
+      @board.should_receive(:spaces_with_mark).and_return([0],[])
+      @minimax.score(@board,:max_mark)
+    end
+
+    it "calls 'score' recursively until winning solution" do
+      limit_recursion_using_winning_solution(2)
+      @board.stub!(:spaces_with_mark).and_return([0])
+      @minimax.score(@board,:max_mark)
+    end
+
+    it "marks the board with opposing mark, then restores mark" do
+      @board.stub!(:spaces_with_mark).and_return([3])
+      @board.should_receive(:make_mark).with(3,:min_mark).once
+      @board.should_receive(:make_mark).with(3,Mark::BLANK).once
+      limit_recursion_using_winning_solution(1)
+      @minimax.score(@board,:max_mark)
+    end
+
+    it "calls 'score' for each available space on board" do
+      set_should_receive_marks([[2,:min_mark],[3,:min_mark]])
+      @board.stub!(:winning_solution?).and_return(false)
+      @board.stub!(:spaces_with_mark).and_return([2,3],[],[])
+      @minimax.score(@board,:max_mark)
+    end
+
+    it "returns highest score if opponent is max_mark and won" do
+      set_winning_solutions_with(:max_mark,[false]*3 + [true])
+      set_winning_solutions_with(:min_mark,[false]*2 + [true] + [false])
+      @board.should_receive(:spaces_with_mark).and_return([1,2,3],[])
+      @minimax.score(@board,:min_mark).should == 1 
+    end
+
+    it "returns lowest score if opponent is min_mark and won" do
+      set_winning_solutions_with(:max_mark,[false]*3 + [true])
+      set_winning_solutions_with(:min_mark,[false]*2 + [true] + [false])
+      @board.should_receive(:spaces_with_mark).and_return([1,2,3],[])
+      @minimax.score(@board,:max_mark).should == -1
+    end
+
+    it "discards initialized value when comparing recursive scores" do
+      set_winning_solutions_with(:max_mark,[false]*4)
+      set_winning_solutions_with(:min_mark,[false] + [true]*3)
+      @board.should_receive(:spaces_with_mark).and_return([1,2,3])
+      @minimax.score(@board,:min_mark).should == -1
+    end
   end
 
-  it "returns -1 for min_mark win" do
-    @board.stub!(:winning_solution?).with(:min_mark).and_return(true)
-    @board.stub!(:winning_solution?).with(:max_mark).and_return(false)
-    @minimax.score(@board,:max_mark).should == -1
-  end
-
-  it "returns 0 for no win and board full" do
-    @board.stub!(:winning_solution?).and_return(false)
-    @board.stub!(:spaces_with_mark).with(Mark::BLANK).and_return([])
-    @minimax.score(@board,:max_mark).should == 0
-  end
-
-  it "calls 'score' recursively until board full" do
-    @board.stub!(:winning_solution?).and_return(false)
-    @board.should_receive(:spaces_with_mark).and_return([0],[])
-    @minimax.score(@board,:max_mark)
-  end
-
-  it "calls 'score' recursively until winning solution" do
-    limit_recursion_using_winning_solution(2)
-    @board.stub!(:spaces_with_mark).and_return([0])
-    @minimax.score(@board,:max_mark)
-  end
-
-  it "marks the board with opposing mark, then restores mark" do
-    @board.stub!(:spaces_with_mark).and_return([3])
-    @board.should_receive(:make_mark).with(3,:min_mark).once
-    @board.should_receive(:make_mark).with(3,Mark::BLANK).once
-    limit_recursion_using_winning_solution(1)
-    @minimax.score(@board,:max_mark)
-  end
-
-  it "calls 'score' for each available space on board" do
-    set_should_receive_marks([[2,:min_mark],[3,:min_mark]])
-    @board.stub!(:winning_solution?).and_return(false)
-    @board.stub!(:spaces_with_mark).and_return([2,3],[],[])
-    @minimax.score(@board,:max_mark)
-  end
-
-  it "returns highest score if opponent is max_mark and won" do
-    set_winning_solutions_with(:max_mark,[false]*3 + [true])
-    set_winning_solutions_with(:min_mark,[false]*2 + [true] + [false])
-    @board.should_receive(:spaces_with_mark).and_return([1,2,3],[])
-    @minimax.score(@board,:min_mark).should == 1 
-  end
-
-  it "returns lowest score if opponent is min_mark and won" do
-    set_winning_solutions_with(:max_mark,[false]*3 + [true])
-    set_winning_solutions_with(:min_mark,[false]*2 + [true] + [false])
-    @board.should_receive(:spaces_with_mark).and_return([1,2,3],[])
-    @minimax.score(@board,:max_mark).should == -1
-  end
-
-  it "discards initialized value when comparing recursive scores" do
-    set_winning_solutions_with(:max_mark,[false]*4)
-    set_winning_solutions_with(:min_mark,[false] + [true]*3)
-    @board.should_receive(:spaces_with_mark).and_return([1,2,3])
-    @minimax.score(@board,:min_mark).should == -1
+  context "without mocks" do
+    it "returns 1 for max_mark win" do
+      [0,1,2].each do |space| @board.make_mark(space,:max_mark) end
+      @minimax.score(@board,:max_mark).should == 1
+    end
   end
 
   private
