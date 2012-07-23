@@ -4,4 +4,8 @@ class ImpossibleComputer
   def initialize(opponent)
     @opponent = opponent
   end
+
+  def self.to_s
+    "Impossible Computer"
+  end
 end
