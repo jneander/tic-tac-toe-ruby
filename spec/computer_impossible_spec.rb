@@ -31,4 +31,10 @@ describe ImpossibleComputer do
     [1, 3, 4].each {|space| @board.make_mark(space, @opponent)}
     @computer.get_best_space(@board).should == 8
   end
+
+  it "makes a mark on the board" do
+    (0..7).each do |space| @board.make_mark(space, :unavailable) end
+    @computer.make_mark(@board)
+    @board.spaces_with_mark(@computer).should == [8]
+  end
 end
