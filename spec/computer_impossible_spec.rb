@@ -1,11 +1,15 @@
 require 'computer_impossible'
 require 'board'
+require 'minimax'
 
 describe ImpossibleComputer do
   before :all do
-    @board = Board.new
     @opponent = :player
     @computer = ImpossibleComputer.new(@opponent)
+  end
+
+  before :each do
+    @board = Board.new
   end
 
   it "converts the class to a string" do
@@ -14,6 +18,12 @@ describe ImpossibleComputer do
 
   it "is initialized with an opponent" do
     @computer.opponent.should == @opponent
+  end
+
+  it "sets the marks on a Minimax object" do
+    @computer.minimax.should be_instance_of(Minimax)
+    @computer.minimax.max_mark.should == @computer
+    @computer.minimax.min_mark.should == @opponent
   end
 
   it "can receive and store a reference to the console" do
