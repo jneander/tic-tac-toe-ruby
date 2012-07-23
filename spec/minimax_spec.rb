@@ -70,8 +70,8 @@ describe Minimax do
     end
 
     it "returns lowest score if opponent is min_mark and won" do
-      set_winning_solutions_with(:max_mark,[false]*3 + [true])
-      set_winning_solutions_with(:min_mark,[false]*2 + [true] + [false])
+      set_winning_solutions_with(:min_mark,[false]*3 + [true])
+      set_winning_solutions_with(:max_mark,[false]*2 + [true] + [false])
       @board.should_receive(:spaces_with_mark).and_return([1,2,3],[])
       @minimax.score(@board,:max_mark).should == -1
     end
@@ -133,6 +133,13 @@ describe Minimax do
       make_marks([0, 2, 5], :max_mark)
       make_marks([1, 3, 4], :min_mark)
       expected = {6 => -1, 7 => 0, 8 => 1}
+      @minimax.scores(@board, :max_mark).should == expected
+    end
+
+    it "stops scoring when best score is found" do
+      make_marks([0, 2, 7], :min_mark)
+      make_marks([4, 5], :max_mark)
+      expected = {1 => 0, 3 => 1}
       @minimax.scores(@board, :max_mark).should == expected
     end
   end
