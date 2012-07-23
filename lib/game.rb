@@ -1,6 +1,7 @@
 require 'board'
 require 'human'
 require 'computer_dumb'
+require 'computer_impossible'
 
 class Game
   attr_accessor :board, :players, :console, :player_types
@@ -8,7 +9,7 @@ class Game
   def initialize(console)
     @board = Board.new
     @console = console
-    @player_types = [Human,DumbComputer]
+    @player_types = [Human, DumbComputer, ImpossibleComputer]
     @players = []
   end
 
@@ -31,7 +32,11 @@ class Game
   def set_players
     @players << @player_types.first.new
     opponent_type = @console.prompt_opponent_type(@player_types)
-    @players << opponent_type.new
+    if opponent_type == Human
+      @players << opponent_type.new
+    else
+      @players << opponent_type.new(@players.first)
+    end
     @players.each {|player| player.console = @console}
     @console.set_players(@players)
   end
