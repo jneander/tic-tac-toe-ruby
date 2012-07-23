@@ -1,3 +1,5 @@
+require 'minimax'
+
 class ImpossibleComputer
   attr_accessor :console
   attr_reader :opponent
