@@ -25,4 +25,10 @@ describe ImpossibleComputer do
     @board.stub!(:spaces_with_mark).and_return([8],[])
     @computer.get_best_space(@board).should == 8
   end
+
+  it "returns the winning space to mark" do
+    [0, 2, 5].each {|space| @board.make_mark(space, @computer)}
+    [1, 3, 4].each {|space| @board.make_mark(space, @opponent)}
+    @computer.get_best_space(@board).should == 8
+  end
 end
