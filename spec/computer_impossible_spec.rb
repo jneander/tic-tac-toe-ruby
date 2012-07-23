@@ -47,4 +47,9 @@ describe ImpossibleComputer do
     @computer.make_mark(@board)
     @board.spaces_with_mark(@computer).should == [8]
   end
+
+  it "returns the only non-losing mark after player begins" do
+    @board.make_mark(0, @opponent)
+    @computer.get_best_space(@board).should == 4
+  end
 end
