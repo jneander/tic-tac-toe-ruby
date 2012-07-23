@@ -6,7 +6,12 @@ SOME_SPACES = (3..6).sort
 
 describe DumbComputer do
   before :all do
-    @computer = DumbComputer.new
+    @opponent = :player
+    @computer = DumbComputer.new(@opponent)
+  end
+
+  it "is initialized with an opponent" do
+    @computer.opponent.should == @opponent
   end
 
   context "when making marks" do
