@@ -112,6 +112,18 @@ describe Minimax do
       @minimax.score(@board, :min_mark)
       marking_order.should == (each_space + each_space.reverse).flatten
     end
+
+    it "calls 'score' recursively until winning solution" do
+      each_space = (0..8).collect {|i| [i]}
+      @board.stub!(:spaces_with_mark).and_return(*each_space,[])
+      limit_recursion_using_winning_solution(5)
+
+      marking_order = []
+      @board.stub!(:make_mark) {|space| marking_order << space}
+
+      @minimax.score(@board, :min_mark)
+      marking_order.should == [0,1,2,3,4,4,3,2,1,0]
+    end
   end
 
   private
