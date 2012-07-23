@@ -128,6 +128,13 @@ describe Minimax do
       @minimax.score(@board, :min_mark)
       marking_order.should == [0,1,2,3,4,4,3,2,1,0]
     end
+
+    it "returns a hash of spaces and scores" do
+      make_marks([0, 2, 5], :max_mark)
+      make_marks([1, 3, 4], :min_mark)
+      expected = {6 => -1, 7 => 0, 8 => 1}
+      @minimax.scores(@board, :max_mark).should == expected
+    end
   end
 
   private

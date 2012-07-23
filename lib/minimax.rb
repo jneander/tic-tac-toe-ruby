@@ -26,4 +26,14 @@ class Minimax
 
     score
   end
+
+  def scores(board, current_mark)
+    score_hash = Hash.new
+    board.spaces_with_mark(Mark::BLANK).each do |space|
+      board.make_mark(space, current_mark)
+      score_hash[space] = score(board, current_mark)
+      board.make_mark(space, Mark::BLANK)
+    end
+    score_hash
+  end
 end
