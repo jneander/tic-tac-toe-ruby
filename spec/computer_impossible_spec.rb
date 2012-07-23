@@ -1,7 +1,9 @@
 require 'computer_impossible'
+require 'board'
 
 describe ImpossibleComputer do
   before :all do
+    @board = Board.new
     @opponent = :player
     @computer = ImpossibleComputer.new(@opponent)
   end
@@ -16,5 +18,11 @@ describe ImpossibleComputer do
 
   it "can receive and store a reference to the console" do
     @computer.console = mock("Console")
+  end
+
+  it "returns the last available space to mark" do
+    @board.stub!(:winning_solution).and_return(false)
+    @board.stub!(:spaces_with_mark).and_return([8],[])
+    @computer.get_best_space(@board).should == 8
   end
 end
