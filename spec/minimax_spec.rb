@@ -44,11 +44,15 @@ describe Minimax do
     end
 
     it "marks the board with opposing mark, then restores mark" do
+      marking_order = []
       @board.stub!(:spaces_with_mark).and_return([3])
-      @board.should_receive(:make_mark).with(3,:min_mark).once
-      @board.should_receive(:make_mark).with(3,Mark::BLANK).once
+      @board.should_receive(:make_mark).twice {|i,mark|
+        marking_order << mark
+      }
       limit_recursion_using_winning_solution(1)
+      
       @minimax.score(@board,:max_mark)
+      marking_order.should == [:min_mark, Mark::BLANK]
     end
 
     it "calls 'score' for each available space on board" do
