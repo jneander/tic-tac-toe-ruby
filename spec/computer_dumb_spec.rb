@@ -1,8 +1,8 @@
 require 'computer_dumb'
 
 TIMES = 1000
-ALL_SPACES = (0..8).sort
-SOME_SPACES = (3..6).sort
+ALL_SPACES = (0..8).to_a
+SOME_SPACES = (3..6).to_a
 
 describe DumbComputer do
   before :all do
@@ -41,7 +41,7 @@ describe DumbComputer do
   end
 
   it "converts the class to a string" do
-    DumbComputer.to_s.should eql "Dumb Computer"
+    DumbComputer.to_s.should == "Dumb Computer"
   end
 
   it "can receive and store a reference to the console" do

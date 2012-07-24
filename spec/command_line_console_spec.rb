@@ -11,9 +11,9 @@ describe "CommandLineConsole" do
   end
 
   it "assigns ASCII characters to players and marks in 'Game'" do
-    @console.characters[:player1].should eql 'O'
-    @console.characters[:player2].should eql 'X'
-    @console.characters[Board::BLANK].should eql '_'
+    @console.characters[:player1].should == 'O'
+    @console.characters[:player2].should == 'X'
+    @console.characters[Board::BLANK].should == '_'
   end
 
   it "receives command-line input when prompted" do
@@ -28,7 +28,7 @@ describe "CommandLineConsole" do
 
     it "accepts an input within a valid range" do
       @console.in = StringIO.new('1','r')
-      @console.prompt_opponent_type(@opponent_options).should eql :human
+      @console.prompt_opponent_type(@opponent_options).should == :human
     end
 
     it "continues prompting until receiving a valid input" do
@@ -36,14 +36,14 @@ describe "CommandLineConsole" do
       @console.in = mock("$stdin")
       @console.out.should_receive(:print).exactly(3).times
       @console.in.should_receive(:gets).and_return("0","3","1")
-      @console.prompt_opponent_type(@opponent_options).should eql :human
+      @console.prompt_opponent_type(@opponent_options).should == :human
     end
   end
 
   it "creates a human-readable list of available opponents" do
     expected = "[1: Human, 2: Dumb Computer]"
     @console.players_as_options(["Human","Dumb Computer"])
-      .should eql expected
+      .should == expected
   end
 
   it "creates an array of strings representing the board" do
@@ -54,7 +54,7 @@ describe "CommandLineConsole" do
       [@spaces_with_marks, ["_|O|X"]*3],
     ].each do |spaces, expected|
       @board.should_receive(:spaces).and_return(spaces)
-      @console.convert_board_to_ascii(@board).should eql expected
+      @console.convert_board_to_ascii(@board).should == expected
     end
   end
 
@@ -66,7 +66,7 @@ describe "CommandLineConsole" do
       [@spaces_with_marks, ["1    ","4    ","7    "]],
     ].each do |spaces, expected|
       @board.should_receive(:spaces).and_return(spaces)
-      @console.available_spaces_to_ascii(@board).should eql expected
+      @console.available_spaces_to_ascii(@board).should == expected
     end
   end
 end

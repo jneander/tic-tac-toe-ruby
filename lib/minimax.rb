@@ -7,12 +7,12 @@ class Minimax
     score = -1 if board.winning_solution?(@min_mark)
 
     if score == 0
-      next_mark = current_mark == @min_mark ? @max_mark : @min_mark
+      next_mark = current_mark.eql?(@min_mark) ? @max_mark : @min_mark
 
       space_scores = scores(board, next_mark)
       if not space_scores.empty?
         space_scores = space_scores.sort_by {|key,value| value}.reverse
-        score = next_mark == @max_mark ? 
+        score = next_mark.eql?(@max_mark) ? 
           space_scores.first[1] : space_scores.last[1]
       end
     end
@@ -21,7 +21,7 @@ class Minimax
   end
 
   def scores(board, current_mark)
-    target_score = current_mark == @min_mark ? -1 : 1
+    target_score = current_mark.eql?(@min_mark) ? -1 : 1
     score_hash = Hash.new
 
     board.spaces_with_mark(Board::BLANK).each do |space|

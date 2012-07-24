@@ -13,7 +13,7 @@ describe Game do
     it "is not over" do
       @game.board.should_receive(:winning_solution?).and_return(false)
       @game.board.should_receive(:spaces_with_mark).and_return([nil]*9)
-      @game.over?.should eql false
+      @game.over?.should == false
     end
 
     it "will not have players" do
@@ -37,14 +37,14 @@ describe Game do
       @console.should_receive(:prompt_opponent_type).and_return(Human)
       @game.run
       @game.players.length.should eql 2
-      @game.players.first.should_not eql @game.players.last
+      @game.players.first.should_not == @game.players.last
       @game.players.each {|player| player.should be_instance_of(Human)}
     end
 
     it "will assign the console to each player object" do
       @game.run
       @game.players.each do |player|
-        player.console.should eql @console
+        player.console.should == @console
       end
     end
   end
@@ -83,20 +83,20 @@ describe Game do
       }}
 
       @game.run
-      @tracker.should eql @game.players*2
+      @tracker.should == @game.players*2
     end
   end
 
   context "when over" do
     it "ends when the board has a winning solution" do
       set_board_marks_until_solution(0)
-      @game.over?.should eql true
+      @game.over?.should == true
     end
 
     it "ends when the board is full" do
       @board.should_receive(:winning_solution?).and_return(false)
       @board.should_receive(:spaces_with_mark).and_return([])
-      @game.over?.should eql true
+      @game.over?.should == true
     end
 
     it "requests the console to display game results" do

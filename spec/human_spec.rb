@@ -24,6 +24,6 @@ describe Human do
   end
 
   it "converts the class to a string" do
-    Human.to_s.should eql "Human"
+    Human.to_s.should == "Human"
   end
 end

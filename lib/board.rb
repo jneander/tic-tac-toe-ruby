@@ -16,11 +16,11 @@ class Board
   end
 
   def spaces_with_mark(mark)
-    (0...@spaces.length).select {|index| @spaces[index] == mark}
+    (0...@spaces.length).select {|index| @spaces[index].eql? mark}
   end
 
   def space_available?(index)
-    index < @spaces.length and index >= 0 and @spaces[index] == BLANK
+    index < @spaces.length and index >= 0 and @spaces[index].eql? BLANK
   end
 
   def winning_solution?(*marks)

@@ -16,19 +16,19 @@ describe Minimax do
     it "returns 1 for max_mark win" do
       @board.stub!(:winning_solution?).with(:min_mark).and_return(false)
       @board.stub!(:winning_solution?).with(:max_mark).and_return(true)
-      @minimax.score(@board,:max_mark).should == 1
+      @minimax.score(@board,:max_mark).should eql 1
     end
 
     it "returns -1 for min_mark win" do
       @board.stub!(:winning_solution?).with(:min_mark).and_return(true)
       @board.stub!(:winning_solution?).with(:max_mark).and_return(false)
-      @minimax.score(@board,:max_mark).should == -1
+      @minimax.score(@board,:max_mark).should eql -1
     end
 
     it "returns 0 for no win and board full" do
       @board.stub!(:winning_solution?).and_return(false)
       @board.stub!(:spaces_with_mark).with(Board::BLANK).and_return([])
-      @minimax.score(@board,:max_mark).should == 0
+      @minimax.score(@board,:max_mark).should eql 0
     end
 
     it "calls 'score' recursively until board full" do
@@ -66,21 +66,21 @@ describe Minimax do
       set_winning_solutions_with(:max_mark,[false]*3 + [true])
       set_winning_solutions_with(:min_mark,[false]*2 + [true] + [false])
       @board.should_receive(:spaces_with_mark).and_return([1,2,3],[])
-      @minimax.score(@board,:min_mark).should == 1 
+      @minimax.score(@board,:min_mark).should eql 1 
     end
 
     it "returns lowest score if opponent is min_mark and won" do
       set_winning_solutions_with(:min_mark,[false]*3 + [true])
       set_winning_solutions_with(:max_mark,[false]*2 + [true] + [false])
       @board.should_receive(:spaces_with_mark).and_return([1,2,3],[])
-      @minimax.score(@board,:max_mark).should == -1
+      @minimax.score(@board,:max_mark).should eql -1
     end
 
     it "discards initialized value when comparing recursive scores" do
       set_winning_solutions_with(:max_mark,[false]*4)
       set_winning_solutions_with(:min_mark,[false] + [true]*3)
       @board.should_receive(:spaces_with_mark).and_return([1,2,3])
-      @minimax.score(@board,:min_mark).should == -1
+      @minimax.score(@board,:min_mark).should eql -1
     end
   end
 
@@ -91,18 +91,18 @@ describe Minimax do
 
     it "returns 1 for max_mark win" do
       make_marks([0,1,2],:max_mark)
-      @minimax.score(@board,:max_mark).should == 1
+      @minimax.score(@board,:max_mark).should eql 1
     end
 
     it "returns -1 for min_mark win" do
       make_marks([0,1,2],:min_mark)
-      @minimax.score(@board,:min_mark).should == -1
+      @minimax.score(@board,:min_mark).should eql -1
     end
 
     it "returns 0 for no win and board full" do
       make_marks([0,2,3,5,7],:min_mark)
       make_marks([1,4,6,8],:max_mark)
-      @minimax.score(@board,:max_mark).should == 0
+      @minimax.score(@board,:max_mark).should eql 0
     end
 
     it "calls 'score' recursively until board full" do
@@ -126,21 +126,21 @@ describe Minimax do
       @board.stub!(:make_mark) {|space| marking_order << space}
 
       @minimax.score(@board, :min_mark)
-      marking_order.should == [0,1,2,3,4,4,3,2,1,0]
+      marking_order.should eql [0,1,2,3,4,4,3,2,1,0]
     end
 
     it "returns a hash of spaces and scores" do
       make_marks([0, 2, 5], :max_mark)
       make_marks([1, 3, 4], :min_mark)
       expected = {6 => -1, 7 => 0, 8 => 1}
-      @minimax.scores(@board, :max_mark).should == expected
+      @minimax.scores(@board, :max_mark).should eql expected
     end
 
     it "stops scoring when best score is found" do
       make_marks([0, 2, 7], :min_mark)
       make_marks([4, 5], :max_mark)
       expected = {1 => 0, 3 => 1}
-      @minimax.scores(@board, :max_mark).should == expected
+      @minimax.scores(@board, :max_mark).should eql expected
     end
   end
 
