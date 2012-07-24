@@ -1,13 +1,13 @@
-require 'mark'
-
 BOARD_SIZE = 3
 
 class Board
   attr_reader :size, :spaces, :solutions
 
+  BLANK = :blank
+
   def initialize(board_size = BOARD_SIZE)
     @size = board_size
-    @spaces= [Mark::BLANK]*@size.to_i**2
+    @spaces = [BLANK]*@size.to_i**2
     generate_solutions
   end
 
@@ -20,7 +20,7 @@ class Board
   end
 
   def space_available?(index)
-    index < @spaces.length and index >= 0 and @spaces[index] == Mark::BLANK
+    index < @spaces.length and index >= 0 and @spaces[index] == BLANK
   end
 
   def winning_solution?(*marks)

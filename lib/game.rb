@@ -25,7 +25,7 @@ class Game
 
   def over?
     @board.winning_solution?(*@players) ||
-      @board.spaces_with_mark(Mark::BLANK).empty?
+      @board.spaces_with_mark(Board::BLANK).empty?
   end
 
   private

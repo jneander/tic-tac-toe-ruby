@@ -27,7 +27,7 @@ describe Minimax do
 
     it "returns 0 for no win and board full" do
       @board.stub!(:winning_solution?).and_return(false)
-      @board.stub!(:spaces_with_mark).with(Mark::BLANK).and_return([])
+      @board.stub!(:spaces_with_mark).with(Board::BLANK).and_return([])
       @minimax.score(@board,:max_mark).should == 0
     end
 
@@ -52,7 +52,7 @@ describe Minimax do
       limit_recursion_using_winning_solution(1)
       
       @minimax.score(@board,:max_mark)
-      marking_order.should == [:min_mark, Mark::BLANK]
+      marking_order.should == [:min_mark, Board::BLANK]
     end
 
     it "calls 'score' for each available space on board" do
@@ -153,7 +153,7 @@ describe Minimax do
   def set_should_receive_marks(calls)
     calls.each {|space,mark|
       @board.should_receive(:make_mark).with(space,mark)
-      @board.should_receive(:make_mark).with(space,Mark::BLANK)
+      @board.should_receive(:make_mark).with(space,Board::BLANK)
     }
   end
 

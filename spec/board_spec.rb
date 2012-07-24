@@ -1,4 +1,3 @@
-require 'mark'
 require 'board'
 
 describe Board do
@@ -12,7 +11,11 @@ describe Board do
   end
 
   it "initializes with 9 'blank' spaces" do
-    @board.spaces.should eql [Mark::BLANK]*9
+    @board.spaces.should eql [Board::BLANK]*9
+  end
+
+  it "initializes with default 'blank' symbol" do
+    Board::BLANK.should == :blank
   end
 
   it "accepts a mark" do
@@ -25,7 +28,7 @@ describe Board do
     make_marks(target_spaces, :player)
     @board.spaces_with_mark(:player).should eql target_spaces
     expected_spaces = (0..8).sort - target_spaces
-    @board.spaces_with_mark(Mark::BLANK).should eql expected_spaces
+    @board.spaces_with_mark(Board::BLANK).should eql expected_spaces
   end
 
   it "returns false when no winning solution exists" do
@@ -36,7 +39,7 @@ describe Board do
     @board.solutions.each do |solution|
       make_marks(solution, :player)
       @board.winning_solution?(:player).should eql true
-      make_marks(solution, Mark::BLANK)
+      make_marks(solution, Board::BLANK)
       @board.winning_solution?(:player).should eql false
     end
   end

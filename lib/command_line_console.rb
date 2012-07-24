@@ -4,7 +4,7 @@ class CommandLineConsole
 
   def initialize
     @characters = Hash.new
-    @characters[Mark::BLANK] = "_"
+    @characters[Board::BLANK] = "_"
     @in = $stdin
     @out = $stdout
   end
@@ -61,7 +61,7 @@ class CommandLineConsole
 
   def available_spaces_to_ascii(board)
     board.spaces.collect.with_index {|space, index|
-      space == Mark::BLANK ? index + 1 : " "
+      space == Board::BLANK ? index + 1 : " "
     }.each_slice(board.size).to_a.collect {|row| row.join(" ")}
   end
 
