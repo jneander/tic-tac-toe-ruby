@@ -14,13 +14,17 @@ class Game
   end
 
   def run
-    set_players
-    until over?
-      @console.display_board(@board)
-      @players.first.make_mark(@board)
-      @players.rotate!
+    keep_playing = true
+    while keep_playing do
+      set_players
+      until over?
+        @console.display_board(@board)
+        @players.first.make_mark(@board)
+        @players.rotate!
+      end
+      @console.display_game_results(@board)
+      keep_playing = @console.prompt_play_again
     end
-    @console.display_game_results(@board)
   end
 
   def over?
