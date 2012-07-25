@@ -24,6 +24,16 @@ class CommandLineConsole
     @out.puts("",*output)
   end
 
+  def prompt_mark_symbol
+    symbol = ""
+    while not ['X','O'].include?(symbol) do
+      @out.print("\n",
+                 "Please choose the mark you would like to use ('X' or 'O'): ")
+      symbol = @in.gets.chomp
+    end
+    symbol
+  end
+
   def prompt_player_mark
     @out.print("\n","Please choose the number of the space for your mark: ")
     @in.gets.chomp.to_i - 1
