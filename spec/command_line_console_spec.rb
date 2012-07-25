@@ -21,6 +21,12 @@ describe "CommandLineConsole" do
     @console.prompt_player_mark.should eql 1
   end
 
+  it "prompts the user to play again" do
+    @console.out.should_receive(:print).exactly(3).times
+    @console.in.should_receive(:gets).and_return("a","1","y")
+    @console.prompt_play_again.should == true
+  end
+
   context "when prompting the user to specify an opponent" do
     before :each do
       @opponent_options = [:human,:computer]

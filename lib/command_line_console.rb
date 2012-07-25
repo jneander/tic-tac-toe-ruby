@@ -39,6 +39,16 @@ class CommandLineConsole
     opponents[value - 1]
   end
 
+  def prompt_play_again
+    valid_input, play_again = false, nil
+    while not valid_input do
+      @out.print("Would you like to play again? (y/n) ")
+      play_again = @in.gets.chomp
+      valid_input = true if play_again == "y" or play_again == "n"
+    end
+    play_again == "y" ? true : false
+  end
+
   def alert_space_unavailable(index)
     @out.puts("","The space you've selected is unavailable")
   end
