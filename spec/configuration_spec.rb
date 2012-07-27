@@ -29,4 +29,8 @@ describe Configuration do
     @config.choose_player
     @config.players.first.should be_instance_of(Human)
   end
+
+  it "initializes with empty 'players' array" do
+    @config.players.should == []
+  end
 end

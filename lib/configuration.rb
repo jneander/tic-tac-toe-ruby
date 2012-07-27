@@ -9,6 +9,7 @@ class Configuration
 
   def initialize(console)
     @console = console
+    @players = []
   end
 
   def choose_player
