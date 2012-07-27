@@ -23,4 +23,10 @@ describe Configuration do
       with(Configuration::PLAYER_CLASSES).and_return(@player2)
     @config.choose_opponent
   end
+
+  it "stores an instance of 'Human' in array 'players'" do
+    @player1 = mock("Player")
+    @config.choose_player
+    @config.players.first.should be_instance_of(Human)
+  end
 end

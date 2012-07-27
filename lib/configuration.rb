@@ -3,12 +3,16 @@ require 'computer_dumb'
 require 'computer_impossible'
 
 class Configuration
-  attr_reader :console
+  attr_reader :console, :players
 
   PLAYER_CLASSES = [Human, DumbComputer, ImpossibleComputer]
 
   def initialize(console)
     @console = console
+  end
+
+  def choose_player
+    @players = [Human.new]
   end
 
   def choose_opponent
