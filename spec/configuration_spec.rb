@@ -16,4 +16,11 @@ describe Configuration do
   it "contains a list of available 'Player' classes" do
     Configuration::PLAYER_CLASSES.should == [Human, DumbComputer, ImpossibleComputer]
   end
+
+  it "requests prompt from console for opponent type selection" do
+    @player2 = mock("Player")
+    @console.should_receive(:prompt_opponent_type).
+      with(Configuration::PLAYER_CLASSES).and_return(@player2)
+    @config.choose_opponent
+  end
 end

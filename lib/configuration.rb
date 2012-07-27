@@ -10,4 +10,8 @@ class Configuration
   def initialize(console)
     @console = console
   end
+
+  def choose_opponent
+    @console.prompt_opponent_type(PLAYER_CLASSES)
+  end
 end
