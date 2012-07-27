@@ -13,10 +13,10 @@ class Configuration
   end
 
   def choose_player
-    @players = [Human.new]
+    @players << Human.new
   end
 
   def choose_opponent
-    @console.prompt_opponent_type(PLAYER_CLASSES)
+    @players << @console.prompt_opponent_type(PLAYER_CLASSES).new
   end
 end
