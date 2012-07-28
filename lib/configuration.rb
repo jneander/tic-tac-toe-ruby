@@ -22,7 +22,8 @@ class Configuration
   end
 
   def assign_marks
-    @assigned_marks[:player] = @players.first
-    @assigned_marks[:player2] = @players.last
+    @players.each_with_index do |player, index|
+      @assigned_marks["player#{index}".to_sym] = player
+    end
   end
 end
