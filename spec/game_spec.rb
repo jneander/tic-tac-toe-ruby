@@ -119,6 +119,13 @@ describe Game do
       @console.should_receive(:prompt_play_again).and_return(true, false)
       @game.run
     end
+
+    it "#run resets the board before use" do
+      @board.stub!(:winning_solution?).and_return(true)
+      @console.should_receive(:prompt_play_again).and_return(false)
+      @board.should_receive(:reset).once
+      @game.run
+    end
   end
 
   private

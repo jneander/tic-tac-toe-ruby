@@ -16,6 +16,7 @@ class Game
   def run
     keep_playing = true
     while keep_playing do
+      @board.reset
       set_players
       until over?
         @console.display_board(@board)
