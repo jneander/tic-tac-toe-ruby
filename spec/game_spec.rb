@@ -48,6 +48,14 @@ describe Game do
         player.console.should == @console
       end
     end
+
+    it "#set_players discards any previous players when called" do
+      @console.stub!(:prompt_opponent_type).and_return(Human,DumbComputer)
+      @game.set_players
+      @game.set_players
+      @game.players.length.should == 2
+      @game.players.last.should be_instance_of(DumbComputer)
+    end
   end
 
   context "while in 'until over?' loop" do

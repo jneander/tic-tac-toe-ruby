@@ -32,8 +32,8 @@ class Game
       @board.spaces_with_mark(Board::BLANK).empty?
   end
 
-  private
   def set_players
+    @players = []
     @players << @player_types.first.new
     opponent_type = @console.prompt_opponent_type(@player_types)
     if opponent_type == Human
