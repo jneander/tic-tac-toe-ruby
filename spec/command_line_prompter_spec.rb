@@ -41,6 +41,12 @@ describe CommandLinePrompter do
     @prompter.request("").should == "allowed"
   end
 
+  it "#request removes newline characters before validation" do
+    @prompter.valid_input = ['a']
+    @input.reopen("a\n", 'r')
+    @prompter.request("").should == 'a'
+  end
+
   it "#valid_input? returns true when input matches to 'valid_input'" do
     @prompter.valid_input = ['a','b']
     @prompter.valid_input?('a').should == true

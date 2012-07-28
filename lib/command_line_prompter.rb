@@ -11,8 +11,9 @@ class CommandLinePrompter
     while not valid_input?(input)
       @out.print(*message)
       input = @in.gets
+      input.chomp! if input.respond_to?(:chomp)
     end
-    input.chomp
+    input
   end
 
   def valid_input?(input)
