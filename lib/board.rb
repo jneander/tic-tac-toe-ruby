@@ -7,8 +7,12 @@ class Board
 
   def initialize(board_size = BOARD_SIZE)
     @size = board_size
-    @spaces = [BLANK]*@size.to_i**2
+    reset
     generate_solutions
+  end
+
+  def reset
+    @spaces = [BLANK]*@size.to_i**2
   end
 
   def make_mark(index, mark)

@@ -58,6 +58,13 @@ describe Board do
     @board.space_available?(-1).should == false
   end
 
+  it "#reset will set each space to BLANK mark" do
+    make_marks([0,1,2,3,4], :player)
+    @board.reset
+    @board.spaces_with_mark(:player).should == []
+    @board.spaces_with_mark(Board::BLANK).should == (0..8).to_a
+  end
+
   def make_marks(indices, mark)
     indices.each do |num|
       @board.make_mark(num, mark)
