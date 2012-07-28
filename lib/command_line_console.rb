@@ -1,11 +1,11 @@
 class CommandLineConsole
   attr_reader :characters
-  attr_accessor :in, :out
+  attr_accessor :out
 
-  def initialize
+  def initialize(prompter)
+    @prompter = prompter
     @characters = Hash.new
     @characters[Board::BLANK] = "_"
-    @in = $stdin
     @out = $stdout
   end
 
@@ -25,53 +25,40 @@ class CommandLineConsole
   end
 
   def prompt_mark_symbol
-    symbol = ""
-    while not ['X','O'].include?(symbol) do
-      @out.print("\n",
-                 "Please choose the mark you would like to use ('X' or 'O'): ")
-      symbol = @in.gets.chomp
-    end
-    symbol
+    message = "Please choose the mark you would like to use ('X' or 'O'): "
+    @prompter.valid_input = ['X', 'O']
+    @prompter.request("\n", message)
   end
 
   def prompt_player_mark
-    @out.print("\n","Please choose the number of the space for your mark: ")
-    @in.gets.chomp.to_i - 1
+    message = "Please choose the number of the space for your mark: "
+    @prompter.valid_input = ('1'..'9').to_a
+    result = @prompter.request("\n", message)
+    result.to_i - 1
   end
 
   def prompt_for_marks(hash)
-    result = {}
-    if not hash.empty?
-      symbol = ""
-      while not ['X','O'].include?(symbol) do
-        @out.print("\n",
-                   "Please choose a mark for #{hash.values.first} ('X' or 'O'): ")
-        symbol = @in.gets.chomp
-      end
+    result, symbol = {}, ""
+    message = "Please choose a mark for #{hash.values.first} ('X' or 'O'): "
+    @prompter.valid_input = ['X', 'O']
+    symbol = @prompter.request("\n", message)
 
-      result[hash.keys.first] = symbol
-      result[hash.keys.last] = (['X','O'] - [symbol]).first
-    end
+    result[hash.keys.first] = symbol
+    result[hash.keys.last] = (['X','O'] - [symbol]).first
     result
   end
 
   def prompt_opponent_type(opponents)
-    value = 0
-    while value < 1 or value > opponents.length
-      @out.print("\n","Choose your opponent ",
-                 "#{players_as_options(opponents)} : ")
-      value = @in.gets.chomp.to_i
-    end
+    message = "Choose your opponent #{players_as_options(opponents)} : "
+    @prompter.valid_input = (1..opponents.length).map {|v| v.to_s}
+    value = @prompter.request("\n", message).to_i
     opponents[value - 1]
   end
 
   def prompt_play_again
-    valid_input, play_again = false, nil
-    while not valid_input do
-      @out.print("Would you like to play again? (y/n) ")
-      play_again = @in.gets.chomp
-      valid_input = true if play_again == "y" or play_again == "n"
-    end
+    message = "Would you like to play again? (y/n) : "
+    @prompter.valid_input = ['y', 'n']
+    play_again = @prompter.request("\n", message)
     play_again == "y" ? true : false
   end
 

@@ -1,13 +1,21 @@
 require 'command_line_console'
+require 'command_line_prompter'
 
 describe "CommandLineConsole" do
+  before :all do
+    @input = StringIO.new('', 'r+')
+    @output = StringIO.new('', 'w')
+    @prompter = CommandLinePrompter.new
+    @prompter.set_input_output(@input, @output)
+  end
+
   before :each do
-    @console = CommandLineConsole.new
-    @players = [:player1,:player2]
+    @console = CommandLineConsole.new(@prompter)
+    @players = [:player1, :player2]
     @console.set_players(@players)
     @spaces_blank = [Board::BLANK]*9
-    @spaces_with_marks = [Board::BLANK,@players.first,@players.last]*3
-    @console.out = StringIO.new('','w')
+    @spaces_with_marks = [Board::BLANK, @players.first, @players.last]*3
+    @console.out = @output
   end
 
   it "assigns ASCII characters to players and marks in 'Game'" do
@@ -17,19 +25,19 @@ describe "CommandLineConsole" do
   end
 
   it "receives command-line input when prompted" do
-    @console.in = StringIO.new('2','r')
+    @input.reopen('2', 'r+')
     @console.prompt_player_mark.should eql 1
   end
 
   it "prompts the user to play again" do
-    @console.out.should_receive(:print).exactly(3).times
-    @console.in.should_receive(:gets).and_return("a","1","y")
+    @output.should_receive(:print).exactly(3).times
+    @input.should_receive(:gets).and_return('a', '1', 'y')
     @console.prompt_play_again.should == true
   end
 
   it "prompts the user to choose a mark" do
-    @console.out.should_receive(:print).exactly(3).times
-    @console.in.should_receive(:gets).and_return('a', 'x', 'X')
+    @output.should_receive(:print).exactly(3).times
+    @input.should_receive(:gets).and_return('a', 'x', 'X')
     @console.prompt_mark_symbol.should == 'X'
   end
 
@@ -39,15 +47,13 @@ describe "CommandLineConsole" do
     end
 
     it "accepts an input within a valid range" do
-      @console.in = StringIO.new('1','r')
+      @input.reopen('1', 'r')
       @console.prompt_opponent_type(@opponent_options).should == :human
     end
 
     it "continues prompting until receiving a valid input" do
-      @console.out = mock("$stdout")
-      @console.in = mock("$stdin")
-      @console.out.should_receive(:print).exactly(3).times
-      @console.in.should_receive(:gets).and_return("0","3","1")
+      @output.should_receive(:print).exactly(3).times
+      @input.should_receive(:gets).and_return('0', '3', '1')
       @console.prompt_opponent_type(@opponent_options).should == :human
     end
   end
@@ -55,13 +61,13 @@ describe "CommandLineConsole" do
   it "assigns 'X' and 'O' to player and opponent" do
     given_hash = {:player1 => nil, :player2 => nil}
     target_hash = {:player1 => 'X', :player2 => 'O'}
-    @console.in.stub!(:gets).and_return('X')
+    @input.stub!(:gets).and_return('X')
     @console.prompt_for_marks(given_hash).should == target_hash
   end
 
   it "creates a human-readable list of available opponents" do
     expected = "[1: Human, 2: Dumb Computer]"
-    @console.players_as_options(["Human","Dumb Computer"])
+    @console.players_as_options(["Human", "Dumb Computer"])
       .should == expected
   end
 
@@ -81,8 +87,8 @@ describe "CommandLineConsole" do
     @board = mock("board")
     @board.should_receive(:size).any_number_of_times.and_return(3)
     [
-      [@spaces_blank, ["1 2 3","4 5 6","7 8 9"]],
-      [@spaces_with_marks, ["1    ","4    ","7    "]],
+      [@spaces_blank, ["1 2 3", "4 5 6", "7 8 9"]],
+      [@spaces_with_marks, ["1    ", "4    ", "7    "]],
     ].each do |spaces, expected|
       @board.should_receive(:spaces).and_return(spaces)
       @console.available_spaces_to_ascii(@board).should == expected
