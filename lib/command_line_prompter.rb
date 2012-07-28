@@ -6,8 +6,8 @@ class CommandLinePrompter
     @out = outstream
   end
 
-  def request(message)
-    @out.print(message)
+  def request(*message)
+    @out.print(*message)
     @in.gets.chomp
   end
 end

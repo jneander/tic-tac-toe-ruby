@@ -16,6 +16,11 @@ describe CommandLinePrompter do
     @prompter.request("request!")
   end
 
+  it "#request accepts a variable number of arguments" do
+    @output.should_receive(:print).with("foo","bar")
+    @prompter.request("foo","bar")
+  end
+
   it "receives string from input" do
     @prompter.request("").should == "input!"
   end
