@@ -9,6 +9,10 @@ class CommandLinePrompter
   def request(*message)
     @out.print(*message)
     input = @in.gets.chomp
-    input if @valid_input == nil or @valid_input.include?(input)
+    input if valid_input?(input)
+  end
+
+  def valid_input?(input)
+    (not @valid_input.is_a?(Array)) or @valid_input.include?(input)
   end
 end

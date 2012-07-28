@@ -40,4 +40,15 @@ describe CommandLinePrompter do
     @input.reopen("allowed", 'r+')
     @prompter.request("").should == "allowed"
   end
+
+  it "#valid_input? returns true when input matches to 'valid_input'" do
+    @prompter.valid_input = ['a','b']
+    @prompter.valid_input?('a').should == true
+    @prompter.valid_input?('c').should == false
+  end
+
+  it "#valid_input? returns true if 'valid_input' is not an Array" do
+    @prompter.valid_input = nil
+    @prompter.valid_input?("any input").should == true
+  end
 end
