@@ -6,5 +6,6 @@ class CommandLinePrompter
 
   def request(message)
     @out.print(message)
+    @in.gets.chomp
   end
 end

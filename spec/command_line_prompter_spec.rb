@@ -5,14 +5,18 @@ describe CommandLinePrompter do
     @prompter = CommandLinePrompter.new
   end
 
-  it "receives references to input and output streams" do
-    @prompter.set_input_output($stdin, $stdout)
+  before :each do
+    @input = StringIO.new('input!','r')
+    @output = StringIO.new('','w')
+    @prompter.set_input_output(@input, @output)
   end
 
-  it "prints a request" do
-    @output = StringIO.new('','w')
-    @prompter.set_input_output(nil, @output)
+  it "prints a request to output" do
     @output.should_receive(:print)
     @prompter.request("request!")
+  end
+
+  it "receives string from input" do
+    @prompter.request("").should == "input!"
   end
 end
