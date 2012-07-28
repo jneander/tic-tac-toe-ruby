@@ -21,7 +21,7 @@ describe Configuration do
     it "initializes with empty 'players' array" do
       @config.players.should == []
     end
-
+    
     it "initializes with an empty 'assigned_marks' map" do
       @config.assigned_marks.should == {}
     end
@@ -29,7 +29,7 @@ describe Configuration do
 
   context "when choosing players" do
     before :each do
-      @player2 = mock("Player").as_null_object
+      mock_opponent_instance
     end
 
     it "stores an instance of 'Human' in array 'players'" do
@@ -44,16 +44,26 @@ describe Configuration do
     end
 
     it "stores an instance of the requested opponent type" do
-      @console.stub!(:prompt_opponent_type).and_return(@player2)
-      @player2.should_receive(:new).and_return(@player2)
+      mock_opponent_instance
       @config.choose_opponent
       @config.players.last.should equal @player2
     end
   end
 
-  it "assigns a mark to the player" do
+  it "assigns a unique mark to each player" do
+    mock_opponent_instance
     @config.choose_player
+    @config.choose_opponent
     @config.assign_marks
-    @config.assigned_marks.should have_value(@config.players.first)
+    @config.players.each do |player|
+      @config.assigned_marks.should have_value(player)
+    end
+  end
+
+  private
+  def mock_opponent_instance
+    @player2 = mock("Player")
+    @console.stub!(:prompt_opponent_type).and_return(@player2)
+    @player2.stub!(:new).and_return(@player2)
   end
 end

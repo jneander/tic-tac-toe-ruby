@@ -23,5 +23,6 @@ class Configuration
 
   def assign_marks
     @assigned_marks[:player] = @players.first
+    @assigned_marks[:player2] = @players.last
   end
 end
