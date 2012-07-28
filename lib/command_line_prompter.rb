@@ -13,6 +13,7 @@ class CommandLinePrompter
   end
 
   def valid_input?(input)
-    (not @valid_input.is_a?(Array)) or @valid_input.include?(input)
+    input.is_a?(String) && 
+      ((not @valid_input.is_a?(Array)) || @valid_input.include?(input))
   end
 end

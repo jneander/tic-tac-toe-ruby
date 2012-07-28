@@ -51,4 +51,10 @@ describe CommandLinePrompter do
     @prompter.valid_input = nil
     @prompter.valid_input?("any input").should == true
   end
+
+  it "#valid_input? returns false if input is not a String" do
+    @prompter.valid_input = nil
+    @prompter.valid_input?(nil).should == false
+    @prompter.valid_input?(12).should == false
+  end
 end
