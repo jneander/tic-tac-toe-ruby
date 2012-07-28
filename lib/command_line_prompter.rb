@@ -8,6 +8,7 @@ class CommandLinePrompter
 
   def request(*message)
     @out.print(*message)
-    @in.gets.chomp
+    input = @in.gets.chomp
+    input if @valid_input == nil or @valid_input.include?(input)
   end
 end

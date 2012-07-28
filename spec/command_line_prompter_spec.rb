@@ -6,7 +6,7 @@ describe CommandLinePrompter do
   end
 
   before :each do
-    @input = StringIO.new('input!','r')
+    @input = StringIO.new('input!','r+')
     @output = StringIO.new('','w')
     @prompter.set_input_output(@input, @output)
   end
@@ -27,5 +27,17 @@ describe CommandLinePrompter do
 
   it "receives array of valid inputs" do
     @prompter.valid_input = ['a','b']
+  end
+
+  it "#request refuses invalid input from stream" do
+    @prompter.valid_input = ['a','b']
+    @input.reopen('c', 'r+')
+    @prompter.request("").should_not == 'c'
+  end
+
+  it "#request allows any input if valid input is nil" do
+    @prompter.valid_input = nil
+    @input.reopen("allowed", 'r+')
+    @prompter.request("").should == "allowed"
   end
 end
