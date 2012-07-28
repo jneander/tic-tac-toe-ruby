@@ -50,4 +50,10 @@ describe Configuration do
       @config.players.last.should equal @player2
     end
   end
+
+  it "assigns a mark to the player" do
+    @config.choose_player
+    @config.assign_marks
+    @config.assigned_marks.should have_value(@config.players.first)
+  end
 end

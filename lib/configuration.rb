@@ -20,4 +20,8 @@ class Configuration
   def choose_opponent
     @players << @console.prompt_opponent_type(PLAYER_CLASSES).new
   end
+
+  def assign_marks
+    @assigned_marks[:player] = @players.first
+  end
 end
