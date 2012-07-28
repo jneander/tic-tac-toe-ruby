@@ -52,6 +52,13 @@ describe "CommandLineConsole" do
     end
   end
 
+  it "assigns 'X' and 'O' to player and opponent" do
+    given_hash = {:player1 => nil, :player2 => nil}
+    target_hash = {:player1 => 'X', :player2 => 'O'}
+    @console.in.stub!(:gets).and_return('X')
+    @console.prompt_for_marks(given_hash).should == target_hash
+  end
+
   it "creates a human-readable list of available opponents" do
     expected = "[1: Human, 2: Dumb Computer]"
     @console.players_as_options(["Human","Dumb Computer"])

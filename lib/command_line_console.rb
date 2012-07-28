@@ -39,6 +39,22 @@ class CommandLineConsole
     @in.gets.chomp.to_i - 1
   end
 
+  def prompt_for_marks(hash)
+    result = {}
+    if not hash.empty?
+      symbol = ""
+      while not ['X','O'].include?(symbol) do
+        @out.print("\n",
+                   "Please choose a mark for #{hash.values.first} ('X' or 'O'): ")
+        symbol = @in.gets.chomp
+      end
+
+      result[hash.keys.first] = symbol
+      result[hash.keys.last] = (['X','O'] - [symbol]).first
+    end
+    result
+  end
+
   def prompt_opponent_type(opponents)
     value = 0
     while value < 1 or value > opponents.length
