@@ -19,4 +19,8 @@ describe CommandLinePrompter do
   it "receives string from input" do
     @prompter.request("").should == "input!"
   end
+
+  it "receives array of valid inputs" do
+    @prompter.valid_input = ['a','b']
+  end
 end
