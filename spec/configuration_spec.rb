@@ -5,7 +5,7 @@ require 'computer_impossible'
 
 describe Configuration do
   before :each do
-    @console = mock("Console")
+    @console = mock("Console").as_null_object
     @config = Configuration.new(@console)
   end
 
@@ -20,6 +20,10 @@ describe Configuration do
 
     it "initializes with empty 'players' array" do
       @config.players.should == []
+    end
+
+    it "initializes with an empty 'assigned_marks' map" do
+      @config.assigned_marks.should == {}
     end
   end
 
