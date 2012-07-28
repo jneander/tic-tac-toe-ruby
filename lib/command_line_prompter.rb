@@ -7,9 +7,12 @@ class CommandLinePrompter
   end
 
   def request(*message)
-    @out.print(*message)
-    input = @in.gets.chomp
-    input if valid_input?(input)
+    input = nil
+    while not valid_input?(input)
+      @out.print(*message)
+      input = @in.gets
+    end
+    input.chomp
   end
 
   def valid_input?(input)

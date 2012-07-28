@@ -31,7 +31,7 @@ describe CommandLinePrompter do
 
   it "#request refuses invalid input from stream" do
     @prompter.valid_input = ['a','b']
-    @input.reopen('c', 'r+')
+    @input.should_receive(:gets).and_return('c','b')
     @prompter.request("").should_not == 'c'
   end
 
@@ -56,5 +56,12 @@ describe CommandLinePrompter do
     @prompter.valid_input = nil
     @prompter.valid_input?(nil).should == false
     @prompter.valid_input?(12).should == false
+  end
+
+  it "#request repeats until valid input is received" do
+    @output.should_receive(:print).with("request").exactly(3).times
+    @input.should_receive(:gets).and_return("bad","wrong","correct")
+    @prompter.valid_input = ["correct"]
+    @prompter.request("request").should == "correct"
   end
 end
