@@ -6,9 +6,10 @@ require 'computer_impossible'
 class Game
   attr_accessor :board, :players, :console, :player_types
 
-  def initialize(console)
+  def initialize(config)
     @board = Board.new
-    @console = console
+    @config = config
+    @console = @config.console
     @player_types = [Human, DumbComputer, ImpossibleComputer]
     @players = []
   end

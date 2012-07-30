@@ -1,9 +1,11 @@
 require 'game'
+require 'configuration'
 
 describe Game do
   before :each do
     @console = mock("console").as_null_object
-    @game = Game.new(@console)
+    @config = Configuration.new(@console)
+    @game = Game.new(@config)
     @board = @game.board = mock("Board").as_null_object
     @player1 = mock("player").as_null_object
     @player2 = mock("player").as_null_object
