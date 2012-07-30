@@ -16,12 +16,18 @@ class CommandLineConsole
     @characters[players.last] = "X"
   end
 
+  def assign_marks(players_hash)
+    symbols = players_hash.keys
+    @characters[symbols.first] = 'O'
+    @characters[symbols.last] = 'X'
+  end
+
   def display_board(board)
     print_board = @renderer.board_to_ascii(board, @characters)
     print_available = @renderer.available_spaces_to_ascii(board)
     output = (0...board.size).collect {|index| 
       "%10s%10s" % [print_board[index], print_available[index]]
-    }
+    } 
     @out.puts("", *output)
   end
 

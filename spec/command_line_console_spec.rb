@@ -19,6 +19,13 @@ describe "CommandLineConsole" do
     @console.out = @output
   end
 
+  it "#assign_marks assigns ASCII characters to players" do
+    hash = {:player1 => :PLAYER_ONE, :player2 => :PLAYER_TWO}
+    @console.assign_marks(hash)
+    @console.characters[:player1].should eql 'O'
+    @console.characters[:player2].should eql 'X'
+  end
+
   it "assigns ASCII characters to players and marks in 'Game'" do
     @console.characters[:player1].should == 'O'
     @console.characters[:player2].should == 'X'
