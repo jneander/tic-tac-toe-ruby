@@ -38,7 +38,6 @@ class Game
     @config.choose_player
     @config.choose_opponent
     @players = @config.players.clone
-    @players.each {|player| player.console = @console}
     @console.set_players(@players)
   end
 end

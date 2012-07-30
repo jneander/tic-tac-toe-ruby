@@ -15,10 +15,12 @@ class Configuration
 
   def choose_player
     @players[0] = Human.new
+    @players[0].console = @console
   end
 
   def choose_opponent
     @players[1] = @console.prompt_opponent_type(PLAYER_CLASSES).new
+    @players[1].console = @console
   end
 
   def assign_symbols

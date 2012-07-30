@@ -64,6 +64,15 @@ describe Configuration do
       @config.choose_opponent
       @config.players[1].should_not == original_opponent
     end
+
+    it "stores a reference to the console in each player" do
+      @console.stub!(:prompt_opponent_type).and_return(Human)
+      @config.choose_player
+      @config.choose_opponent
+      @config.players.each do |player|
+        player.console.should == @config.console
+      end
+    end
   end
 
   context "when assigning symbols" do
@@ -88,7 +97,7 @@ describe Configuration do
 
   private
   def mock_opponent_instance
-    @player2 = mock("Player")
+    @player2 = mock("Player").as_null_object
     @console.stub!(:prompt_opponent_type).and_return(@player2)
     @player2.stub!(:new).and_return(@player2)
   end
