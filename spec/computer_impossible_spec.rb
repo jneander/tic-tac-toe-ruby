@@ -5,7 +5,7 @@ require 'minimax'
 describe ImpossibleComputer do
   before :all do
     @opponent = :player
-    @computer = ImpossibleComputer.new(@opponent)
+    @computer = ImpossibleComputer.new
   end
 
   before :each do
@@ -16,14 +16,9 @@ describe ImpossibleComputer do
     ImpossibleComputer.to_s.should == "Impossible Computer"
   end
 
-  it "is initialized with an opponent" do
-    @computer.opponent.should == @opponent
-  end
-
   it "sets the marks on a Minimax object" do
     @computer.minimax.should be_instance_of(Minimax)
     @computer.minimax.max_mark.should equal @computer
-    @computer.minimax.min_mark.should == @opponent
   end
 
   it "#get_opponent_symbol returns default symbol :opponent" do

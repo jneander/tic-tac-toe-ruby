@@ -37,11 +37,7 @@ class Game
     @players = []
     @players << @player_types.first.new
     opponent_type = @console.prompt_opponent_type(@player_types)
-    if opponent_type == Human
-      @players << opponent_type.new
-    else
-      @players << opponent_type.new(@players.first)
-    end
+    @players << opponent_type.new
     @players.each {|player| player.console = @console}
     @console.set_players(@players)
   end

@@ -7,11 +7,7 @@ SOME_SPACES = (3..6).to_a
 describe DumbComputer do
   before :all do
     @opponent = :player
-    @computer = DumbComputer.new(@opponent)
-  end
-
-  it "is initialized with an opponent" do
-    @computer.opponent.should == @opponent
+    @computer = DumbComputer.new
   end
 
   context "when making marks" do

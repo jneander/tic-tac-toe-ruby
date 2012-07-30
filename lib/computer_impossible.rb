@@ -2,12 +2,10 @@ require 'minimax'
 
 class ImpossibleComputer
   attr_accessor :console
-  attr_reader :opponent, :minimax
+  attr_reader :minimax
 
-  def initialize(opponent)
-    @opponent = opponent
+  def initialize
     @minimax = Minimax.new
-    @minimax.min_mark = @opponent
     @minimax.max_mark = self
   end
 
