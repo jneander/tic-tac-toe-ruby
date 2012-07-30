@@ -18,6 +18,7 @@ class Board
 
   def make_mark(index, mark)
     @spaces[index] = mark
+    update_symbols_added
   end
 
   def spaces_with_mark(mark)
@@ -44,5 +45,9 @@ class Board
       [0,3,6],[1,4,7],[2,5,8],
       [0,4,8],[6,4,2]
     ]
+  end
+
+  def update_symbols_added
+    @symbols_added = @spaces.uniq - [BLANK]
   end
 end

@@ -65,8 +65,14 @@ describe Board do
     @board.spaces_with_mark(Board::BLANK).should == (0..8).to_a
   end
 
-  it "#symbols_added stores player symbols added to the board" do
+  it "#symbols_added is initialized to an empty array" do
     @board.symbols_added.should == []
+  end
+
+  it "#symbols_added stores player symbols added to the board" do
+    make_marks([1,3], :player1)
+    make_marks([0], :player2)
+    @board.symbols_added.should == [:player2, :player1]
   end
 
   def make_marks(indices, mark)
