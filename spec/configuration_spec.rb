@@ -49,11 +49,20 @@ describe Configuration do
       @config.players.last.should equal @player2
     end
 
-    it "#choose_player overwrites any existing players" do
+    it "#choose_player overwrites any existing player" do
       @config.choose_player
       original_player = @config.players[0]
       @config.choose_player
       @config.players[0].should_not == original_player
+    end
+
+    it "#choose_opponent overwrites any existing opponent" do
+      @console.stub!(:prompt_opponent_type).and_return(Human)
+      @config.choose_player
+      @config.choose_opponent
+      original_opponent = @config.players[1]
+      @config.choose_opponent
+      @config.players[1].should_not == original_opponent
     end
   end
 

@@ -18,7 +18,7 @@ class Configuration
   end
 
   def choose_opponent
-    @players << @console.prompt_opponent_type(PLAYER_CLASSES).new
+    @players[1] = @console.prompt_opponent_type(PLAYER_CLASSES).new
   end
 
   def assign_symbols
