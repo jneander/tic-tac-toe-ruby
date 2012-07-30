@@ -22,8 +22,8 @@ describe Configuration do
       @config.players.should == []
     end
     
-    it "initializes with an empty 'assigned_marks' map" do
-      @config.assigned_marks.should == {}
+    it "initializes with an empty 'assigned_symbols' map" do
+      @config.assigned_symbols.should == {}
     end
   end
 
@@ -50,22 +50,22 @@ describe Configuration do
     end
   end
 
-  context "when assigning marks" do
+  context "when assigning symbols" do
     before :each do
       mock_opponent_instance
       @config.choose_player
       @config.choose_opponent
-      @config.assign_marks
+      @config.assign_symbols
     end
 
-    it "assigns marks according to player index" do
-      @config.assigned_marks[:player0].should equal @config.players[0]
-      @config.assigned_marks[:player1].should equal @config.players[1]
+    it "assigns symbols according to player index" do
+      @config.assigned_symbols[:player0].should equal @config.players[0]
+      @config.assigned_symbols[:player1].should equal @config.players[1]
     end
 
-    it "assigns a unique mark to each player" do
+    it "assigns a unique symbol to each player" do
       @config.players.each do |player|
-        @config.assigned_marks.should have_value(player)
+        @config.assigned_symbols.should have_value(player)
       end
     end
   end
