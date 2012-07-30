@@ -35,6 +35,12 @@ describe ImpossibleComputer do
     @computer.get_opponent_symbol(@board).should == :player2
   end
 
+  it "#get_best_space sets 'minimax.min_mark' to default value" do
+    @computer.minimax.stub!(:scores).and_return([1])
+    @computer.get_best_space(@board)
+    @computer.minimax.min_mark.should eql :opponent
+  end
+
   it "can receive and store a reference to the console" do
     @computer.console = mock("Console")
   end

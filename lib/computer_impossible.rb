@@ -16,6 +16,7 @@ class ImpossibleComputer
   end
 
   def get_best_space(board)
+    @minimax.min_mark = get_opponent_symbol(board)
     space_scores = @minimax.scores(board, self)
     space_scores.sort_by {|space,score| score}.reverse.first[0]
   end
