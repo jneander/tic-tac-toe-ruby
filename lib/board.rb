@@ -1,7 +1,7 @@
 BOARD_SIZE = 3
 
 class Board
-  attr_reader :size, :spaces, :solutions
+  attr_reader :size, :spaces, :solutions, :symbols_added
 
   BLANK = :blank
 
@@ -13,6 +13,7 @@ class Board
 
   def reset
     @spaces = [BLANK]*@size.to_i**2
+    @symbols_added = []
   end
 
   def make_mark(index, mark)

@@ -65,6 +65,10 @@ describe Board do
     @board.spaces_with_mark(Board::BLANK).should == (0..8).to_a
   end
 
+  it "#symbols_added stores player symbols added to the board" do
+    @board.symbols_added.should == []
+  end
+
   def make_marks(indices, mark)
     indices.each do |num|
       @board.make_mark(num, mark)
