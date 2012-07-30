@@ -1,8 +1,25 @@
 require 'command_line_game_renderer'
 
 describe CommandLineGameRenderer do
-  it "#set_output receives a reference to an output stream" do
+  before :all do
     @renderer = CommandLineGameRenderer.new
+  end
+
+  it "#set_output receives a reference to an output stream" do
     @renderer.set_output($stdout)
+  end
+
+  it "#board_to_ascii converts a board into ascii strings" do
+    @board = Board.new
+    make_marks([5,6], :player)
+    make_marks([4,8], :opponent)
+    hash = {Board::BLANK => '_', :player => 'O', :opponent => 'X'}
+    expected = ["_|_|_", "_|X|O", "O|_|X"]
+    @renderer.board_to_ascii(@board, hash).should == expected
+  end
+
+  private
+  def make_marks(indices, symbol)
+    indices.each {|index| @board.make_mark(index, symbol)}
   end
 end
