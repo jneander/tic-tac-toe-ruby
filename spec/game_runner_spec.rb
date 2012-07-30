@@ -13,6 +13,13 @@ describe GameRunner do
     @renderer.set_output(@output)
     @console = CommandLineConsole.new(@prompter, @renderer)
     @config = Configuration.new(@console)
-    GameRunner.new(@config)
+    @runner = GameRunner.new(@config)
+  end
+
+  it "#run creates a Game instance" do
+    fake_game_class = mock("Game").as_null_object
+    fake_game_class.should_receive(:new).with(@config).
+      and_return(fake_game_class)
+    @runner.run(fake_game_class)
   end
 end
