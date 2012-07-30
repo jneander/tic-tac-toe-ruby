@@ -23,4 +23,9 @@ class ImpossibleComputer
   def make_mark(board)
     board.make_mark(get_best_space(board), self)
   end
+
+  def get_opponent_symbol(board)
+    opponent_symbol = board.symbols_added - [self]
+    opponent_symbol.empty? ? :opponent : opponent_symbol
+  end
 end

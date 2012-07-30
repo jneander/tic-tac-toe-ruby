@@ -26,6 +26,10 @@ describe ImpossibleComputer do
     @computer.minimax.min_mark.should == @opponent
   end
 
+  it "#get_opponent_symbol returns default symbol :opponent" do
+    @computer.get_opponent_symbol(@board).should == :opponent
+  end
+
   it "can receive and store a reference to the console" do
     @computer.console = mock("Console")
   end
