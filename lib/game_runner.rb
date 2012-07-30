@@ -4,6 +4,6 @@ class GameRunner
   end
 
   def run(game_class)
-    game_class.new(@config)
+    game_class.new(@config).run
   end
 end

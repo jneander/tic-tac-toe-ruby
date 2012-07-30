@@ -22,4 +22,11 @@ describe GameRunner do
       and_return(fake_game_class)
     @runner.run(fake_game_class)
   end
+
+  it "#run runs an instance of Game" do
+    fake_game_class = mock("Game").as_null_object
+    fake_game_class.stub!(:new).and_return(fake_game_class)
+    fake_game_class.should_receive(:run)
+    @runner.run(fake_game_class)
+  end
 end
