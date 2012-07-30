@@ -30,6 +30,11 @@ describe ImpossibleComputer do
     @computer.get_opponent_symbol(@board).should == :opponent
   end
 
+  it "#get_opponent_symbol returns the opposing symbol" do
+    @board.make_mark(1, :player2)
+    @computer.get_opponent_symbol(@board).should == :player2
+  end
+
   it "can receive and store a reference to the console" do
     @computer.console = mock("Console")
   end

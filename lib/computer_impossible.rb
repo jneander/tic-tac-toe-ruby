@@ -25,7 +25,7 @@ class ImpossibleComputer
   end
 
   def get_opponent_symbol(board)
-    opponent_symbol = board.symbols_added - [self]
-    opponent_symbol.empty? ? :opponent : opponent_symbol
+    opponent_symbol = (board.symbols_added - [self]).first
+    opponent_symbol.nil? ? :opponent : opponent_symbol
   end
 end
