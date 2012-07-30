@@ -1,4 +1,4 @@
-class CommandLineGameRenderer
+class CommandLineRenderer
   def set_output(stream)
     @out = stream
   end

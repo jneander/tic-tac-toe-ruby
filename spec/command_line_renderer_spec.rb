@@ -1,8 +1,8 @@
-require 'command_line_game_renderer'
+require 'command_line_renderer'
 
-describe CommandLineGameRenderer do
+describe CommandLineRenderer do
   before :all do
-    @renderer = CommandLineGameRenderer.new
+    @renderer = CommandLineRenderer.new
   end
 
   before :each do
