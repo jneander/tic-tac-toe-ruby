@@ -14,7 +14,7 @@ class Configuration
   end
 
   def choose_player
-    @players << Human.new
+    @players[0] = Human.new
   end
 
   def choose_opponent

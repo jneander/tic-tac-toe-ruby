@@ -48,6 +48,13 @@ describe Configuration do
       @config.choose_opponent
       @config.players.last.should equal @player2
     end
+
+    it "#choose_player overwrites any existing players" do
+      @config.choose_player
+      original_player = @config.players[0]
+      @config.choose_player
+      @config.players[0].should_not == original_player
+    end
   end
 
   context "when assigning symbols" do
