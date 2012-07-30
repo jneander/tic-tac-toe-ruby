@@ -28,6 +28,12 @@ describe CommandLineGameRenderer do
     @renderer.available_spaces_to_ascii(@board).should == expected
   end
 
+  it "creates a human-readable list of available opponents" do
+    expected = "[1: Human, 2: Dumb Computer]"
+    @renderer.players_as_options(["Human", "Dumb Computer"]).
+      should == expected
+  end
+
   private
   def make_marks(indices, symbol)
     indices.each {|index| @board.make_mark(index, symbol)}
