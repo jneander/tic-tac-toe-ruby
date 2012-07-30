@@ -35,10 +35,9 @@ class Game
   end
 
   def set_players
-    @players = []
-    @players << @player_types.first.new
-    opponent_type = @console.prompt_opponent_type(@player_types)
-    @players << opponent_type.new
+    @config.choose_player
+    @config.choose_opponent
+    @players = @config.players.clone
     @players.each {|player| player.console = @console}
     @console.set_players(@players)
   end

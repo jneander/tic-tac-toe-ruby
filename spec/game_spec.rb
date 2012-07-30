@@ -62,6 +62,7 @@ describe Game do
 
   context "while in 'until over?' loop" do
     before :each do
+      @config.stub!(:players).and_return([@player1, @player2])
       set_human(@player1)
     end
 
@@ -79,7 +80,7 @@ describe Game do
 
     it "requests marks from players until board has winning solution" do
       set_board_marks_until_solution(3)
-      set_opponent(@player1)
+      @config.stub!(:players).and_return([@player1, @player1])
       @player1.should_receive(:make_mark).exactly(3).times
       @game.run
     end
