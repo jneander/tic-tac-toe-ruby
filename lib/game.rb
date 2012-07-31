@@ -11,7 +11,7 @@ class Game
     @config = config
     @console = @config.console
     @player_types = [Human, DumbComputer, ImpossibleComputer]
-    @players = []
+    @players = @config.players.clone
   end
 
   def run
@@ -35,7 +35,6 @@ class Game
 
   def set_players
     @config.setup
-    @players = @config.players.clone
     @console.set_players(@players)
   end
 

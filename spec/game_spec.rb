@@ -5,11 +5,11 @@ describe Game do
   before :each do
     @console = mock("console").as_null_object
     @config = Configuration.new(@console)
-    @game = Game.new(@config)
-    @board = @game.board = mock("Board").as_null_object
     @player1 = mock("player").as_null_object
     @player2 = mock("player").as_null_object
-    @console.stub!(:prompt_play_again).and_return(false)
+    @config.stub!(:players).and_return([@player1, @player2])
+    @game = Game.new(@config)
+    @board = @game.board = mock("Board").as_null_object
   end
 
   context "at initialization" do
@@ -19,8 +19,10 @@ describe Game do
       @game.over?.should == false
     end
 
-    it "will not have players" do
-      @game.players.should == []
+    it "#initialize will clone the player list from configuration" do
+      @config.stub!(:players).and_return([@player1, @player2])
+      @game = Game.new(@config)
+      @game.players.should eql [@player1, @player2]
     end
 
     it "will have a Board object" do
@@ -28,41 +30,8 @@ describe Game do
     end
   end
 
-  context "at player instantiation" do
-    it "will create a new player based on user input" do
-      @player2.should_receive(:new).and_return(@player2)
-      @console.should_receive(:prompt_opponent_type).and_return(@player2)
-      @game.run
-      @game.players.last.should == @player2
-    end
-
-    it "will have two unique player objects" do
-      @console.should_receive(:prompt_opponent_type).and_return(Human)
-      @game.run
-      @game.players.length.should eql 2
-      @game.players.first.should_not == @game.players.last
-      @game.players.each {|player| player.should be_instance_of(Human)}
-    end
-
-    it "will assign the console to each player object" do
-      @game.run
-      @game.players.each do |player|
-        player.console.should == @console
-      end
-    end
-
-    it "#set_players discards any previous players when called" do
-      @console.stub!(:prompt_opponent_type).and_return(Human,DumbComputer)
-      @game.set_players
-      @game.set_players
-      @game.players.length.should == 2
-      @game.players.last.should be_instance_of(DumbComputer)
-    end
-  end
-
   context "while in 'until over?' loop" do
     before :each do
-      @config.stub!(:players).and_return([@player1, @player2])
       set_human(@player1)
     end
 
@@ -80,8 +49,8 @@ describe Game do
 
     it "requests marks from players until board has winning solution" do
       set_board_marks_until_solution(3)
-      @config.stub!(:players).and_return([@player1, @player1])
-      @player1.should_receive(:choose_move).exactly(3).times
+      @player1.should_receive(:choose_move).exactly(2).times
+      @player2.should_receive(:choose_move).exactly(1).times
       @game.run
     end
 
