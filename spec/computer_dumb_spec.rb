@@ -10,30 +10,29 @@ describe DumbComputer do
     @computer = DumbComputer.new
   end
 
-  context "when making marks" do
-    before :each do
-      @board = mock("board")
-      @board.should_receive(:make_mark).exactly(TIMES).times
-      @marks = []
-    end
+  before :each do
+    @board = mock("Board").as_null_object
+  end
 
-    it "makes a mark at random" do
-      @board.stub!(:spaces_with_mark).and_return(ALL_SPACES)
+  it "#choose_move chooses a move at random" do
+    @board.stub!(:spaces_with_mark).and_return(ALL_SPACES)
+    marks = []
 
-      TIMES.times do
-        @marks << @computer.make_mark(@board)
-      end
-      @marks.uniq.sort.should eql ALL_SPACES
-    end
+    TIMES.times do marks << @computer.choose_move(@board) end
+    marks.uniq.sort.should eql ALL_SPACES
+  end
 
-    it "marks only on unmarked spaces" do
-      @board.stub!(:spaces_with_mark).and_return(SOME_SPACES)
+  it "#choose_move chooses only unmarked spaces" do
+    @board.stub!(:spaces_with_mark).and_return(SOME_SPACES)
+    marks = []
 
-      TIMES.times do
-        @marks << @computer.make_mark(@board)
-      end
-      @marks.uniq.sort.should eql SOME_SPACES
-    end
+    TIMES.times do marks << @computer.choose_move(@board) end
+    marks.uniq.sort.should eql SOME_SPACES
+  end
+
+  it "#make_mark uses the value from #choose_move" do
+    @computer.should_receive(:choose_move).with(@board).and_return(3)
+    @computer.make_mark(@board)
   end
 
   it "converts the class to a string" do
