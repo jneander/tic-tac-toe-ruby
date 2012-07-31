@@ -81,18 +81,6 @@ class CommandLineConsole
     @out.puts("","The space you've selected is unavailable")
   end
 
-  def display_game_results(board)
-    output = @renderer.board_to_ascii(board, @characters).
-      collect {|row| "%10s" % row}
-    message = if board.winning_solution?(*@players)
-      player_number = board.winning_solution?(@players.first) ? 1 : 2
-      "Player #{player_number} is the winner!"
-    else
-      "The game has ended with a draw!"
-    end
-    @out.puts("",*output,"",message)
-  end
-
   def display_game_winner(player_number)
     @out.puts("", "Player #{player_number} is the winner!")
   end

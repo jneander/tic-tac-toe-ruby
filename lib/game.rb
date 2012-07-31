@@ -28,12 +28,7 @@ class Game
 
       @console.display_board(@board)
 
-      if @board.winning_solution?(*@players)
-        @console.display_game_winner(1)
-      else
-        @console.display_game_draw
-      end
-      @console.display_game_results(@board)
+      display_game_results
       keep_playing = @console.prompt_play_again
     end
   end
@@ -49,5 +44,13 @@ class Game
     @players = @config.players.clone
     @console.assign_marks(@config.assigned_symbols)
     @console.set_players(@players)
+  end
+
+  def display_game_results
+    if @board.winning_solution?(*@players)
+      @console.display_game_winner(1)
+    else
+      @console.display_game_draw
+    end
   end
 end
