@@ -5,5 +5,6 @@ class GameRunner
 
   def run(game_class)
     game_class.new(@config).run
+    @config.console.prompt_play_again
   end
 end
