@@ -34,7 +34,6 @@ class Game
   end
 
   def set_players
-    @config.setup
     @console.set_players(@players)
   end
 
