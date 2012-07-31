@@ -30,9 +30,9 @@ describe ImpossibleComputer do
     @computer.get_opponent_symbol(@board).should == :player2
   end
 
-  it "#get_best_space sets 'minimax.min_mark' to default value" do
+  it "#choose_move sets 'minimax.min_mark' to default value" do
     @computer.minimax.stub!(:scores).and_return([1])
-    @computer.get_best_space(@board)
+    @computer.choose_move(@board)
     @computer.minimax.min_mark.should eql :opponent
   end
 
@@ -43,13 +43,13 @@ describe ImpossibleComputer do
   it "returns the last available space to mark" do
     @board.stub!(:winning_solution).and_return(false)
     @board.stub!(:spaces_with_mark).and_return([8],[])
-    @computer.get_best_space(@board).should eql 8
+    @computer.choose_move(@board).should eql 8
   end
 
   it "returns the winning space to mark" do
     [0, 2, 5].each {|space| @board.make_mark(space, @computer)}
     [1, 3, 4].each {|space| @board.make_mark(space, @opponent)}
-    @computer.get_best_space(@board).should eql 8
+    @computer.choose_move(@board).should eql 8
   end
 
   it "makes a mark on the board" do
@@ -58,8 +58,14 @@ describe ImpossibleComputer do
     @board.spaces_with_mark(@computer).should eql [8]
   end
 
+  it "#make_mark uses result from #choose_move" do
+    @computer.should_receive(:choose_move).with(@board).and_return(3)
+    @board.should_receive(:make_mark).with(3, @computer)
+    @computer.make_mark(@board)
+  end
+
   it "returns the only non-losing mark after player begins" do
     @board.make_mark(0, @opponent)
-    @computer.get_best_space(@board).should eql 4
+    @computer.choose_move(@board).should eql 4
   end
 end
