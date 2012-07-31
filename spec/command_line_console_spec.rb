@@ -19,8 +19,15 @@ describe "CommandLineConsole" do
     @console.out = @output
   end
 
+  it "#assign_marks issues a prompt through a prompter" do
+    hash = {:player1 => :PLAYER_ONE, :player2 => :PLAYER_TWO}
+    @console.should_receive(:prompt_mark_symbol).and_return('O')
+    @console.assign_marks(hash)
+  end
+
   it "#assign_marks assigns ASCII characters to players" do
     hash = {:player1 => :PLAYER_ONE, :player2 => :PLAYER_TWO}
+    @console.stub!(:prompt_mark_symbol).and_return('O')
     @console.assign_marks(hash)
     @console.characters[:player1].should eql 'O'
     @console.characters[:player2].should eql 'X'

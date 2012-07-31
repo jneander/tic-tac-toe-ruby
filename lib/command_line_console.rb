@@ -18,8 +18,9 @@ class CommandLineConsole
 
   def assign_marks(players_hash)
     symbols = players_hash.keys
-    @characters[symbols.first] = 'O'
-    @characters[symbols.last] = 'X'
+    @characters[symbols.first] = prompt_mark_symbol
+    other_mark = (['X', 'O'] - [@characters[symbols.first]]).first
+    @characters[symbols.last] = other_mark
   end
 
   def display_board(board)
