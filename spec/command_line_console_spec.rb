@@ -79,4 +79,9 @@ describe "CommandLineConsole" do
     @input.stub!(:gets).and_return('X')
     @console.prompt_for_marks(given_hash).should == target_hash
   end
+
+  it "#display_game_winner prints a message to the terminal" do
+    @console.out.should_receive(:puts)
+    @console.display_game_winner(1)
+  end
 end

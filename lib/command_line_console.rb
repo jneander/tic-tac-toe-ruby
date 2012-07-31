@@ -86,4 +86,8 @@ class CommandLineConsole
     end
     @out.puts("",*output,"",message)
   end
+
+  def display_game_winner(player_number)
+    @out.puts("", "Player #{player_number} is the winner!")
+  end
 end
