@@ -90,9 +90,31 @@ describe "CommandLineConsole" do
     @console.display_game_draw
   end
 
-  it "#display_board_choices converts available spaces" do
-    @board = mock("Board")
-    @renderer.should_receive(:available_spaces_to_ascii).with(@board)
-    @console.display_board_choices(@board)
+  context "#display_board_choices" do
+    before :each do
+      @board = mock("Board").as_null_object
+      board_ascii = ["_|_|_", "X|O|_", "_|X|O"]
+      choices_ascii = ["1 2 3", "    6", "7    "]
+      @renderer.stub!(:board_to_ascii).and_return(board_ascii)
+      @renderer.stub!(:available_spaces_to_ascii).and_return(choices_ascii)
+    end
+
+    it "converts available spaces" do
+      @renderer.should_receive(:available_spaces_to_ascii)
+      @console.display_board_choices(@board)
+    end
+
+    it "converts board to ascii" do
+      @renderer.should_receive(:board_to_ascii)
+      @console.display_board_choices(@board)
+    end
+
+    it "displays the board with choices" do
+      formatted = [ "     _|_|_     1 2 3", 
+                    "     X|O|_         6",
+                    "     _|X|O     7    "] 
+      @output.should_receive(:puts).with("", *formatted)
+      @console.display_board_choices(@board)
+    end
   end
 end
