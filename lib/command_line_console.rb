@@ -25,11 +25,6 @@ class CommandLineConsole
 
   def display_board(board)
     print_board = @renderer.board_to_ascii(board, @characters)
-    print_available = @renderer.available_spaces_to_ascii(board)
-    output = (0...board.size).collect {|index| 
-      "%10s%10s" % [print_board[index], print_available[index]]
-    } 
-    @out.puts("", *output)
   end
 
   def display_board_choices(board)

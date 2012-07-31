@@ -90,6 +90,12 @@ describe "CommandLineConsole" do
     @console.display_game_draw
   end
 
+  it "#display_board converts board to ascii" do
+    @board = mock("Board").as_null_object
+    @renderer.should_receive(:board_to_ascii)
+    @console.display_board(@board)
+  end
+
   context "#display_board_choices" do
     before :each do
       @board = mock("Board").as_null_object
