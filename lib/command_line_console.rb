@@ -10,12 +10,6 @@ class CommandLineConsole
     @out = $stdout
   end
 
-  def set_players(players)
-    @players = players.clone
-    @characters[players.first] = "O"
-    @characters[players.last] = "X"
-  end
-
   def assign_marks(players_hash)
     symbols = players_hash.keys
     @characters[symbols.first] = prompt_mark_symbol
@@ -49,17 +43,6 @@ class CommandLineConsole
     @prompter.valid_input = ('1'..'9').to_a
     result = @prompter.request("\n", message)
     result.to_i - 1
-  end
-
-  def prompt_for_marks(hash)
-    result, symbol = {}, ""
-    message = "Please choose a mark for #{hash.values.first} ('X' or 'O'): "
-    @prompter.valid_input = ['X', 'O']
-    symbol = @prompter.request("\n", message)
-
-    result[hash.keys.first] = symbol
-    result[hash.keys.last] = (['X','O'] - [symbol]).first
-    result
   end
 
   def prompt_opponent_type(opponents)

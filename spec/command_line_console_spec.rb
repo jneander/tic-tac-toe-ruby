@@ -15,7 +15,6 @@ describe "CommandLineConsole" do
 
   before :each do
     @console = CommandLineConsole.new(@prompter, @renderer)
-    @console.set_players(@players)
     @console.out = @output
   end
 
@@ -31,12 +30,6 @@ describe "CommandLineConsole" do
     @console.assign_marks(hash)
     @console.characters[:player1].should eql 'O'
     @console.characters[:player2].should eql 'X'
-  end
-
-  it "assigns ASCII characters to players and marks in 'Game'" do
-    @console.characters[:player1].should == 'O'
-    @console.characters[:player2].should == 'X'
-    @console.characters[Board::BLANK].should == '_'
   end
 
   it "receives command-line input when prompted" do
@@ -71,13 +64,6 @@ describe "CommandLineConsole" do
       @input.should_receive(:gets).and_return('0', '3', '1')
       @console.prompt_opponent_type(@opponent_options).should == :human
     end
-  end
-
-  it "assigns 'X' and 'O' to player and opponent" do
-    given_hash = {:player1 => nil, :player2 => nil}
-    target_hash = {:player1 => 'X', :player2 => 'O'}
-    @input.stub!(:gets).and_return('X')
-    @console.prompt_for_marks(given_hash).should == target_hash
   end
 
   it "#display_game_winner prints a message to the terminal" do
