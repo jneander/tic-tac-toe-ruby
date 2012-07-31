@@ -117,6 +117,12 @@ describe Game do
       @game.over?.should == true
     end
 
+    it "#run calls #display_game_winner if there was a winner" do
+      @console.should_receive(:display_game_winner)
+      @board.stub!(:winning_solution?).and_return(true)
+      @game.run
+    end
+
     it "requests the console to display game results" do
       set_board_marks_until_solution(0)
       @console.should_receive(:display_game_results).once

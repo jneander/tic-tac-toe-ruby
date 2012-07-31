@@ -25,6 +25,7 @@ class Game
         @board.make_mark(chosen_space, @players.first)
         @players.rotate!
       end
+      @console.display_game_winner(1)
       @console.display_game_results(@board)
       keep_playing = @console.prompt_play_again
     end
