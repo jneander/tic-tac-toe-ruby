@@ -15,22 +15,17 @@ class Game
   end
 
   def run
-    keep_playing = true
-    while keep_playing do
-      @board.reset
-      set_players
-      until over?
-        @console.display_board_choices(@board)
-        chosen_space = @players.first.choose_move(@board)
-        @board.make_mark(chosen_space, @players.first)
-        @players.rotate!
-      end
-
-      @console.display_board(@board)
-
-      display_game_results
-      keep_playing = @console.prompt_play_again
+    set_players
+    until over?
+      @console.display_board_choices(@board)
+      chosen_space = @players.first.choose_move(@board)
+      @board.make_mark(chosen_space, @players.first)
+      @players.rotate!
     end
+
+    @console.display_board(@board)
+
+    display_game_results
   end
 
   def over?
