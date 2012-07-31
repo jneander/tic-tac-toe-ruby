@@ -25,6 +25,9 @@ class Game
         @board.make_mark(chosen_space, @players.first)
         @players.rotate!
       end
+
+      @console.display_board(@board)
+
       if @board.winning_solution?(*@players)
         @console.display_game_winner(1)
       else
