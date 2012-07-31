@@ -95,6 +95,11 @@ describe Configuration do
     end
   end
 
+  it "#setup calls #choose_player" do
+    @config.should_receive(:choose_player)
+    @config.setup
+  end
+
   private
   def mock_opponent_instance
     @player2 = mock("Player").as_null_object

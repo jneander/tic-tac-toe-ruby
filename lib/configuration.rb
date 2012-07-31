@@ -13,6 +13,10 @@ class Configuration
     @assigned_symbols = {}
   end
 
+  def setup
+    choose_player
+  end
+
   def choose_player
     @players[0] = Human.new
     @players[0].console = @console
