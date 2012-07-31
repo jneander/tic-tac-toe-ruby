@@ -36,7 +36,6 @@ class Game
   def set_players
     @config.setup
     @players = @config.players.clone
-    @console.assign_marks(@config.assigned_symbols)
     @console.set_players(@players)
   end
 

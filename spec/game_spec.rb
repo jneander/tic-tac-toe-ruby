@@ -58,12 +58,6 @@ describe Game do
       @game.players.length.should == 2
       @game.players.last.should be_instance_of(DumbComputer)
     end
-
-    it "#set_players assigns marks using the console" do
-      @config.stub!(:assigned_symbols).and_return({:p1 => :P1, :p2 => :P2})
-      @console.should_receive(:assign_marks).with(@config.assigned_symbols)
-      @game.set_players
-    end
   end
 
   context "while in 'until over?' loop" do
