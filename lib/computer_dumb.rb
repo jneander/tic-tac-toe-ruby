@@ -1,6 +1,5 @@
 class DumbComputer
   attr_accessor :console
-  attr_reader :opponent
 
   def make_mark(board)
     index = choose_move(board)

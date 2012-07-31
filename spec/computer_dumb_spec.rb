@@ -6,7 +6,6 @@ SOME_SPACES = (3..6).to_a
 
 describe DumbComputer do
   before :all do
-    @opponent = :player
     @computer = DumbComputer.new
   end
 
