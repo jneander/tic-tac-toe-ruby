@@ -24,7 +24,9 @@ class CommandLineConsole
   end
 
   def display_board(board)
-    print_board = @renderer.board_to_ascii(board, @characters)
+    output = @renderer.board_to_ascii(board, @characters).
+      collect {|row| "%10s" % row}
+    @out.puts("", *output)
   end
 
   def display_board_choices(board)
