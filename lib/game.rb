@@ -20,7 +20,7 @@ class Game
       @board.reset
       set_players
       until over?
-        @console.display_board(@board)
+        @console.display_board_choices(@board)
         chosen_space = @players.first.choose_move(@board)
         @board.make_mark(chosen_space, @players.first)
         @players.rotate!

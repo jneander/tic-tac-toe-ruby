@@ -72,9 +72,9 @@ describe Game do
       set_human(@player1)
     end
 
-    it "requests the console to display the board" do
+    it "requests the console to display the board with choices" do
       set_board_marks_until_solution(1)
-      @console.should_receive(:display_board)
+      @console.should_receive(:display_board_choices)
       @game.run
     end
 
