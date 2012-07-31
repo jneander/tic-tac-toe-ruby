@@ -119,7 +119,16 @@ describe Game do
 
     it "#run calls #display_game_winner if there was a winner" do
       @console.should_receive(:display_game_winner)
+      @console.should_not_receive(:display_game_draw)
       @board.stub!(:winning_solution?).and_return(true)
+      @game.run
+    end
+
+    it "#run calls #display_game_draw if there was no winner" do
+      @console.should_receive(:display_game_draw)
+      @console.should_not_receive(:display_game_winner)
+      @board.stub!(:winning_solution?).and_return(false)
+      @board.stub!(:available_spaces).and_return([])
       @game.run
     end
 
@@ -130,7 +139,7 @@ describe Game do
     end
 
     it "prompts the user to play again" do
-      @board.should_receive(:winning_solution?).twice.and_return(true)
+      @board.stub!(:winning_solution?).and_return(true)
       @console.should_receive(:prompt_play_again).and_return(true, false)
       @game.run
     end
@@ -146,8 +155,8 @@ describe Game do
   private
   def set_board_marks_until_solution(mark_count = 0)
     values = [false]*mark_count + [true]
-    @board.should_receive(:winning_solution?).and_return(*values)
-    @board.should_receive(:spaces_with_mark).any_number_of_times
+    @board.stub!(:winning_solution?).and_return(*values)
+    @board.stub!(:spaces_with_mark).any_number_of_times
       .and_return([nil]*9)
   end
 

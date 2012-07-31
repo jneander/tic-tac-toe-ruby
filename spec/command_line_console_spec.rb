@@ -81,12 +81,16 @@ describe "CommandLineConsole" do
   end
 
   it "#display_game_winner prints a message to the terminal" do
-    @console.out.should_receive(:puts)
-    @console.display_game_winner(1)
+    [1, 2].each do |number|
+      message = "Player #{number} is the winner!"
+      @console.out.should_receive(:puts).with("", message)
+      @console.display_game_winner(number)
+    end
   end
 
   it "#display_game_draw prints a message to the terminal" do
-    @console.out.should_receive(:puts)
+    message = "The game has ended with a draw!"
+    @console.out.should_receive(:puts).with("", message)
     @console.display_game_draw
   end
 
