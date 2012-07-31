@@ -19,7 +19,7 @@ describe GameRunner do
   before :each do
     @fake_game_class = mock("Game").as_null_object
     @fake_game_class.stub!(:new).and_return(@fake_game_class)
-    @console.stub!(:prompt_play_again)
+    @console.stub!(:prompt_play_again).and_return(false)
   end
 
   it "#run creates a Game instance" do
@@ -35,6 +35,11 @@ describe GameRunner do
 
   it "#run prompts the user to play again" do
     @console.should_receive(:prompt_play_again)
+    @runner.run(@fake_game_class)
+  end
+
+  it "#run loops while the play again prompt returns true" do
+    @console.should_receive(:prompt_play_again).and_return(true, false)
     @runner.run(@fake_game_class)
   end
 end
