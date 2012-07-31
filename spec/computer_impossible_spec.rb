@@ -52,18 +52,6 @@ describe ImpossibleComputer do
     @computer.choose_move(@board).should eql 8
   end
 
-  it "makes a mark on the board" do
-    (0..7).each do |space| @board.make_mark(space, :unavailable) end
-    @computer.make_mark(@board)
-    @board.spaces_with_mark(@computer).should eql [8]
-  end
-
-  it "#make_mark uses result from #choose_move" do
-    @computer.should_receive(:choose_move).with(@board).and_return(3)
-    @board.should_receive(:make_mark).with(3, @computer)
-    @computer.make_mark(@board)
-  end
-
   it "returns the only non-losing mark after player begins" do
     @board.make_mark(0, @opponent)
     @computer.choose_move(@board).should eql 4

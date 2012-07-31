@@ -29,11 +29,6 @@ describe DumbComputer do
     marks.uniq.sort.should eql SOME_SPACES
   end
 
-  it "#make_mark uses the value from #choose_move" do
-    @computer.should_receive(:choose_move).with(@board).and_return(3)
-    @computer.make_mark(@board)
-  end
-
   it "converts the class to a string" do
     DumbComputer.to_s.should == "Dumb Computer"
   end
