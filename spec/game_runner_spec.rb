@@ -19,7 +19,13 @@ describe GameRunner do
   before :each do
     @fake_game_class = mock("Game").as_null_object
     @fake_game_class.stub!(:new).and_return(@fake_game_class)
+    @config.stub!(:setup)
     @console.stub!(:prompt_play_again).and_return(false)
+  end
+
+  it "#run calls #setup on the configuration object" do
+    @config.should_receive(:setup)
+    @runner.run(@fake_game_class)
   end
 
   it "#run creates a Game instance" do
