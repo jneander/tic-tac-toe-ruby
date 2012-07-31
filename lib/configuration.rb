@@ -34,4 +34,8 @@ class Configuration
       @assigned_symbols["player#{index}".to_sym] = player
     end
   end
+
+  def assign_marks
+    @console.assign_marks(@assigned_symbols)
+  end
 end

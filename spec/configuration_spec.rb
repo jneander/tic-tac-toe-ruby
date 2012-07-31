@@ -105,6 +105,16 @@ describe Configuration do
     call_sequence.should == method_sequence
   end
 
+  it "#assign_marks assigns marks to the console" do
+    @console.stub!(:prompt_opponent_type).and_return(Human)
+    @config.choose_player
+    @config.choose_opponent
+    @config.assign_symbols
+    symbols = @config.assigned_symbols
+    @console.should_receive(:assign_marks).with(symbols)
+    @config.assign_marks
+  end
+
   private
   def mock_opponent_instance
     @player2 = mock("Player").as_null_object
