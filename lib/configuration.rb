@@ -17,6 +17,7 @@ class Configuration
     choose_player
     choose_opponent
     assign_symbols
+    assign_marks
   end
 
   def choose_player

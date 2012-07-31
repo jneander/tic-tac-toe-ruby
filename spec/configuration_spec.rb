@@ -96,7 +96,8 @@ describe Configuration do
   end
 
   it "#setup calls 'setup' methods in sequence" do
-    method_sequence = [:choose_player, :choose_opponent, :assign_symbols]
+    method_sequence = [:choose_player, :choose_opponent, :assign_symbols, 
+                       :assign_marks]
     call_sequence = []
     method_sequence.each do |method|
       @config.should_receive(method) {call_sequence << method}
