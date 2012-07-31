@@ -10,16 +10,17 @@ class Game
     @board = Board.new
     @config = config
     @console = @config.console
+    @symbols = @config.assigned_symbols
     @player_types = [Human, DumbComputer, ImpossibleComputer]
     @players = @config.players.clone
   end
 
   def run
-    set_players
     until over?
       @console.display_board_choices(@board)
-      chosen_space = @players.first.choose_move(@board)
-      @board.make_mark(chosen_space, @players.first)
+      current_player = @players.first
+      chosen_space = current_player.choose_move(@board)
+      @board.make_mark(chosen_space, @symbols.key(current_player))
       @players.rotate!
     end
 
@@ -29,16 +30,12 @@ class Game
   end
 
   def over?
-    @board.winning_solution?(*@players) ||
+    @board.winning_solution?(*@symbols.keys) ||
       @board.spaces_with_mark(Board::BLANK).empty?
   end
 
-  def set_players
-    @console.set_players(@players)
-  end
-
   def display_game_results
-    if @board.winning_solution?(*@players)
+    if @board.winning_solution?(*@symbols.keys)
       @console.display_game_winner(1)
     else
       @console.display_game_draw
