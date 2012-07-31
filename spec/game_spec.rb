@@ -31,10 +31,6 @@ describe Game do
   end
 
   context "while in 'until over?' loop" do
-    before :each do
-      set_human(@player1)
-    end
-
     it "requests the console to display the board with choices" do
       set_board_marks_until_solution(1)
       @console.should_receive(:display_board_choices)
@@ -56,7 +52,6 @@ describe Game do
 
     it "alternates between players" do
       players = [@player1,@player2]
-      set_opponent(@player2)
       set_board_marks_until_solution(4)
       @tracker = []
       players.each {|each| each.should_receive(:choose_move).twice {
@@ -108,15 +103,5 @@ describe Game do
     @board.stub!(:winning_solution?).and_return(*values)
     @board.stub!(:spaces_with_mark).any_number_of_times
       .and_return([nil]*9)
-  end
-
-  def set_human(player)
-    @game.player_types[0] = player
-    player.stub!(:new).and_return(player)
-  end
-
-  def set_opponent(player)
-    @console.stub!(:prompt_opponent_type).and_return(player)
-    player.stub!(:new).and_return(player)
   end
 end

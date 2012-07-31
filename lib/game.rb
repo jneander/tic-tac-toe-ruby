@@ -11,7 +11,6 @@ class Game
     @config = config
     @console = @config.console
     @symbols = @config.assigned_symbols
-    @player_types = [Human, DumbComputer, ImpossibleComputer]
     @players = @config.players.clone
   end
 
