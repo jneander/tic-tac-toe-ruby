@@ -78,16 +78,16 @@ describe Game do
       @game.run
     end
 
-    it "requests a mark from the player" do
+    it "requests a move from the player" do
       set_board_marks_until_solution(1)
-      @player1.should_receive(:make_mark)
+      @player1.should_receive(:choose_move)
       @game.run
     end
 
     it "requests marks from players until board has winning solution" do
       set_board_marks_until_solution(3)
       @config.stub!(:players).and_return([@player1, @player1])
-      @player1.should_receive(:make_mark).exactly(3).times
+      @player1.should_receive(:choose_move).exactly(3).times
       @game.run
     end
 
@@ -96,7 +96,7 @@ describe Game do
       set_opponent(@player2)
       set_board_marks_until_solution(4)
       @tracker = []
-      players.each {|each| each.should_receive(:make_mark).twice {
+      players.each {|each| each.should_receive(:choose_move).twice {
         @tracker << @game.players.first
       }}
 

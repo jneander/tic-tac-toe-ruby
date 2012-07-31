@@ -21,7 +21,8 @@ class Game
       set_players
       until over?
         @console.display_board(@board)
-        @players.first.make_mark(@board)
+        chosen_space = @players.first.choose_move(@board)
+        @board.make_mark(chosen_space, @players.first)
         @players.rotate!
       end
       @console.display_game_results(@board)
