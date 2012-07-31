@@ -15,6 +15,8 @@ class Configuration
 
   def setup
     choose_player
+    choose_opponent
+    assign_symbols
   end
 
   def choose_player

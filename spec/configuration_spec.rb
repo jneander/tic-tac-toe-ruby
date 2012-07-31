@@ -95,9 +95,14 @@ describe Configuration do
     end
   end
 
-  it "#setup calls #choose_player" do
-    @config.should_receive(:choose_player)
+  it "#setup calls 'setup' methods in sequence" do
+    method_sequence = [:choose_player, :choose_opponent, :assign_symbols]
+    call_sequence = []
+    method_sequence.each do |method|
+      @config.should_receive(method) {call_sequence << method}
+    end
     @config.setup
+    call_sequence.should == method_sequence
   end
 
   private

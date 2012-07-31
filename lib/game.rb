@@ -34,8 +34,7 @@ class Game
   end
 
   def set_players
-    @config.choose_player
-    @config.choose_opponent
+    @config.setup
     @players = @config.players.clone
     @console.assign_marks(@config.assigned_symbols)
     @console.set_players(@players)
