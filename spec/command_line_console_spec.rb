@@ -84,4 +84,9 @@ describe "CommandLineConsole" do
     @console.out.should_receive(:puts)
     @console.display_game_winner(1)
   end
+
+  it "#display_game_draw prints a message to the terminal" do
+    @console.out.should_receive(:puts)
+    @console.display_game_draw
+  end
 end
