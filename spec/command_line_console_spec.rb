@@ -89,4 +89,10 @@ describe "CommandLineConsole" do
     @console.out.should_receive(:puts)
     @console.display_game_draw
   end
+
+  it "#display_board_choices converts available spaces" do
+    @board = mock("Board")
+    @renderer.should_receive(:available_spaces_to_ascii).with(@board)
+    @console.display_board_choices(@board)
+  end
 end

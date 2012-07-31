@@ -32,6 +32,10 @@ class CommandLineConsole
     @out.puts("", *output)
   end
 
+  def display_board_choices(board)
+    print_available = @renderer.available_spaces_to_ascii(board)
+  end
+
   def prompt_mark_symbol
     message = "Please choose the mark you would like to use ('X' or 'O'): "
     @prompter.valid_input = ['X', 'O']
