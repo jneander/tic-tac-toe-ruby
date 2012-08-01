@@ -39,4 +39,11 @@ class Configuration
   def assign_marks
     @console.assign_marks(@assigned_symbols)
   end
+
+  def assign_order
+    order = @console.prompt_player_order
+    @players.each_index do |index| 
+      @players[index] = @assigned_symbols[order[index]]
+    end
+  end
 end

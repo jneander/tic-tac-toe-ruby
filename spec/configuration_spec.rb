@@ -107,16 +107,37 @@ describe Configuration do
   end
 
   it "#assign_marks assigns marks to the console" do
-    @console.stub!(:prompt_opponent_type).and_return(Human)
-    @config.choose_player
-    @config.choose_opponent
-    @config.assign_symbols
+    setup_sequence_to(:assign_symbols)
     symbols = @config.assigned_symbols
     @console.should_receive(:assign_marks).with(symbols)
     @config.assign_marks
   end
 
+  it "#assign_order orders the players without change" do
+    setup_sequence_to(:assign_marks)
+    original_order = @config.players.clone
+    @console.should_receive(:prompt_player_order).
+      and_return([:player0, :player1])
+    @config.assign_order
+    @config.players.should == original_order
+  end
+
+  it "#assign_order orders the players according to console marks" do
+    setup_sequence_to(:assign_marks)
+    original_order = @config.players.clone
+    @console.stub!(:prompt_player_order).and_return([:player1, :player0])
+    @config.assign_order
+    @config.players.should == original_order.reverse
+  end
+
   private
+  def setup_sequence_to(method)
+    seq = [:choose_player, :choose_opponent, :assign_symbols, :assign_marks]
+    seq = seq.take(seq.index(method))
+    @console.stub!(:prompt_opponent_type).and_return(Human)
+    seq.each {|method| @config.__send__(method)}
+  end
+
   def mock_opponent_instance
     @player2 = mock("Player").as_null_object
     @console.stub!(:prompt_opponent_type).and_return(@player2)
