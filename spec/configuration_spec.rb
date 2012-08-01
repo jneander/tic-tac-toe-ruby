@@ -4,6 +4,11 @@ require 'computer_dumb'
 require 'computer_impossible'
 
 describe Configuration do
+  before :all do
+    @setup_sequence = [:choose_player, :choose_opponent, :assign_symbols, 
+                       :assign_marks, :assign_order]
+  end
+
   before :each do
     @console = mock("Console").as_null_object
     @config = Configuration.new(@console)
@@ -96,14 +101,12 @@ describe Configuration do
   end
 
   it "#setup calls 'setup' methods in sequence" do
-    method_sequence = [:choose_player, :choose_opponent, :assign_symbols, 
-                       :assign_marks]
     call_sequence = []
-    method_sequence.each do |method|
+    @setup_sequence.each do |method|
       @config.should_receive(method) {call_sequence << method}
     end
     @config.setup
-    call_sequence.should == method_sequence
+    call_sequence.should == @setup_sequence
   end
 
   it "#assign_marks assigns marks to the console" do
@@ -132,8 +135,7 @@ describe Configuration do
 
   private
   def setup_sequence_to(method)
-    seq = [:choose_player, :choose_opponent, :assign_symbols, :assign_marks]
-    seq = seq.take(seq.index(method))
+    seq = @setup_sequence.take(@setup_sequence.index(method))
     @console.stub!(:prompt_opponent_type).and_return(Human)
     seq.each {|method| @config.__send__(method)}
   end
