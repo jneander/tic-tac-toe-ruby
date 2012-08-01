@@ -53,6 +53,12 @@ class CommandLineConsole
     opponents[value - 1]
   end
 
+  def prompt_player_order
+    player_x = @characters.key('X')
+    player_o = @characters.key('O')
+    [player_x, player_o]
+  end
+
   def prompt_play_again
     message = "Would you like to play again? (y/n) : "
     @prompter.valid_input = ['y', 'n']

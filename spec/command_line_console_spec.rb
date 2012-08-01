@@ -19,15 +19,15 @@ describe "CommandLineConsole" do
   end
 
   it "#assign_marks issues a prompt through a prompter" do
-    hash = {:player1 => :PLAYER_ONE, :player2 => :PLAYER_TWO}
+    map = {:player1 => :PLAYER_ONE, :player2 => :PLAYER_TWO}
     @console.should_receive(:prompt_mark_symbol).and_return('O')
-    @console.assign_marks(hash)
+    @console.assign_marks(map)
   end
 
   it "#assign_marks assigns ASCII characters to players" do
-    hash = {:player1 => :PLAYER_ONE, :player2 => :PLAYER_TWO}
+    map = {:player1 => :PLAYER_ONE, :player2 => :PLAYER_TWO}
     @console.stub!(:prompt_mark_symbol).and_return('O')
-    @console.assign_marks(hash)
+    @console.assign_marks(map)
     @console.characters[:player1].should eql 'O'
     @console.characters[:player2].should eql 'X'
   end
@@ -124,5 +124,14 @@ describe "CommandLineConsole" do
       @output.should_receive(:puts).with("", *formatted)
       @console.display_board_choices(@board)
     end
+  end
+
+  it "#prompt_player_order gives first turn to player with 'X' mark" do
+    @console.stub!(:prompt_mark_symbol).and_return('X')
+    @console.assign_marks({:player1 => :P1, :player2 => :P2})
+    @console.prompt_player_order.should == [:player1, :player2]
+    @console.stub!(:prompt_mark_symbol).and_return('O')
+    @console.assign_marks({:player1 => :P1, :player2 => :P2})
+    @console.prompt_player_order.should == [:player2, :player1]
   end
 end
