@@ -3,16 +3,16 @@ require 'command_line_renderer'
 require 'command_line_prompter'
 
 class CommandLineConsole
-  attr_reader :characters, :renderer, :prompter, :out
-  attr_accessor :out
+  attr_reader :characters, :renderer, :prompter, :in, :out
 
-  def initialize(input, output)
+  def initialize(input = $stdin, output = $stdout)
     @prompter = CommandLinePrompter.new
     @prompter.set_input_output(input, output)
     @renderer = CommandLineRenderer.new
     @renderer.set_output(output)
     @characters = Hash.new
     @characters[Board::BLANK] = "_"
+    @in = input
     @out = output
   end
 

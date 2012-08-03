@@ -15,6 +15,12 @@ describe "CommandLineConsole" do
     @prompter = @console.prompter
   end
 
+  it "#initialize defaults input/output to $stdin/$stdout" do
+    console = CommandLineConsole.new
+    console.in.should equal $stdin
+    console.out.should equal $stdout
+  end
+
   it "#assign_marks issues a prompt through a prompter" do
     map = {:player1 => :PLAYER_ONE, :player2 => :PLAYER_TWO}
     @console.should_receive(:prompt_mark_symbol).and_return('O')
