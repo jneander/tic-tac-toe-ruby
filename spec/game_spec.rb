@@ -100,22 +100,27 @@ describe Game do
       @game.run
     end
 
-    it "#run calls #display_game_winner if there was a winner" do
+    it "#run calls #display_game_results" do
       set_run_loop_limit(0)
-      @console.should_receive(:display_game_winner)
-      @console.should_not_receive(:display_game_draw)
-      @game.board.stub!(:winning_solution?).and_return(true)
+      @game.should_receive(:display_game_results)
       @game.run
     end
+  end
 
-    it "#run calls #display_game_draw if there was no winner" do
-      @game.stub!(:over?).and_return(true)
-      @console.should_receive(:display_game_draw)
-      @console.should_not_receive(:display_game_winner)
-      @game.board.stub!(:winning_solution?).and_return(false)
-      @game.board.stub!(:available_spaces).and_return([])
-      @game.run
-    end
+  it "#display_game_results calls #display_game_winner if there was a winner" do
+    set_run_loop_limit(0)
+    @console.should_receive(:display_game_winner)
+    @console.should_not_receive(:display_game_draw)
+    @game.board.stub!(:winning_solution?).and_return(true)
+    @game.display_game_results
+  end
+
+  it "#display_game_results calls #display_game_draw if there was no winner" do
+    set_run_loop_limit(0)
+    @console.should_receive(:display_game_draw)
+    @console.should_not_receive(:display_game_winner)
+    @game.board.stub!(:winning_solution?).and_return(false)
+    @game.display_game_results
   end
 
   private

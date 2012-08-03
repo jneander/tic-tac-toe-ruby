@@ -24,7 +24,6 @@ class Game
     end
 
     @console.display_board(@board)
-
     display_game_results
   end
 
