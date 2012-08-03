@@ -1,7 +1,8 @@
 BOARD_SIZE = 3
 
 class Board
-  attr_reader :size, :spaces, :solutions, :symbols_added
+  attr_reader :size, :solutions, :symbols_added
+  attr_accessor :spaces
 
   BLANK = :blank
 
@@ -38,6 +39,17 @@ class Board
     has_solution
   end
 
+  def update_symbols_added
+    @symbols_added = @spaces.uniq - [BLANK]
+  end
+
+  def clone
+    board = Board.new(@size)
+    board.spaces = @spaces.clone
+    board.update_symbols_added
+    board
+  end
+
   private
   def generate_solutions
     @solutions = [
@@ -45,9 +57,5 @@ class Board
       [0,3,6],[1,4,7],[2,5,8],
       [0,4,8],[6,4,2]
     ]
-  end
-
-  def update_symbols_added
-    @symbols_added = @spaces.uniq - [BLANK]
   end
 end

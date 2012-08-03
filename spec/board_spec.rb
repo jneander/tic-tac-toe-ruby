@@ -25,7 +25,7 @@ describe Board do
 
   it "returns an array of spaces with the specified mark" do
     target_spaces = [3,5,7,8]
-    make_marks(target_spaces, :player)
+    make_marks(@board, target_spaces, :player)
     @board.spaces_with_mark(:player).should eql target_spaces
     expected_spaces = (0..8).to_a - target_spaces
     @board.spaces_with_mark(Board::BLANK).should eql expected_spaces
@@ -37,15 +37,15 @@ describe Board do
 
   it "return true when a winning solution exists" do
     @board.solutions.each do |solution|
-      make_marks(solution, :player)
+      make_marks(@board, solution, :player)
       @board.winning_solution?(:player).should == true
-      make_marks(solution, Board::BLANK)
+      make_marks(@board, solution, Board::BLANK)
       @board.winning_solution?(:player).should == false
     end
   end
 
   it "can check for winning solutions on multiple marks at once" do
-    make_marks(@board.solutions.first, :player1)
+    make_marks(@board, @board.solutions.first, :player1)
     @board.winning_solution?(*[:player1,:player2]).should == true
     @board.winning_solution?(:player1).should == true
     @board.winning_solution?(:player2).should == false
@@ -59,7 +59,7 @@ describe Board do
   end
 
   it "#reset will set each space to BLANK mark" do
-    make_marks([0,1,2,3,4], :player)
+    make_marks(@board, [0,1,2,3,4], :player)
     @board.reset
     @board.spaces_with_mark(:player).should == []
     @board.spaces_with_mark(Board::BLANK).should == (0..8).to_a
@@ -70,14 +70,42 @@ describe Board do
   end
 
   it "#symbols_added stores player symbols added to the board" do
-    make_marks([1,3], :player1)
-    make_marks([0], :player2)
+    make_marks(@board, [1,3], :player1)
+    make_marks(@board, [0], :player2)
     @board.symbols_added.should == [:player2, :player1]
   end
 
-  def make_marks(indices, mark)
+  context "#clone" do
+    before :all do
+      @orig = Board.new
+      make_marks(@orig, [1,2], :player1)
+      make_marks(@orig, [3,4], :player2)
+      @clone = @orig.clone
+    end
+
+    it "returns an instance of Board" do
+      @clone.should be_a(Board)
+    end
+
+    it "transfers board size" do
+      @clone.size.should == @orig.size
+    end
+
+    it "duplicates board spaces" do
+      @clone.spaces.should == @orig.spaces
+      @clone.spaces.should == @orig.spaces
+      @clone.spaces.should_not equal @orig.spaces
+    end
+
+    it "duplicates board symbols_added" do
+      @clone.symbols_added.should == @orig.symbols_added
+      @clone.symbols_added.should_not equal @orig.symbols_added
+    end
+  end
+
+  def make_marks(board, indices, mark)
     indices.each do |num|
-      @board.make_mark(num, mark)
+      board.make_mark(num, mark)
     end
   end
 end
