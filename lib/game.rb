@@ -32,6 +32,10 @@ class Game
       @board.spaces_with_mark(Board::BLANK).empty?
   end
 
+  def valid_move?(index)
+    @board.spaces_with_mark(Board::BLANK).include?(index)
+  end
+
   def display_game_results
     if @board.winning_solution?(*@symbols.keys)
       @console.display_game_winner(1)

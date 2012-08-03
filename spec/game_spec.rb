@@ -123,6 +123,12 @@ describe Game do
     @game.display_game_results
   end
 
+  it "#valid_move? returns true only if board space is blank" do
+    @game.board.stub!(:spaces_with_mark).with(Board::BLANK).and_return([0,1,2])
+    @game.valid_move?(0).should == true
+    @game.valid_move?(3).should == false
+  end
+
   private
   def stub_configuration
     @config.stub!(:players).and_return([@player1, @player2])
