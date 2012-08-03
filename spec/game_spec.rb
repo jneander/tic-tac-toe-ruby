@@ -91,6 +91,17 @@ describe Game do
     end
   end
 
+  it "disallows modification to the board by players" do
+    set_run_loop_limit(1)
+    @player1.stub!(:choose_move) do |board|
+      original_spaces = @game.board.spaces
+      board.spaces[0] = :bad_value
+      @game.board.spaces.should == original_spaces
+      1
+    end
+    @game.run
+  end
+
   context "when over" do
     it "ends when the board has a winning solution" do
       @game.board.stub!(:winning_solution?).and_return(true)
