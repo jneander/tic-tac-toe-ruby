@@ -6,16 +6,13 @@ describe "CommandLineConsole" do
   before :all do
     @input = StringIO.new('', 'r+')
     @output = StringIO.new('', 'w')
-    @prompter = CommandLinePrompter.new
-    @prompter.set_input_output(@input, @output)
-    @renderer = CommandLineRenderer.new
-    @renderer.set_output(@output)
     @players = [:player1, :player2]
   end
 
   before :each do
-    @console = CommandLineConsole.new(@prompter, @renderer)
-    @console.out = @output
+    @console = CommandLineConsole.new(@input, @output)
+    @renderer = @console.renderer
+    @prompter = @console.prompter
   end
 
   it "#assign_marks issues a prompt through a prompter" do

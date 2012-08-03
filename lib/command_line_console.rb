@@ -1,15 +1,19 @@
 require 'board'
+require 'command_line_renderer'
+require 'command_line_prompter'
 
 class CommandLineConsole
-  attr_reader :characters
+  attr_reader :characters, :renderer, :prompter, :out
   attr_accessor :out
 
-  def initialize(prompter, renderer)
-    @prompter = prompter
-    @renderer = renderer
+  def initialize(input, output)
+    @prompter = CommandLinePrompter.new
+    @prompter.set_input_output(input, output)
+    @renderer = CommandLineRenderer.new
+    @renderer.set_output(output)
     @characters = Hash.new
     @characters[Board::BLANK] = "_"
-    @out = $stdout
+    @out = output
   end
 
   def assign_marks(players_hash)
