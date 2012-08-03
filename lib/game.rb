@@ -18,8 +18,8 @@ class Game
     until over?
       @console.display_board_choices(@board)
       current_player = @players.first
-      chosen_space = current_player.choose_move(@board.clone)
-      @board.make_mark(chosen_space, @symbols.key(current_player))
+      move = current_player.choose_move(@board.clone) until valid_move?(move)
+      @board.make_mark(move, @symbols.key(current_player))
       @players.rotate!
     end
 

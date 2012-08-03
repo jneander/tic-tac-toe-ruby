@@ -41,6 +41,7 @@ describe Game do
   context "while in 'until over?' loop" do
     before :each do
       @game.board.stub!(:make_mark)
+      @game.stub!(:valid_move?).and_return(*([false, true]*10))
     end
 
     it "requests the console to display the board with choices" do
@@ -78,6 +79,14 @@ describe Game do
       @player1.stub!(:choose_move) do |board|
         board.should_not equal @game.board
       end
+      @game.run
+    end
+
+    it "#run loops request for move until move is valid" do
+      set_run_loop_limit(1)
+      @player1.stub!(:choose_move).and_return(0, 1, 2)
+      @game.stub!(:valid_move?).and_return(false, false, false, true)
+      @game.players.first.should_receive(:choose_move).exactly(3).times
       @game.run
     end
   end
