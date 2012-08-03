@@ -1,3 +1,5 @@
+require 'board'
+
 class CommandLineConsole
   attr_reader :characters
   attr_accessor :out
