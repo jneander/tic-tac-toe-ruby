@@ -33,7 +33,7 @@ class CommandLineConsole
     print_board = @renderer.board_to_ascii(board, @characters)
     print_available = @renderer.available_spaces_to_ascii(board)
     output = (0...print_board.size).collect {|index| 
-      "%10s%10s" % [print_board[index], print_available[index]]
+      "     %s     %s" % [print_board[index], print_available[index]]
     } 
     @out.puts("", *output)
   end
