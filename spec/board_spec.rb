@@ -10,8 +10,12 @@ describe Board do
     @board.size.should eql @board_size
   end
 
-  it "initializes with 9 'blank' spaces" do
-    @board.spaces.should eql [Board::BLANK]*9
+  it "initializes with 9 'blank' spaces for board size 3" do
+    Board.new(3).spaces.should eql [Board::BLANK]*9
+  end
+
+  it "initializes with 16 'blank' spaces for board size 4" do
+    Board.new(4).spaces.should eql [Board::BLANK]*16
   end
 
   it "initializes with default 'blank' symbol" do
