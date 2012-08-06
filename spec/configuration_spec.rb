@@ -5,8 +5,8 @@ require 'computer_impossible'
 
 describe Configuration do
   before :all do
-    @setup_sequence = [:choose_player, :choose_opponent, :assign_symbols, 
-                       :assign_marks, :assign_order]
+    @setup_sequence = [ :choose_player, :choose_opponent, :choose_board,
+                        :assign_symbols, :assign_marks, :assign_order]
   end
 
   before :each do
@@ -84,6 +84,18 @@ describe Configuration do
     end
   end
 
+  it "#choose_board issues a prompt for board size" do
+    @console.should_receive(:prompt_board_size).and_return(4)
+    @config.choose_board
+  end
+
+  it "#choose_board instantiates and stores a board of requested size" do
+    @console.stub!(:prompt_board_size).and_return(4)
+    @config.choose_board
+    @config.board.should be_a(Board)
+    @config.board.size.should eql 4
+  end
+
   context "when assigning symbols" do
     before :each do
       mock_opponent_instance
@@ -141,6 +153,7 @@ describe Configuration do
   def setup_sequence_to(method)
     seq = @setup_sequence.take(@setup_sequence.index(method))
     @console.stub!(:prompt_opponent_type).and_return(Human)
+    @console.stub!(:prompt_board_size).and_return(3)
     seq.each {|method| @config.__send__(method)}
   end
 
