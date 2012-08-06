@@ -51,9 +51,9 @@ class CommandLineConsole
     @prompter.request("\n", message)
   end
 
-  def prompt_player_mark
+  def prompt_player_mark(space_indices)
     message = "Please choose the number of the space for your mark: "
-    @prompter.valid_input = ('1'..'9').to_a
+    @prompter.valid_input = space_indices.map {|space| (space + 1).to_s}
     result = @prompter.request("\n", message)
     result.to_i - 1
   end
