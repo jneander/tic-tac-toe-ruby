@@ -7,7 +7,7 @@ class Game
   attr_accessor :board, :players, :console, :player_types
 
   def initialize(config)
-    @board = Board.new
+    @board = config.board
     @config = config
     @console = @config.console
     @symbols = @config.assigned_symbols

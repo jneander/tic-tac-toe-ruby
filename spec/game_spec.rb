@@ -33,8 +33,8 @@ describe Game do
       end
     end
 
-    it "@game.board will be a Board object" do
-      @game.board.should be_a(Board)
+    it "#initialize stores the board from the configuration" do
+      @game.board.should equal @config.board
     end
   end
 
@@ -153,6 +153,7 @@ describe Game do
   def stub_configuration
     @config.stub!(:players).and_return([@player1, @player2])
     @config.stub!(:console).and_return(@console)
+    @config.stub!(:board).and_return(Board.new)
     @config.stub!(:assigned_symbols).
       and_return({:player1 => @player1, :player2 => @player2})
   end
