@@ -135,6 +135,19 @@ describe "CommandLineConsole" do
       @output.should_receive(:puts).with("", *formatted)
       @console.display_board_choices(@board)
     end
+
+    it "displays a size 4 board with choices" do
+      board_ascii = ["_|_|_|_"]*4
+      choices_ascii = [" 1  2  3  4", " 5  6  7  8", " 9 10 11 12", "13 14 15 16"]
+      @renderer.stub!(:board_to_ascii).and_return(board_ascii)
+      @renderer.stub!(:available_spaces_to_ascii).and_return(choices_ascii)
+      formatted = [ "     _|_|_|_      1  2  3  4",
+                    "     _|_|_|_      5  6  7  8",
+                    "     _|_|_|_      9 10 11 12",
+                    "     _|_|_|_     13 14 15 16"]
+      @output.should_receive(:puts).with("", *formatted)
+      @console.display_board_choices(@board)
+    end
   end
 
   it "#prompt_player_order gives first turn to player with 'X' mark" do
