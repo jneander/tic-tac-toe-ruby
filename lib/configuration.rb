@@ -6,6 +6,7 @@ class Configuration
   attr_reader :console, :players, :assigned_symbols
 
   PLAYER_CLASSES = [Human, DumbComputer, ImpossibleComputer]
+  BOARD_SIZES = [3, 4]
 
   def initialize(console)
     @console = console
