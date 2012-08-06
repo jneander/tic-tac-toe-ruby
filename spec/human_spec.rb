@@ -12,14 +12,14 @@ describe Human do
   end
 
   it "#choose_move requests input from the console" do
-    @console.should_receive("prompt_player_mark").and_return(0)
+    @console.should_receive(:prompt_player_mark).and_return(0)
     @player.choose_move(@board)
   end
 
-  it "#choose_move checks for valid mark information" do
-    @console.stub!(:prompt_player_mark).and_return(0, 1)
-    @board.should_receive(:space_available?).and_return(false, true)
-    @player.choose_move(@board).should == 1
+  it "#choose_move passes indices of available spaces to console" do
+    @board.stub!(:spaces_with_mark).and_return([1, 2, 3, 4])
+    @console.should_receive(:prompt_player_mark).with([1, 2, 3, 4])
+    @player.choose_move(@board)
   end
 
   it "converts the class to a string" do

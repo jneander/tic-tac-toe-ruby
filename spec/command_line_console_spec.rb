@@ -37,9 +37,25 @@ describe "CommandLineConsole" do
     @console.characters[:player2].should eql 'X'
   end
 
-  it "receives command-line input when prompted" do
-    @input.reopen('2', 'r+')
-    @console.prompt_player_mark.should eql 1
+  it "#prompt_player_mark limits prompter input to augmented array argument" do
+    space_indices = [0, 1, 2, 5, 7]
+    space_choices = ['1', '2', '3', '6', '8']
+    @prompter.stub!(:request).and_return(1)
+    @prompter.should_receive(:valid_input=).with(space_choices)
+    @console.prompt_player_mark(space_indices)
+  end
+
+  it "#prompt_player_mark issues request for player move" do
+    message = "Please choose the number of the space for your mark: "
+    @prompter.should_receive(:request).with("\n", message).and_return(2)
+    @prompter.stub!(:valid_input=)
+    @console.prompt_player_mark([])
+  end
+
+  it "#prompt_player_mark returns integer one less than input" do
+    @prompter.stub!(:valid_input=)
+    @prompter.stub!(:request).and_return(5)
+    @console.prompt_player_mark([]).should == 4
   end
 
   context "#prompt_board_size" do
