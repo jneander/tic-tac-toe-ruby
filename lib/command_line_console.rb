@@ -38,6 +38,13 @@ class CommandLineConsole
     @out.puts("", *output)
   end
 
+  def prompt_board_size
+    value_map = {"3x3" => 3, "4x4" => 4}
+    message = "Enter the size of the board ('3x3' or '4x4'): "
+    @prompter.valid_input = value_map.keys
+    value_map[@prompter.request("\n", message)]
+  end
+
   def prompt_mark_symbol
     message = "Please choose the mark you would like to use ('X' or 'O'): "
     @prompter.valid_input = ['X', 'O']
