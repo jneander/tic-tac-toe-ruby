@@ -125,19 +125,35 @@ describe Game do
   end
 
   it "#display_game_results calls #display_game_winner if there was a winner" do
-    set_run_loop_limit(0)
     @console.should_receive(:display_game_winner)
     @console.should_not_receive(:display_game_draw)
     @game.board.stub!(:winning_solution?).and_return(true)
     @game.display_game_results
   end
 
+  it "#display_game_results identifies the winning symbol" do
+    @game.board.stub!(:winning_solution?).and_return(true)
+    @game.stub!(:winning_symbol).and_return(:player2)
+    @console.should_receive(:display_game_winner).with(:player2)
+    @game.display_game_results
+  end
+
   it "#display_game_results calls #display_game_draw if there was no winner" do
-    set_run_loop_limit(0)
     @console.should_receive(:display_game_draw)
     @console.should_not_receive(:display_game_winner)
     @game.board.stub!(:winning_solution?).and_return(false)
     @game.display_game_results
+  end
+
+  it "#winning_symbol returns the winning symbol" do
+    @game.board.stub!(:winning_solution?).with(:player1).and_return(false)
+    @game.board.stub!(:winning_solution?).with(:player2).and_return(true)
+    @game.winning_symbol.should equal :player2
+  end
+
+  it "#winning_symbol returns nil for no winner" do
+    @game.board.stub!(:winning_solution?).and_return(false)
+    @game.winning_symbol.should == nil
   end
 
   it "#valid_move? returns true only if board space is blank" do

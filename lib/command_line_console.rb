@@ -83,8 +83,8 @@ class CommandLineConsole
     @out.puts("","The space you've selected is unavailable")
   end
 
-  def display_game_winner(player_number)
-    @out.puts("", "Player #{player_number} is the winner!")
+  def display_game_winner(player_symbol)
+    @out.puts("", "Player #{@characters[player_symbol]} is the winner!")
   end
 
   def display_game_draw
