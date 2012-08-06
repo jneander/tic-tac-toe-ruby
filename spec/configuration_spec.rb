@@ -14,8 +14,12 @@ describe Configuration do
     @config = Configuration.new(@console)
   end
 
-  it "contains a list of available 'Player' classes" do
+  it "contains an array of available 'Player' classes" do
     Configuration::PLAYER_CLASSES.should == [Human, DumbComputer, ImpossibleComputer]
+  end
+
+  it "contains an array of available 'Board' sizes" do
+    Configuration::BOARD_SIZES.should == [3, 4]
   end
 
   context "at instantiation" do
