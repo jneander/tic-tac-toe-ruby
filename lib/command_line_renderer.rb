@@ -9,8 +9,9 @@ class CommandLineRenderer
   end
 
   def available_spaces_to_ascii(board)
+    padding = (board.size**2).to_s.length
     board.spaces.collect.with_index {|space, index|
-      space.eql?(Board::BLANK) ? index + 1 : " "
+      "%#{padding}s" % (space.eql?(Board::BLANK) ? index + 1 : " ")
     }.each_slice(board.size).to_a.collect {|row| row.join(" ")}
   end
 
