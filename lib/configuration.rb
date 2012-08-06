@@ -1,9 +1,10 @@
 require 'human'
 require 'computer_dumb'
 require 'computer_impossible'
+require 'board'
 
 class Configuration
-  attr_reader :console, :players, :assigned_symbols
+  attr_reader :console, :players, :assigned_symbols, :board
 
   PLAYER_CLASSES = [Human, DumbComputer, ImpossibleComputer]
   BOARD_SIZES = [3, 4]
@@ -17,6 +18,7 @@ class Configuration
   def setup
     choose_player
     choose_opponent
+    choose_board
     assign_symbols
     assign_marks
     assign_order
@@ -30,6 +32,11 @@ class Configuration
   def choose_opponent
     @players[1] = @console.prompt_opponent_type(PLAYER_CLASSES).new
     @players[1].console = @console
+  end
+
+  def choose_board
+    size = @console.prompt_board_size
+    @board = Board.new(size)
   end
 
   def assign_symbols
