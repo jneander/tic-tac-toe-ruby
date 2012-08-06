@@ -52,10 +52,13 @@ class Board
 
   private
   def generate_solutions
-    @solutions = [
-      [0,1,2],[3,4,5],[6,7,8],
-      [0,3,6],[1,4,7],[2,5,8],
-      [0,4,8],[6,4,2]
-    ]
+    indices = (0...@size**2).to_a
+    horizontal = indices.each_slice(@size).to_a
+    vertical = horizontal.transpose
+    diagonal_left = indices.select {|index| index % (@size + 1) == 0}
+    diagonal_right = indices.select {|index|
+      (index % (@size - 1) == 0) && (index > 0) && (index < indices.count - 1)
+    }
+    @solutions = horizontal + vertical + [diagonal_left] + [diagonal_right]
   end
 end
