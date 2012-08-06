@@ -10,6 +10,8 @@ describe "CommandLineConsole" do
   end
 
   before :each do
+    @input.reopen('', 'r+')
+    @output.reopen('', 'w')
     @console = CommandLineConsole.new(@input, @output)
     @renderer = @console.renderer
     @prompter = @console.prompter
@@ -38,6 +40,29 @@ describe "CommandLineConsole" do
   it "receives command-line input when prompted" do
     @input.reopen('2', 'r+')
     @console.prompt_player_mark.should eql 1
+  end
+
+  context "#prompt_board_size" do
+    before :each do
+      @input.reopen("3x3", 'r+')
+    end
+
+    it "limits prompter input to 3x3 and 4x4" do
+      @prompter.should_receive(:valid_input=).with(["3x3", "4x4"])
+      @console.prompt_board_size
+    end
+
+    it "issues request for board size" do
+      message = "Enter the size of the board ('3x3' or '4x4'): "
+      @prompter.should_receive(:request).with("\n", message)
+      @console.prompt_board_size
+    end
+
+    it "returns an integer for board size" do
+      @console.prompt_board_size.should == 3
+      @input.reopen("4x4", 'r+')
+      @console.prompt_board_size.should == 4
+    end
   end
 
   it "prompts the user to play again" do
