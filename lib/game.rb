@@ -4,7 +4,7 @@ require 'computer_dumb'
 require 'computer_impossible'
 
 class Game
-  attr_accessor :board, :players, :console, :player_types
+  attr_accessor :board, :players, :console
 
   def initialize(config)
     @board = config.board
@@ -32,13 +32,17 @@ class Game
       @board.spaces_with_mark(Board::BLANK).empty?
   end
 
+  def winning_symbol
+    @symbols.keys.select {|symbol| @board.winning_solution?(symbol)}.first
+  end
+
   def valid_move?(index)
     @board.spaces_with_mark(Board::BLANK).include?(index)
   end
 
   def display_game_results
     if @board.winning_solution?(*@symbols.keys)
-      @console.display_game_winner(1)
+      @console.display_game_winner(winning_symbol)
     else
       @console.display_game_draw
     end

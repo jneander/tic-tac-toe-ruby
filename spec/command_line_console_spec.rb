@@ -7,6 +7,7 @@ describe "CommandLineConsole" do
     @input = StringIO.new('', 'r+')
     @output = StringIO.new('', 'w')
     @players = [:player1, :player2]
+    @symbol_map = {:player1 => :P1, :player2 => :P2}
   end
 
   before :each do
@@ -24,15 +25,12 @@ describe "CommandLineConsole" do
   end
 
   it "#assign_marks issues a prompt through a prompter" do
-    map = {:player1 => :PLAYER_ONE, :player2 => :PLAYER_TWO}
     @console.should_receive(:prompt_mark_symbol).and_return('O')
-    @console.assign_marks(map)
+    @console.assign_marks(@symbol_map)
   end
 
   it "#assign_marks assigns ASCII characters to players" do
-    map = {:player1 => :PLAYER_ONE, :player2 => :PLAYER_TWO}
-    @console.stub!(:prompt_mark_symbol).and_return('O')
-    @console.assign_marks(map)
+    set_console_characters
     @console.characters[:player1].should eql 'O'
     @console.characters[:player2].should eql 'X'
   end
@@ -111,10 +109,11 @@ describe "CommandLineConsole" do
   end
 
   it "#display_game_winner prints a message to the terminal" do
-    [1, 2].each do |number|
-      message = "Player #{number} is the winner!"
+    set_console_characters
+    @symbol_map.keys.each do |symbol|
+      message = "Player #{@console.characters[symbol]} is the winner!"
       @console.out.should_receive(:puts).with("", message)
-      @console.display_game_winner(number)
+      @console.display_game_winner(symbol)
     end
   end
 
@@ -198,5 +197,11 @@ describe "CommandLineConsole" do
     @console.stub!(:prompt_mark_symbol).and_return('O')
     @console.assign_marks({:player1 => :P1, :player2 => :P2})
     @console.prompt_player_order.should == [:player2, :player1]
+  end
+
+  private
+  def set_console_characters
+    @console.stub!(:prompt_mark_symbol).and_return('O')
+    @console.assign_marks(@symbol_map)
   end
 end
