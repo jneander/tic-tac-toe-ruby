@@ -86,16 +86,24 @@ describe "CommandLineConsole" do
   context "#display_board" do
     before :each do
       @board = mock("Board").as_null_object
-      @renderer.stub!(:board_to_ascii).and_return(["_|_|_", "X|O|_", "_|X|O"])
     end
 
     it "converts board to ascii" do
-      @renderer.should_receive(:board_to_ascii)
+      @renderer.should_receive(:board_to_ascii).and_return([])
       @console.display_board(@board)
     end
 
-    it "displays the board" do
+    it "displays a board of size 3" do
+      @renderer.stub!(:board_to_ascii).and_return(["_|_|_", "X|O|_", "_|X|O"])
       formatted = ["     _|_|_", "     X|O|_", "     _|X|O"]
+      @output.should_receive(:puts).with("", *formatted)
+      @console.display_board(@board)
+    end
+
+    it "displays a board of size 4" do
+      ascii = ["_|_|_|_", "X|_|O|_", "_|X|X|_", "O|O|O|O"]
+      @renderer.stub!(:board_to_ascii).and_return(ascii)
+      formatted = ["     _|_|_|_", "     X|_|O|_", "     _|X|X|_", "     O|O|O|O"]
       @output.should_receive(:puts).with("", *formatted)
       @console.display_board(@board)
     end
