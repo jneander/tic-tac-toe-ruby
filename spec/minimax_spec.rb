@@ -12,6 +12,12 @@ describe Minimax do
     @board = Board.new
   end
 
+  it "#initialize receives a depth limit value (default of 7)" do
+    @minimax.depth_limit.should == 7
+    minimax = Minimax.new(6)
+    minimax.depth_limit.should == 6
+  end
+
   context "with mocks" do
     it "returns 1 for max_mark win" do
       @board.stub!(:winning_solution?).with(:min_mark).and_return(false)
