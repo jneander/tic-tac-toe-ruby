@@ -98,7 +98,7 @@ describe Configuration do
 
   context "when assigning symbols" do
     before :each do
-      mock_opponent_instance
+      @console.stub!(:prompt_opponent_type).and_return(Human)
       @config.choose_player
       @config.choose_opponent
       @config.assign_symbols
@@ -112,6 +112,12 @@ describe Configuration do
     it "assigns a unique symbol to each player" do
       @config.players.each do |player|
         @config.assigned_symbols.should have_value(player)
+      end
+    end
+
+    it "#assign_symbols assigns symbols to corresponding players" do
+      @config.players.each do |player|
+        player.symbol.should == @config.assigned_symbols.key(player)
       end
     end
   end

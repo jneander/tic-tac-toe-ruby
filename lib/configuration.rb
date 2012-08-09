@@ -42,6 +42,7 @@ class Configuration
   def assign_symbols
     @players.each_with_index do |player, index|
       @assigned_symbols["player#{index}".to_sym] = player
+      player.symbol = @assigned_symbols.key(player)
     end
   end
 
