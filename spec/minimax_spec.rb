@@ -18,6 +18,10 @@ describe Minimax do
     minimax.depth_limit.should == 6
   end
 
+  it "#initialize sets current depth to 0" do
+    @minimax.current_depth.should == 0
+  end
+
   context "with mocks" do
     it "returns 1 for max_mark win" do
       @board.stub!(:winning_solution?).with(:min_mark).and_return(false)
