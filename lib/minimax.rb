@@ -1,6 +1,6 @@
 class Minimax
-  attr_accessor :min_mark, :max_mark
-  attr_reader :depth_limit, :current_depth
+  attr_accessor :min_mark, :max_mark, :depth_limit
+  attr_reader :current_depth
 
   DEFAULT_LIMIT = 7
 
@@ -14,7 +14,7 @@ class Minimax
     score = 1 if board.winning_solution?(@max_mark)
     score = -1 if board.winning_solution?(@min_mark)
 
-    if score == 0
+    if score == 0 && @current_depth <= @depth_limit
       next_mark = current_mark.eql?(@min_mark) ? @max_mark : @min_mark
 
       space_scores = scores(board, next_mark)
@@ -34,8 +34,10 @@ class Minimax
 
     board.spaces_with_mark(Board::BLANK).each do |space|
       board.make_mark(space, current_mark)
+      @current_depth += 1
       score_hash[space] = score(board, current_mark)
       board.make_mark(space, Board::BLANK)
+      @current_depth -= 1
       break if score_hash[space] == target_score
     end
 

@@ -3,7 +3,7 @@ require 'board'
 
 describe Minimax do
   before :all do
-    @minimax = Minimax.new
+    @minimax = Minimax.new(9)
     @minimax.max_mark = :max_mark
     @minimax.min_mark = :min_mark
   end
@@ -13,9 +13,8 @@ describe Minimax do
   end
 
   it "#initialize receives a depth limit value (default of 7)" do
-    @minimax.depth_limit.should == 7
-    minimax = Minimax.new(6)
-    minimax.depth_limit.should == 6
+    Minimax.new.depth_limit.should == 7
+    Minimax.new(6).depth_limit.should == 6
   end
 
   it "#initialize sets current depth to 0" do
@@ -151,6 +150,32 @@ describe Minimax do
       make_marks([4, 5], :max_mark)
       expected = {1 => 0, 3 => 1}
       @minimax.scores(@board, :max_mark).should eql expected
+    end
+  end
+
+  context "using depth limit" do
+    before :each do
+      @board = Board.new
+      make_marks([0], :max_mark)
+      make_marks([3, 5], :min_mark)
+    end
+
+    it "scores correctly with limit of zero" do
+      expected = {1 => 0, 2 => 0, 4 => 0, 6 => 0, 7 => 0, 8 => 0}
+      @minimax.depth_limit = 0
+      @minimax.scores(@board, :max_mark).should == expected
+    end
+
+    it "scores correctly with limit of one" do
+      expected = {1 => -1, 2 => -1, 4 => 0, 6 => -1, 7 => -1, 8 => -1}
+      @minimax.depth_limit = 1
+      @minimax.scores(@board, :max_mark).should == expected
+    end
+
+    it "scores correctly with limit of three" do
+      expected = {1 => -1, 2 => -1, 4 => 1}
+      @minimax.depth_limit = 4
+      @minimax.scores(@board, :max_mark).should == expected
     end
   end
 
