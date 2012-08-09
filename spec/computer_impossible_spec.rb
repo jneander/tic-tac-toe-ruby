@@ -6,19 +6,19 @@ describe ImpossibleComputer do
   before :all do
     @opponent = :player
     @computer = ImpossibleComputer.new
+    @computer.symbol = :computer
   end
 
   before :each do
     @board = Board.new
   end
 
-  it "converts the class to a string" do
-    ImpossibleComputer.to_s.should == "Impossible Computer"
+  it "#initialize creates and stores a Minimax object" do
+    @computer.minimax.should be_instance_of(Minimax)
   end
 
-  it "sets the marks on a Minimax object" do
-    @computer.minimax.should be_instance_of(Minimax)
-    @computer.minimax.max_mark.should equal @computer
+  it "converts the class to a string" do
+    ImpossibleComputer.to_s.should == "Impossible Computer"
   end
 
   it "#get_opponent_symbol returns default symbol :opponent" do
@@ -36,6 +36,13 @@ describe ImpossibleComputer do
     @computer.minimax.min_mark.should eql :opponent
   end
 
+  it "#choose_move sets 'minimax.max_mark' to symbol" do
+    @computer.symbol = :test_sym
+    @computer.minimax.stub!(:scores).and_return([1])
+    @computer.choose_move(@board)
+    @computer.minimax.max_mark.should == @computer.symbol
+  end
+
   it "can receive and store a reference to the console" do
     @computer.console = mock("Console")
   end
@@ -47,7 +54,7 @@ describe ImpossibleComputer do
   end
 
   it "returns the winning space to mark" do
-    [0, 2, 5].each {|space| @board.make_mark(space, @computer)}
+    [0, 2, 5].each {|space| @board.make_mark(space, @computer.symbol)}
     [1, 3, 4].each {|space| @board.make_mark(space, @opponent)}
     @computer.choose_move(@board).should eql 8
   end
