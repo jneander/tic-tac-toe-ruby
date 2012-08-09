@@ -1,5 +1,5 @@
 class Human
-  attr_accessor :console
+  attr_accessor :console, :symbol
 
   def choose_move(board)
     available_spaces = board.spaces_with_mark(Board::BLANK)

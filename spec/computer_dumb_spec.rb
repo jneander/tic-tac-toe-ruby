@@ -36,4 +36,8 @@ describe DumbComputer do
   it "can receive and store a reference to the console" do
     @computer.console = mock("console")
   end
+
+  it "stores a symbol in 'symbol' attribute" do
+    @computer.symbol = :test_sym
+  end
 end

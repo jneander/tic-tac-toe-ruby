@@ -25,4 +25,8 @@ describe Human do
   it "converts the class to a string" do
     Human.to_s.should == "Human"
   end
+
+  it "stores a symbol in 'symbol' attribute" do
+    @player.symbol = :test_sym
+  end
 end

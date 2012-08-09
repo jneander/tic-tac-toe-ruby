@@ -1,5 +1,5 @@
 class DumbComputer
-  attr_accessor :console
+  attr_accessor :console, :symbol
 
   def choose_move(board)
     board.spaces_with_mark(Board::BLANK).sample

@@ -1,7 +1,7 @@
 require 'minimax'
 
 class ImpossibleComputer
-  attr_accessor :console
+  attr_accessor :console, :symbol
   attr_reader :minimax
 
   def initialize

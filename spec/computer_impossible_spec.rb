@@ -56,4 +56,8 @@ describe ImpossibleComputer do
     @board.make_mark(0, @opponent)
     @computer.choose_move(@board).should eql 4
   end
+
+  it "stores a symbol in 'symbol' attribute" do
+    @computer.symbol = :test_sym
+  end
 end
