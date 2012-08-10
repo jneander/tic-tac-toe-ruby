@@ -1,4 +1,5 @@
 require 'minimax'
+require 'minimax_cache'
 require 'board'
 
 describe Minimax do
@@ -19,6 +20,10 @@ describe Minimax do
 
   it "#initialize sets current depth to 0" do
     @minimax.current_depth.should == 0
+  end
+
+  it "#initialize instantiates a MinimaxCache object" do
+    @minimax.cache.should be_instance_of(MinimaxCache)
   end
 
   context "with mocks" do

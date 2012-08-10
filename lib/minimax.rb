@@ -1,12 +1,13 @@
 class Minimax
   attr_accessor :min_mark, :max_mark, :depth_limit
-  attr_reader :current_depth
+  attr_reader :current_depth, :cache
 
   DEFAULT_LIMIT = 7
 
   def initialize(depth_limit = DEFAULT_LIMIT)
     @depth_limit = depth_limit
     @current_depth = 0
+    @cache = MinimaxCache.new
   end
 
   def score(board,current_mark)
