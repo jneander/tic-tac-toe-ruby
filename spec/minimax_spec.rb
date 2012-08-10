@@ -184,6 +184,13 @@ describe Minimax do
     end
   end
 
+  it "#score adds board spaces to cache with the score" do
+    @board.stub!(:winning_solution?).with(:min_mark).and_return(true)
+    @board.stub!(:winning_solution?).with(:max_mark).and_return(false)
+    @minimax.score(@board, :max_mark)
+    @minimax.cache.get_score(@board.spaces).should == -1
+  end
+
   private
   def limit_recursion_using_winning_solution(limit)
     returns = [false]*(limit * 2 + 1) + [true]

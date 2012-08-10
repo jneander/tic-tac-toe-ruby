@@ -11,11 +11,9 @@ class Minimax
   end
 
   def score(board,current_mark)
-    score = 0
-    score = 1 if board.winning_solution?(@max_mark)
-    score = -1 if board.winning_solution?(@min_mark)
+    score = win_score(board)
 
-    if score == 0 && @current_depth <= @depth_limit
+    if score.nil? && @current_depth <= @depth_limit
       next_mark = current_mark.eql?(@min_mark) ? @max_mark : @min_mark
 
       space_scores = scores(board, next_mark)
@@ -26,7 +24,8 @@ class Minimax
       end
     end
 
-    score
+    @cache.add_score(board.spaces, score)
+    score || 0
   end
 
   def scores(board, current_mark)
@@ -43,5 +42,12 @@ class Minimax
     end
 
     score_hash
+  end
+
+  def win_score(board)
+    score = nil
+    score = 1 if board.winning_solution?(@max_mark)
+    score = -1 if board.winning_solution?(@min_mark)
+    score
   end
 end
