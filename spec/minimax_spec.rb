@@ -3,13 +3,10 @@ require 'minimax_cache'
 require 'board'
 
 describe Minimax do
-  before :all do
+  before :each do
     @minimax = Minimax.new(9)
     @minimax.max_mark = :max_mark
     @minimax.min_mark = :min_mark
-  end
-  
-  before :each do
     @board = Board.new
   end
 
@@ -189,6 +186,13 @@ describe Minimax do
     @board.stub!(:winning_solution?).with(:max_mark).and_return(false)
     @minimax.score(@board, :max_mark)
     @minimax.cache.get_score(@board.spaces).should == -1
+  end
+
+  it "#score adds incomplete entries to cache using :incomplete" do
+    @minimax.depth_limit = -1
+    @board.stub!(:winning_solution?).and_return(false)
+    @minimax.score(@board, :max_mark)
+    @minimax.cache.get_score(@board.spaces).should == :incomplete
   end
 
   private

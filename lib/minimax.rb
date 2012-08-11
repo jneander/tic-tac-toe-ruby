@@ -24,7 +24,8 @@ class Minimax
       end
     end
 
-    @cache.add_score(board.spaces, score)
+    cache_value = score || :incomplete
+    @cache.add_score(board.spaces, cache_value)
     score || 0
   end
 
