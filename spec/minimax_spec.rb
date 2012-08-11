@@ -195,6 +195,15 @@ describe Minimax do
     @minimax.cache.get_score(@board.spaces).should == :incomplete
   end
 
+  it "#scores uses cached scores if available" do
+    (0..8).each do |space|
+      spaces = (0..8).map {|i| i == space ? :max_mark : Board::BLANK}
+      @minimax.cache.add_score(spaces, space * 10)
+    end
+    expected = Hash[(0..8).map {|i| [i, i * 10]}]
+    @minimax.scores(@board, :max_mark).should == expected
+  end
+
   private
   def limit_recursion_using_winning_solution(limit)
     returns = [false]*(limit * 2 + 1) + [true]
