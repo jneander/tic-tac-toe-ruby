@@ -25,4 +25,10 @@ describe MinimaxCache do
     @cache.add_score([:foo, :bar], 1)
     @cache.scored?([:foo, :bar]).should == true
   end
+
+  it "#incomplete? returns true for hash of :incomplete" do
+    @cache.incomplete?([:foo, :bar]).should == false
+    @cache.add_score([:foo, :bar], :incomplete)
+    @cache.incomplete?([:foo, :bar]).should == true
+  end
 end
