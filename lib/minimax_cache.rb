@@ -1,5 +1,5 @@
 class MinimaxCache
-  attr_reader :map
+  attr_accessor :map
 
   def initialize
     @map = {}
