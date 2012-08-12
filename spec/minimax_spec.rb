@@ -196,15 +196,38 @@ describe Minimax do
   end
 
   it "#scores uses cached scores if available" do
-    (0..8).each do |space|
-      spaces = (0..8).map {|i| i == space ? :max_mark : Board::BLANK}
-      @minimax.cache.add_score(spaces, space * 10)
-    end
-    expected = Hash[(0..8).map {|i| [i, i * 10]}]
+    cache_moves(@board.spaces, :max_mark, 10)
+    expected = Hash[(0..8).map {|i| [i, 10]}]
+    @minimax.scores(@board, :max_mark).should == expected
+  end
+
+  it "#scores preserves depth value when evaluating incomplete node" do
+    cache_moves(@board.spaces, :max_mark, 10)
+    cache_moves([:max_mark] + @board.spaces[1, 8], :min_mark, 20)
+    @minimax.cache.add_score([:max_mark] + [Board::BLANK]*8, :incomplete)
+
+    @minimax.depth_limit = 0
+    expected = Hash[(1..8).map {|i| [i, 10]}].merge Hash[0, 20]
     @minimax.scores(@board, :max_mark).should == expected
   end
 
   private
+  def score_variations(variations, score)
+    Hash[variations.zip [score]*variations.length]
+  end
+
+  def next_move_variations(spaces, symbol)
+    blank_indices = (0..spaces.length).select {|index| spaces[index] == Board::BLANK}
+    blank_indices.map {|blank|
+      spaces.map.with_index {|sym, index| index == blank ? symbol : sym}
+    }
+  end
+
+  def cache_moves(board, symbol, score)
+    moves = next_move_variations(board, symbol)
+    @minimax.cache.map.merge!(score_variations(moves, score))
+  end
+
   def limit_recursion_using_winning_solution(limit)
     returns = [false]*(limit * 2 + 1) + [true]
     @board.stub!(:winning_solution?).and_return(*returns)

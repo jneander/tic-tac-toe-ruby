@@ -35,14 +35,15 @@ class Minimax
 
     board.spaces_with_mark(Board::BLANK).each do |space|
       board.make_mark(space, current_mark)
-      @current_depth += 1
       if @cache.scored?(board.spaces)
         score_hash[space] = @cache.get_score(board.spaces)
       else
+        change_depth = @cache.incomplete?(board.spaces) ? false : true
+        @current_depth += 1 if change_depth
         score_hash[space] = score(board, current_mark)
+        @current_depth -= 1 if change_depth
       end
       board.make_mark(space, Board::BLANK)
-      @current_depth -= 1
       break if score_hash[space] == target_score
     end
 
