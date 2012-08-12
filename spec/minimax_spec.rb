@@ -202,8 +202,8 @@ describe Minimax do
   end
 
   it "#scores preserves depth value when evaluating incomplete node" do
-    cache_moves(@board.spaces, :max_mark, 10)
-    cache_moves([:max_mark] + @board.spaces[1, 8], :min_mark, 20)
+    cache_moves([Board::BLANK]*9, :max_mark, 10)
+    cache_moves([:max_mark] + [Board::BLANK]*8, :min_mark, 20)
     @minimax.cache.add_score([:max_mark] + [Board::BLANK]*8, :incomplete)
 
     @minimax.depth_limit = 0
@@ -223,8 +223,8 @@ describe Minimax do
     }
   end
 
-  def cache_moves(board, symbol, score)
-    moves = next_move_variations(board, symbol)
+  def cache_moves(spaces, symbol, score)
+    moves = next_move_variations(spaces, symbol)
     @minimax.cache.map.merge!(score_variations(moves, score))
   end
 
