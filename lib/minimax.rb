@@ -1,3 +1,5 @@
+require 'minimax_cache'
+
 class Minimax
   attr_accessor :min_mark, :max_mark, :depth_limit
   attr_reader :current_depth, :cache
