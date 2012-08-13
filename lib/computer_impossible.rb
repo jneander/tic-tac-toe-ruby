@@ -13,6 +13,7 @@ class ImpossibleComputer
   end
 
   def choose_move(board)
+    @minimax.set_depth_limit(board)
     @minimax.min_mark = get_opponent_symbol(board)
     @minimax.max_mark = @symbol
     space_scores = @minimax.scores(board, @symbol)

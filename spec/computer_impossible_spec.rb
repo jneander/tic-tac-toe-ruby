@@ -67,4 +67,10 @@ describe ImpossibleComputer do
   it "stores a symbol in 'symbol' attribute" do
     @computer.symbol = :test_sym
   end
+
+  it "#choose_move sets the depth limit on minimax" do
+    @computer.minimax.stub!(:scores).and_return({1 => 2})
+    @computer.choose_move(@board)
+    @computer.minimax.depth_limit.should == 10
+  end
 end
