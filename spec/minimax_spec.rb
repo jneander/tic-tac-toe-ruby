@@ -4,15 +4,11 @@ require 'board'
 
 describe Minimax do
   before :each do
-    @minimax = Minimax.new(9)
+    @minimax = Minimax.new
+    @minimax.depth_limit = 9
     @minimax.max_mark = :max_mark
     @minimax.min_mark = :min_mark
     @board = Board.new
-  end
-
-  it "#initialize receives a depth limit value (default of 7)" do
-    Minimax.new.depth_limit.should == 7
-    Minimax.new(6).depth_limit.should == 6
   end
 
   it "#initialize sets current depth to 0" do

@@ -4,10 +4,8 @@ class Minimax
   attr_accessor :min_mark, :max_mark, :depth_limit
   attr_reader :current_depth, :cache
 
-  DEFAULT_LIMIT = 7
-
-  def initialize(depth_limit = DEFAULT_LIMIT)
-    @depth_limit = depth_limit
+  def initialize
+    @depth_limit = 0
     @current_depth = 0
     @cache = MinimaxCache.new
   end
