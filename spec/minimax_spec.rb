@@ -195,6 +195,13 @@ describe Minimax do
     @minimax.scores(@board, :max_mark).should == expected
   end
 
+  it "#set_depth_limit sets the depth limit according to board size" do
+    @minimax.set_depth_limit(Board.new(3))
+    @minimax.depth_limit.should == 10
+    @minimax.set_depth_limit(Board.new(4))
+    @minimax.depth_limit.should == 4
+  end
+
   private
   def score_variations(variations, score)
     Hash[variations.zip [score]*variations.length]

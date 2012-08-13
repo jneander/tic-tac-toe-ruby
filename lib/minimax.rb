@@ -61,4 +61,8 @@ class Minimax
   def target_score(mark)
     mark.eql?(@min_mark) ? -1 : 1
   end
+
+  def set_depth_limit(board)
+    @depth_limit = {3 => 10, 4 => 4}[board.size]
+  end
 end
