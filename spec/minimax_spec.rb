@@ -124,6 +124,7 @@ describe Minimax do
       marking_order = []
       @board.stub!(:make_mark) {|space| marking_order << space}
 
+      @minimax.depth_limit = 10
       @minimax.score(@board, :min_mark)
       marking_order.should == (each_space + each_space.reverse).flatten
     end

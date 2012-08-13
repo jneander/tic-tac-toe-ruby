@@ -21,9 +21,7 @@ class Minimax
       if @cache.scored?(board.spaces)
         score_map[space] = @cache.get_score(board.spaces)
       else
-        @current_depth += 1
         score_map[space] = score(board, current_mark)
-        @current_depth -= 1
       end
 
       board.make_mark(space, Board::BLANK)
@@ -36,7 +34,8 @@ class Minimax
   def score(board, current_mark)
     score = win_score(board)
 
-    if score.nil? && @current_depth <= @depth_limit
+    if score.nil? && @current_depth < @depth_limit
+      @current_depth += 1
       next_mark = current_mark.eql?(@min_mark) ? @max_mark : @min_mark
 
       space_scores = scores(board, next_mark)
@@ -45,6 +44,7 @@ class Minimax
         score = next_mark.eql?(@max_mark) ? 
           space_scores.last[1] : space_scores.first[1]
       end
+      @current_depth -= 1
     end
 
     @cache.add_score(board.spaces, score)
