@@ -21,10 +21,9 @@ class Minimax
       if @cache.scored?(board.spaces)
         score_map[space] = @cache.get_score(board.spaces)
       else
-        change_depth = @cache.incomplete?(board.spaces) ? false : true
-        @current_depth += 1 if change_depth
+        @current_depth += 1
         score_map[space] = score(board, current_mark)
-        @current_depth -= 1 if change_depth
+        @current_depth -= 1
       end
 
       board.make_mark(space, Board::BLANK)
@@ -48,8 +47,7 @@ class Minimax
       end
     end
 
-    cache_value = score || :incomplete
-    @cache.add_score(board.spaces, cache_value)
+    @cache.add_score(board.spaces, score)
     score || 0
   end
 

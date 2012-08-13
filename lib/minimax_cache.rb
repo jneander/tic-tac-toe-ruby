@@ -16,8 +16,4 @@ class MinimaxCache
   def scored?(spaces)
     @map[spaces].is_a?(Integer)
   end
-
-  def incomplete?(spaces)
-    @map[spaces] == :incomplete
-  end
 end

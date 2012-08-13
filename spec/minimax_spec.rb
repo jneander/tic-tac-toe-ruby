@@ -188,26 +188,9 @@ describe Minimax do
     @minimax.cache.get_score(@board.spaces).should == -1
   end
 
-  it "#score adds incomplete entries to cache using :incomplete" do
-    @minimax.depth_limit = -1
-    @board.stub!(:winning_solution?).and_return(false)
-    @minimax.score(@board, :max_mark)
-    @minimax.cache.get_score(@board.spaces).should == :incomplete
-  end
-
   it "#scores uses cached scores if available" do
     cache_moves(@board.spaces, :max_mark, 10)
     expected = Hash[(0..8).map {|i| [i, 10]}]
-    @minimax.scores(@board, :max_mark).should == expected
-  end
-
-  it "#scores preserves depth value when evaluating incomplete node" do
-    cache_moves([Board::BLANK]*9, :max_mark, 10)
-    cache_moves([:max_mark] + [Board::BLANK]*8, :min_mark, 20)
-    @minimax.cache.add_score([:max_mark] + [Board::BLANK]*8, :incomplete)
-
-    @minimax.depth_limit = 0
-    expected = Hash[(1..8).map {|i| [i, 10]}].merge Hash[0, 20]
     @minimax.scores(@board, :max_mark).should == expected
   end
 
