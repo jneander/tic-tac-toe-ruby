@@ -183,7 +183,7 @@ describe Minimax do
     @minimax.set_depth_limit(Board.new(3))
     @minimax.depth_limit.should == 10
     @minimax.set_depth_limit(Board.new(4))
-    @minimax.depth_limit.should == 4
+    @minimax.depth_limit.should == 3
   end
 
   it "#score adds scores to the cache using immutable keys" do

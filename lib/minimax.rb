@@ -73,6 +73,6 @@ class Minimax
   end
 
   def set_depth_limit(board)
-    @depth_limit = {3 => 10, 4 => 4}[board.size]
+    @depth_limit = {3 => 10, 4 => 3}[board.size]
   end
 end
