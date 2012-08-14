@@ -198,6 +198,12 @@ describe Minimax do
     @minimax.depth_limit.should == 4
   end
 
+  it "#score adds scores to the cache using immutable keys" do
+    @minimax.depth_limit = 3
+    @minimax.scores(@board, :max_mark)
+    @minimax.cache.map.keys.uniq.length.should == @minimax.cache.map.values.length
+  end
+
   private
   def score_variations(variations, score)
     Hash[variations.zip [score]*variations.length]

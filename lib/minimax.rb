@@ -45,7 +45,7 @@ class Minimax
       @current_depth -= 1
     end
 
-    @cache.add_score(board.spaces, score)
+    @cache.add_score(board.spaces.clone, score)
     score || 0
   end
 
