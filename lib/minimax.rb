@@ -10,6 +10,14 @@ class Minimax
     @cache = MinimaxCache.new
   end
 
+  def score_moves(board, current_mark)
+    map = scores(board, current_mark)
+    map.inject({}) {|result, (key, value)|
+      result[key] = value.nil? ? 0 : value
+      result
+    }
+  end
+
   def scores(board, current_mark)
     score_map = Hash.new
 

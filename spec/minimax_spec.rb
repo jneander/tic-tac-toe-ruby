@@ -204,6 +204,13 @@ describe Minimax do
     @minimax.cache.map.keys.uniq.length.should == @minimax.cache.map.values.length
   end
 
+  it "#score_moves replaces nil scores with zero" do
+    map = {1 => nil, 2 => 1, 3 => -1, 4 => nil}
+    expected = {1 => 0, 2 => 1, 3 => -1, 4 => 0}
+    @minimax.stub!(:scores).and_return(map)
+    @minimax.score_moves(@board, :max_mark).should == expected
+  end
+
   private
   def score_variations(variations, score)
     Hash[variations.zip [score]*variations.length]
