@@ -32,12 +32,6 @@ describe Minimax do
       @minimax.score(@board,:max_mark).should eql -1
     end
 
-    it "returns 0 for no win and board full" do
-      @board.stub!(:winning_solution?).and_return(false)
-      @board.stub!(:spaces_with_mark).with(Board::BLANK).and_return([])
-      @minimax.score(@board,:max_mark).should eql 0
-    end
-
     it "calls 'score' recursively until board full" do
       @board.stub!(:winning_solution?).and_return(false)
       @board.should_receive(:spaces_with_mark).and_return([0],[])
@@ -106,12 +100,6 @@ describe Minimax do
       @minimax.score(@board,:min_mark).should eql -1
     end
 
-    it "returns 0 for no win and board full" do
-      make_marks([0,2,3,5,7],:min_mark)
-      make_marks([1,4,6,8],:max_mark)
-      @minimax.score(@board,:max_mark).should eql 0
-    end
-
     it "calls 'score' recursively until board full" do
       each_space = (0..8).collect {|i| [i]}
       @board.stub!(:winning_solution?).and_return(false)
@@ -141,14 +129,14 @@ describe Minimax do
       make_marks([0, 2, 5], :max_mark)
       make_marks([1, 3, 4], :min_mark)
       expected = {6 => -1, 7 => 0, 8 => 1}
-      @minimax.scores(@board, :max_mark).should eql expected
+      @minimax.score_moves(@board, :max_mark).should eql expected
     end
 
     it "stops scoring when best score is found" do
       make_marks([0, 2, 7], :min_mark)
       make_marks([4, 5], :max_mark)
       expected = {1 => 0, 3 => 1}
-      @minimax.scores(@board, :max_mark).should eql expected
+      @minimax.score_moves(@board, :max_mark).should eql expected
     end
   end
 
@@ -162,19 +150,19 @@ describe Minimax do
     it "scores correctly with limit of zero" do
       expected = {1 => 0, 2 => 0, 4 => 0, 6 => 0, 7 => 0, 8 => 0}
       @minimax.depth_limit = 0
-      @minimax.scores(@board, :max_mark).should == expected
+      @minimax.score_moves(@board, :max_mark).should == expected
     end
 
     it "scores correctly with limit of one" do
       expected = {1 => -1, 2 => -1, 4 => 0, 6 => -1, 7 => -1, 8 => -1}
       @minimax.depth_limit = 1
-      @minimax.scores(@board, :max_mark).should == expected
+      @minimax.score_moves(@board, :max_mark).should == expected
     end
 
     it "scores correctly with limit of three" do
       expected = {1 => -1, 2 => -1, 4 => 1}
       @minimax.depth_limit = 4
-      @minimax.scores(@board, :max_mark).should == expected
+      @minimax.score_moves(@board, :max_mark).should == expected
     end
   end
 
@@ -188,7 +176,7 @@ describe Minimax do
   it "#scores uses cached scores if available" do
     cache_moves(@board.spaces, :max_mark, 10)
     expected = Hash[(0..8).map {|i| [i, 10]}]
-    @minimax.scores(@board, :max_mark).should == expected
+    @minimax.score_moves(@board, :max_mark).should == expected
   end
 
   it "#set_depth_limit sets the depth limit according to board size" do
@@ -200,7 +188,7 @@ describe Minimax do
 
   it "#score adds scores to the cache using immutable keys" do
     @minimax.depth_limit = 3
-    @minimax.scores(@board, :max_mark)
+    @minimax.score_moves(@board, :max_mark)
     @minimax.cache.map.keys.uniq.length.should == @minimax.cache.map.values.length
   end
 

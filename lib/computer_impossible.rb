@@ -16,8 +16,8 @@ class ImpossibleComputer
     @minimax.set_depth_limit(board)
     @minimax.min_mark = get_opponent_symbol(board)
     @minimax.max_mark = @symbol
-    space_scores = @minimax.scores(board, @symbol)
-    space_scores.sort_by {|space,score| score}.reverse.first[0]
+    space_scores = @minimax.score_moves(board, @symbol)
+    space_scores.sort_by {|space,score| score}.last[0]
   end
 
   def get_opponent_symbol(board)
