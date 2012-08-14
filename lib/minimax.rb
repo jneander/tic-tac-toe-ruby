@@ -43,13 +43,17 @@ class Minimax
     if score.nil? && @current_depth < @depth_limit
       @current_depth += 1
       next_mark = current_mark.eql?(@min_mark) ? @max_mark : @min_mark
-
       space_scores = scores(board, next_mark)
-      if not space_scores.empty?
-        space_scores = space_scores.sort_by {|key, value| value}
-        score = next_mark.eql?(@max_mark) ? 
-          space_scores.last[1] : space_scores.first[1]
+
+      if space_scores.has_value?(target_score(next_mark))
+        score = target_score(next_mark)
+      elsif space_scores.has_value?(nil)
+        score = nil
+      else
+        score = space_scores.values.
+          __send__(next_mark.eql?(@max_mark) ? :max : :min)
       end
+
       @current_depth -= 1
     end
 
