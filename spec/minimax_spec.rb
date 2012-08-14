@@ -192,6 +192,16 @@ describe Minimax do
     @minimax.cache.map.keys.uniq.length.should == @minimax.cache.map.values.length
   end
 
+  it "#score caches only win/lose scores", :focus => true do
+    @minimax.depth_limit = 3
+    make_marks([0, 2, 5], :max_mark)
+    make_marks([1, 3, 4], :min_mark)
+    ignored = @board.spaces[0, 7] + [:max_mark] + [Board::BLANK]
+    @minimax.score_moves(@board, :max_mark)
+    @minimax.cache.map.has_key?(ignored).should be_false
+    @minimax.cache.map.length.should == 5
+  end
+
   it "#score_moves replaces nil scores with zero" do
     map = {1 => nil, 2 => 1, 3 => -1, 4 => nil}
     expected = {1 => 0, 2 => 1, 3 => -1, 4 => 0}

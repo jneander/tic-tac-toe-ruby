@@ -57,8 +57,8 @@ class Minimax
       @current_depth -= 1
     end
 
-    @cache.add_score(board.spaces.clone, score)
-    score || 0
+    @cache.add_score(board.spaces.clone, score) if not score.nil?
+    score
   end
 
   def win_score(board)
